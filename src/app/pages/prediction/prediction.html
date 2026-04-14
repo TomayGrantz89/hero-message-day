@@ -1,0 +1,66 @@
+<div class="prediction-container">
+  <header class="header">
+    <a routerLink="/" class="home-link">🏠</a>
+    <div class="timer">
+      До следующего предсказания: <strong>{{ timer }}</strong>
+    </div>
+    <button class="ad-button" (click)="showAdModal = true" *ngIf="attemptService.canWatchAd()">
+      📺 Реклама
+    </button>
+  </header>
+
+  <main class="main">
+    <h1>Карта дня</h1>
+    <p class="subtitle">Нажмите на карту, чтобы перевернуть её</p>
+
+    <div class="card-wrapper" (click)="flipCard()">
+      <div class="card" [class.flipped]="showCardFace || showPrediction">
+        <!-- Back side (card back) -->
+        <div class="side back" *ngIf="!showCardFace && !showPrediction">
+          <div class="card-back-pattern"></div>
+          <div class="card-back-text">?</div>
+        </div>
+
+        <!-- Face side (card image) -->
+        <div class="side face" *ngIf="showCardFace && !showPrediction">
+          <div class="card-image" [style.backgroundImage]="'url(' + card?.imageUrl + ')'"></div>
+          <div class="card-name">{{ card?.name }}</div>
+        </div>
+
+        <!-- Prediction side -->
+        <div class="side prediction" *ngIf="showPrediction">
+          <div class="prediction-text">
+            <h3>Предсказание</h3>
+            <p>{{ prediction?.text }}</p>
+            <p class="card-info">Карта: {{ card?.name }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn-open" (click)="openCard()" [disabled]="attemptsRemaining <= 0 && !attemptService.canWatchAd()">
+        {{ attemptsRemaining > 0 ? 'Открыть карту' : 'Попыток больше нет' }}
+      </button>
+      <div class="attempts">
+        Осталось попыток: <span class="attempt-count">{{ attemptsRemaining }}</span>
+      </div>
+      <p class="hint">* 1 попытка в день. Вторую можно получить, посмотрев рекламу.</p>
+    </div>
+  </main>
+
+  <!-- Ad Modal -->
+  <div class="modal-overlay" *ngIf="showAdModal">
+    <div class="modal">
+      <h2>Посмотреть рекламу?</h2>
+      <p>После просмотра рекламы вы получите дополнительную попытку открыть карту.</p>
+      <div class="modal-buttons">
+        <button class="modal-btn watch" (click)="watchAd()">Смотреть рекламу</button>
+        <button class="modal-btn cancel" (click)="closeAdModal()">Отмена</button>
+      </div>
+      <div class="ad-placeholder">
+        <div class="ad-sim">Здесь будет рекламный ролик</div>
+      </div>
+    </div>
+  </div>
+</div>

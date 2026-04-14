@@ -52,9 +52,9 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 3px; // отступы между картами 3 пикселя
-  padding: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 2px; // отступы между картами 2 пикселя
+  padding: 8px;
 
   .card-item {
     background: #333;
@@ -301,7 +301,30 @@
   }
 
   .grid {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 2px;
+  }
+}
+
+// Extra small screens
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+    gap: 1px;
+    padding: 5px;
+  }
+
+  .card-item {
+    padding: 6px;
+
+    .card-name {
+      font-size: 0.9rem;
+    }
+
+    .card-rarity {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+    }
   }
 
   .detail-view {

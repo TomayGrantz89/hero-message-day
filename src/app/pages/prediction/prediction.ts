@@ -21,6 +21,7 @@ export class Prediction implements OnInit, OnDestroy {
   showAdModal = false;
   showNewCardButton = false; // Button "Получить новую карту" after ad
   isNewCardAfterAd = false; // Flag that we're showing a new card after ad
+  private previousPredictionId: number | null = null; // Track previous prediction ID to ensure different predictions
 
   constructor(
     private cardData: CardData,
@@ -65,6 +66,8 @@ export class Prediction implements OnInit, OnDestroy {
           text: lastData.prediction,
           cardId: lastData.card?.id || 1
         };
+        // Store the prediction ID for future different predictions
+        this.previousPredictionId = this.prediction.id;
         // Show card face up (not prediction) as per requirements
         this.showCardFace = true;
         this.showPrediction = false;
@@ -82,12 +85,23 @@ export class Prediction implements OnInit, OnDestroy {
     }
   }
 
-  private loadRandomCard(addToCollection: boolean = false): void {
+  private loadRandomCard(addToCollection: boolean = false, useDifferentPrediction: boolean = false): void {
     // Get user's collection to determine which cards they already have
     const userCardIds = this.attemptService.getCollection();
     // Get a new card with probability adjusted based on collection completion
     this.card = this.cardData.getNewCard(userCardIds);
-    this.prediction = this.cardData.getRandomPrediction();
+
+    // Get prediction, ensuring it's different from previous if requested
+    if (useDifferentPrediction && this.previousPredictionId !== null) {
+      this.prediction = this.cardData.getDifferentPrediction(this.previousPredictionId);
+    } else {
+      this.prediction = this.cardData.getRandomPrediction();
+    }
+
+    // Store the prediction ID for future use
+    if (this.prediction) {
+      this.previousPredictionId = this.prediction.id;
+    }
 
     // Add this card to collection if not already there
     if (addToCollection && this.card && !this.attemptService.hasCard(this.card.id)) {
@@ -174,17 +188,16 @@ export class Prediction implements OnInit, OnDestroy {
     this.attemptService.watchAd();
     this.showAdModal = false;
     this.updateAttempts();
-    // Instead of flipping to face immediately, show "Get new card" button
+    // Show "Get new card" button, but keep current card visible
     this.showNewCardButton = true;
     this.isNewCardAfterAd = true;
-    // Hide the card face/prediction
-    this.showCardFace = false;
-    this.showPrediction = false;
+    // Do NOT hide the card face/prediction - keep last opened card visible
+    // showCardFace and showPrediction remain unchanged
   }
 
   getNewCardAfterAd(): void {
-    // Load a new random card and add to collection
-    this.loadRandomCard(true);
+    // Load a new random card and add to collection, ensuring different prediction
+    this.loadRandomCard(true, true);
     // Reset flags
     this.showNewCardButton = false;
     this.isNewCardAfterAd = false;

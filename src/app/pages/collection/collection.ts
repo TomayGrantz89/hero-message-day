@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardData, Card } from '../../services/card-data';
+import { Attempt } from '../../services/attempt';
 
 @Component({
   selector: 'app-collection',
@@ -15,11 +16,21 @@ export class Collection implements OnInit {
   showDetail = false;
   detailSide: 'face' | 'back' = 'face';
 
-  constructor(private cardData: CardData) {}
+  constructor(
+    private cardData: CardData,
+    private attemptService: Attempt
+  ) {}
 
   ngOnInit(): void {
-    // Load all cards as user's collection (for demo, we'll use all cards)
-    this.cards = this.cardData.getAllCards();
+    // Load only cards from user's collection
+    this.loadCollection();
+  }
+
+  private loadCollection(): void {
+    const collectedIds = this.attemptService.getCollection();
+    this.cards = collectedIds
+      .map(id => this.cardData.getCard(id))
+      .filter((card): card is Card => card !== undefined);
   }
 
   selectCard(card: Card): void {

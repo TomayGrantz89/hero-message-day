@@ -70,23 +70,29 @@ export class Prediction implements OnInit, OnDestroy {
         this.showPrediction = false;
       } else {
         // Fallback: load random card but still show face up
-        this.loadRandomCard();
+        this.loadRandomCard(false);
         this.showCardFace = true;
         this.showPrediction = false;
       }
     } else {
       // No prediction received today, show card back
-      this.loadRandomCard();
+      this.loadRandomCard(false);
       this.showCardFace = false;
       this.showPrediction = false;
     }
   }
 
-  private loadRandomCard(): void {
-    // In a real app, you would fetch a random card from the service
-    // For demo, we'll pick the first card
-    this.card = this.cardData.getAllCards()[0];
+  private loadRandomCard(addToCollection: boolean = false): void {
+    // Get user's collection to determine which cards they already have
+    const userCardIds = this.attemptService.getCollection();
+    // Get a new card with probability adjusted based on collection completion
+    this.card = this.cardData.getNewCard(userCardIds);
     this.prediction = this.cardData.getRandomPrediction();
+
+    // Add this card to collection if not already there
+    if (addToCollection && this.card && !this.attemptService.hasCard(this.card.id)) {
+      this.attemptService.addCardToCollection(this.card.id);
+    }
   }
 
   flipToFace(): void {
@@ -116,9 +122,14 @@ export class Prediction implements OnInit, OnDestroy {
           const used = this.attemptService.useAttempt();
           if (used) {
             this.updateAttempts();
+            // Add card to collection when attempt is used
+            this.addCurrentCardToCollection();
           } else {
             return; // No attempt available
           }
+        } else {
+          // For new card after ad, also add to collection (already done in loadRandomCard(true))
+          this.addCurrentCardToCollection();
         }
         this.flipToFace();
       } else if (this.attemptService.canWatchAd()) {
@@ -135,6 +146,12 @@ export class Prediction implements OnInit, OnDestroy {
     }
   }
 
+  private addCurrentCardToCollection(): void {
+    if (this.card && !this.attemptService.hasCard(this.card.id)) {
+      this.attemptService.addCardToCollection(this.card.id);
+    }
+  }
+
   openCard(): void {
     if (this.attemptsRemaining <= 0) {
       // Show ad modal if possible
@@ -148,6 +165,7 @@ export class Prediction implements OnInit, OnDestroy {
     const used = this.attemptService.useAttempt();
     if (used) {
       this.updateAttempts();
+      this.addCurrentCardToCollection();
       this.flipToFace();
     }
   }
@@ -165,8 +183,8 @@ export class Prediction implements OnInit, OnDestroy {
   }
 
   getNewCardAfterAd(): void {
-    // Load a new random card
-    this.loadRandomCard();
+    // Load a new random card and add to collection
+    this.loadRandomCard(true);
     // Reset flags
     this.showNewCardButton = false;
     this.isNewCardAfterAd = false;

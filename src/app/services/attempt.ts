@@ -9,9 +9,11 @@ export class Attempt {
   private readonly LAST_RESET_KEY = 'cardGameLastReset';
   private readonly PREDICTION_RECEIVED_KEY = 'cardGamePredictionReceived';
   private readonly LAST_CARD_DATA_KEY = 'cardGameLastCardData';
+  private readonly COLLECTION_KEY = 'cardGameCollection';
 
   constructor() {
     this.resetIfNeeded();
+    this.initializeCollection();
   }
 
   private resetIfNeeded(): void {
@@ -24,6 +26,13 @@ export class Attempt {
       localStorage.setItem(this.AD_WATCHED_KEY, 'false');
       localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
       localStorage.setItem(this.LAST_RESET_KEY, today);
+    }
+  }
+
+  private initializeCollection(): void {
+    // Ensure collection exists in localStorage
+    if (!localStorage.getItem(this.COLLECTION_KEY)) {
+      localStorage.setItem(this.COLLECTION_KEY, JSON.stringify([]));
     }
   }
 
@@ -100,5 +109,34 @@ export class Attempt {
   // Check if user has used ad attempt today
   hasUsedAdAttempt(): boolean {
     return localStorage.getItem(this.AD_WATCHED_KEY) === 'true';
+  }
+
+  // Collection management
+  addCardToCollection(cardId: number): void {
+    const collection = this.getCollection();
+    if (!collection.includes(cardId)) {
+      collection.push(cardId);
+      localStorage.setItem(this.COLLECTION_KEY, JSON.stringify(collection));
+    }
+  }
+
+  getCollection(): number[] {
+    const data = localStorage.getItem(this.COLLECTION_KEY);
+    return data ? JSON.parse(data) : [];
+  }
+
+  getCollectionPercentage(totalCards: number): number {
+    const collection = this.getCollection();
+    if (totalCards === 0) return 0;
+    return (collection.length / totalCards) * 100;
+  }
+
+  hasCard(cardId: number): boolean {
+    const collection = this.getCollection();
+    return collection.includes(cardId);
+  }
+
+  getCollectionSize(): number {
+    return this.getCollection().length;
   }
 }

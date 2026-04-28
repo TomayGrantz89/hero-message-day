@@ -39,9 +39,12 @@
     </div>
 
     <div class="controls">
-      <button class="btn-open" (click)="openCard()" [disabled]="attemptsRemaining <= 0 && !attemptService.canWatchAd()">
-        {{ attemptsRemaining > 0 ? 'Открыть карту' : 'Попыток больше нет' }}
+      <!-- "Open card" button removed as per requirements -->
+      <!-- Show "Get new card" button only after ad -->
+      <button class="btn-get-new" *ngIf="showNewCardButton" (click)="getNewCardAfterAd()">
+        Получить новую карту
       </button>
+
       <div class="attempts">
         Осталось попыток: <span class="attempt-count">{{ attemptsRemaining }}</span>
       </div>

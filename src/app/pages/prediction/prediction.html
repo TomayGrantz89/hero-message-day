@@ -4,7 +4,7 @@
     <div class="timer">
       До следующего предсказания: <strong>{{ timer }}</strong>
     </div>
-    <button class="ad-button" (click)="showAdModal = true" *ngIf="attemptService.canWatchAd()">
+    <button class="ad-button" (click)="showAdModal = true" *ngIf="attemptsRemaining <= 0 && attemptService.canWatchAd()">
       📺 Реклама
     </button>
   </header>

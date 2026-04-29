@@ -1,1 +1,69 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Global responsive base styles */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Improve tap targets on mobile */
+button,
+a.btn,
+[role="button"] {
+  min-height: 44px; /* Minimum touch target size */
+  min-width: 44px;
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+}
+
+/* Prevent text overflow on small screens */
+p, span, div {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Improve scrolling on mobile */
+@media (max-width: 768px) {
+  .modal, .detail-view, .card {
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  }
+}

@@ -319,28 +319,202 @@
 
 // Responsive
 @media (max-width: 768px) {
+  .prediction-container {
+    padding: 15px;
+  }
+
   .header {
     flex-direction: column;
     gap: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+
+    .home-link {
+      align-self: flex-start;
+      font-size: 1.8rem;
+    }
 
     .timer {
       order: 2;
       width: 100%;
       text-align: center;
+      padding: 10px 15px;
+      font-size: 1rem;
     }
 
     .ad-button {
       order: 3;
       width: 100%;
+      padding: 14px 20px;
+      font-size: 1.1rem;
+    }
+  }
+
+  .main {
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
     }
   }
 
   .card-wrapper {
     width: 250px;
     height: 375px;
+    margin: 20px auto;
   }
 
   .controls {
     padding: 20px;
+    margin-top: 30px;
+    max-width: 400px;
+
+    .btn-get-new {
+      padding: 16px 30px;
+      font-size: 1.3rem;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .attempts {
+      font-size: 1.1rem;
+
+      .attempt-count {
+        font-size: 1.5rem;
+      }
+    }
+
+    .hint {
+      font-size: 0.85rem;
+    }
+  }
+
+  .modal-overlay .modal {
+    padding: 25px;
+    width: 95%;
+    max-width: 400px;
+
+    .modal-buttons {
+      flex-direction: column;
+      gap: 12px;
+
+      .modal-btn {
+        width: 100%;
+        padding: 14px 20px;
+      }
+    }
+
+    .ad-placeholder {
+      padding: 30px;
+    }
+  }
+}
+
+// Small screens
+@media (max-width: 480px) {
+  .prediction-container {
+    padding: 10px;
+  }
+
+  .header {
+    padding: 12px;
+    gap: 12px;
+
+    .timer {
+      font-size: 0.95rem;
+      padding: 8px 12px;
+    }
+
+    .ad-button {
+      padding: 12px 18px;
+      font-size: 1rem;
+    }
+  }
+
+  .main {
+    h1 {
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      margin-bottom: 25px;
+    }
+  }
+
+  .card-wrapper {
+    width: 220px;
+    height: 330px;
+  }
+
+  .card .side {
+    .face .card-name {
+      font-size: 1.5rem;
+    }
+
+    .prediction {
+      padding: 20px;
+
+      .prediction-text {
+        h3 {
+          font-size: 1.7rem;
+          margin-bottom: 15px;
+        }
+
+        p {
+          font-size: 1.1rem;
+          line-height: 1.4;
+        }
+      }
+    }
+  }
+
+  .controls {
+    padding: 15px;
+    margin-top: 25px;
+
+    .btn-get-new {
+      padding: 14px 25px;
+      font-size: 1.2rem;
+    }
+
+    .attempts {
+      font-size: 1rem;
+    }
+  }
+}
+
+// Very small screens
+@media (max-width: 360px) {
+  .card-wrapper {
+    width: 200px;
+    height: 300px;
+  }
+
+  .card .side {
+    .prediction {
+      padding: 15px;
+
+      .prediction-text {
+        h3 {
+          font-size: 1.5rem;
+        }
+
+        p {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  .controls {
+    .btn-get-new {
+      padding: 12px 20px;
+      font-size: 1.1rem;
+    }
   }
 }

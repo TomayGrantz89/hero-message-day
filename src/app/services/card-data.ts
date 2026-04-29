@@ -75,6 +75,17 @@ export class CardData {
     return availablePredictions[idx];
   }
 
+  getPredictionExcludingIds(excludeIds: number[]): PredictionItem {
+    // Filter out predictions with any of the given IDs
+    const availablePredictions = this.predictions.filter(p => !excludeIds.includes(p.id));
+    if (availablePredictions.length === 0) {
+      // Fallback to any prediction if no others available
+      return this.getRandomPrediction();
+    }
+    const idx = Math.floor(Math.random() * availablePredictions.length);
+    return availablePredictions[idx];
+  }
+
   getPredictionsForCard(cardId: number): PredictionItem[] {
     return this.predictions.filter(p => p.cardId === cardId);
   }

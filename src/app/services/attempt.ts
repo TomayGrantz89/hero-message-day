@@ -10,6 +10,7 @@ export class Attempt {
   private readonly PREDICTION_RECEIVED_KEY = 'cardGamePredictionReceived';
   private readonly LAST_CARD_DATA_KEY = 'cardGameLastCardData';
   private readonly COLLECTION_KEY = 'cardGameCollection';
+  private readonly TODAY_PREDICTION_IDS_KEY = 'cardGameTodayPredictionIds';
 
   constructor() {
     this.resetIfNeeded();
@@ -25,6 +26,7 @@ export class Attempt {
       localStorage.setItem(this.STORAGE_KEY, '1'); // reset free attempts to 1
       localStorage.setItem(this.AD_WATCHED_KEY, 'false');
       localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
+      localStorage.setItem(this.TODAY_PREDICTION_IDS_KEY, JSON.stringify([]));
       localStorage.setItem(this.LAST_RESET_KEY, today);
     }
   }
@@ -72,16 +74,29 @@ export class Attempt {
   }
 
   // Prediction tracking
-  markPredictionReceived(cardData: any, predictionText: string): void {
+  markPredictionReceived(cardData: any, predictionText: string, predictionId?: number): void {
     localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'true');
+
+    // Add prediction ID to today's prediction IDs
+    const todayPredictionIds = this.getTodayPredictionIds();
+    if (predictionId !== undefined && !todayPredictionIds.includes(predictionId)) {
+      todayPredictionIds.push(predictionId);
+      localStorage.setItem(this.TODAY_PREDICTION_IDS_KEY, JSON.stringify(todayPredictionIds));
+    }
+
     const lastCardData = {
       card: cardData,
       prediction: predictionText,
-      predictionId: Date.now(), // simple ID
+      predictionId: predictionId || Date.now(), // use actual ID if provided, otherwise timestamp
       cardId: cardData?.id || 1,
       timestamp: new Date().toISOString()
     };
     localStorage.setItem(this.LAST_CARD_DATA_KEY, JSON.stringify(lastCardData));
+  }
+
+  getTodayPredictionIds(): number[] {
+    const data = localStorage.getItem(this.TODAY_PREDICTION_IDS_KEY);
+    return data ? JSON.parse(data) : [];
   }
 
   wasPredictionReceivedToday(): boolean {

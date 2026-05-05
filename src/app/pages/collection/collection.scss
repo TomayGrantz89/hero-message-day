@@ -477,28 +477,28 @@
   font-size: 1rem;
 }
 
-// Desktop optimization for 10 cards per page (5 columns × 2 rows)
+// Desktop optimization for 14 cards per page (7 columns × 2 rows)
 @media (min-width: 1024px) {
   .grid {
-    grid-template-columns: repeat(5, minmax(140px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(7, minmax(120px, 1fr));
+    gap: 12px;
     padding: 12px;
   }
 
   .card-item {
-    padding: 12px;
+    padding: 10px;
 
     .card-name {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     .card-rarity {
-      font-size: 0.75rem;
-      padding: 2px 8px;
+      font-size: 0.7rem;
+      padding: 2px 6px;
     }
 
     .card-status {
-      font-size: 0.65rem;
+      font-size: 0.6rem;
     }
   }
 }

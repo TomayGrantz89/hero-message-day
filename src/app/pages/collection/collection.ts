@@ -59,7 +59,7 @@ export class Collection implements OnInit {
     } else if (width < 1024) { // Tablet
       this.itemsPerPage = 9;
     } else { // Desktop
-      this.itemsPerPage = 10; // 10 cards per page for computer version
+      this.itemsPerPage = 14; // 14 cards per page (7 columns × 2 rows) for computer version
     }
   }
 

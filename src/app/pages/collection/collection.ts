@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardData, Card } from '../../services/card-data';
@@ -21,13 +21,46 @@ export class Collection implements OnInit {
   showDetail = false;
   detailSide: 'face' | 'back' = 'face';
 
+  // Pagination properties
+  currentPage = 1;
+  itemsPerPage = 12; // Default for desktop (will be updated by calculateItemsPerPage)
+  totalPages = 1;
+  paginatedCards: CollectionCard[] = [];
+  pageNumbers: number[] = [];
+
   constructor(
     private cardData: CardData,
     private attemptService: Attempt
   ) {}
 
   ngOnInit(): void {
+    this.calculateItemsPerPage();
     this.loadCollection();
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    const oldItemsPerPage = this.itemsPerPage;
+    this.calculateItemsPerPage();
+
+    // Recalculate current page if items per page changed
+    if (oldItemsPerPage !== this.itemsPerPage) {
+      const firstItemIndex = (this.currentPage - 1) * oldItemsPerPage;
+      this.currentPage = Math.floor(firstItemIndex / this.itemsPerPage) + 1;
+      this.updatePagination();
+    }
+  }
+
+  private calculateItemsPerPage(): void {
+    const width = window.innerWidth;
+
+    if (width < 768) { // Mobile
+      this.itemsPerPage = 6;
+    } else if (width < 1024) { // Tablet
+      this.itemsPerPage = 9;
+    } else { // Desktop
+      this.itemsPerPage = 10; // 10 cards per page for computer version
+    }
   }
 
   private loadCollection(): void {
@@ -38,6 +71,80 @@ export class Collection implements OnInit {
       card,
       owned: collectedIds.includes(card.id)
     }));
+
+    this.updatePagination();
+  }
+
+  private updatePagination(): void {
+    // Calculate total pages
+    this.totalPages = Math.ceil(this.collectionCards.length / this.itemsPerPage);
+
+    // Ensure current page is valid
+    if (this.currentPage > this.totalPages && this.totalPages > 0) {
+      this.currentPage = this.totalPages;
+    } else if (this.currentPage < 1) {
+      this.currentPage = 1;
+    }
+
+    // Calculate paginated cards
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedCards = this.collectionCards.slice(startIndex, endIndex);
+
+    // Generate page numbers for pagination controls
+    this.generatePageNumbers();
+  }
+
+  private generatePageNumbers(): void {
+    const maxVisiblePages = 5;
+    this.pageNumbers = [];
+
+    if (this.totalPages <= maxVisiblePages) {
+      // Show all pages
+      for (let i = 1; i <= this.totalPages; i++) {
+        this.pageNumbers.push(i);
+      }
+    } else {
+      // Show limited pages with ellipsis
+      const half = Math.floor(maxVisiblePages / 2);
+      let start = this.currentPage - half;
+      let end = this.currentPage + half;
+
+      if (start < 1) {
+        start = 1;
+        end = maxVisiblePages;
+      }
+
+      if (end > this.totalPages) {
+        end = this.totalPages;
+        start = end - maxVisiblePages + 1;
+      }
+
+      for (let i = start; i <= end; i++) {
+        this.pageNumbers.push(i);
+      }
+    }
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
+      this.currentPage = page;
+      this.updatePagination();
+      // Scroll to top of grid for better UX
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.goToPage(this.currentPage + 1);
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.goToPage(this.currentPage - 1);
+    }
   }
 
   selectCard(item: CollectionCard): void {
@@ -80,5 +187,11 @@ export class Collection implements OnInit {
       case 'legendary': return '0 0 20px #ffd700';
       default: return 'none';
     }
+  }
+
+  getPageInfo(): string {
+    const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+    const end = Math.min(this.currentPage * this.itemsPerPage, this.collectionCards.length);
+    return `${start}-${end} из ${this.collectionCards.length}`;
   }
 }

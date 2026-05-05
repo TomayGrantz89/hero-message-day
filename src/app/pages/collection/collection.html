@@ -3,7 +3,8 @@
     <a routerLink="/" class="home-link">🏠</a>
     <h1>Коллекция карт</h1>
     <div class="stats">
-      Коллекция: {{ getCollectedCount() }} / {{ collectionCards.length }}
+      <div>Коллекция: {{ getCollectedCount() }} / {{ collectionCards.length }}</div>
+      <div class="page-info" *ngIf="totalPages > 1">{{ getPageInfo() }}</div>
     </div>
   </header>
 
@@ -12,7 +13,7 @@
       <div
         class="card-item"
         [class.card-item--locked]="!item.owned"
-        *ngFor="let item of collectionCards"
+        *ngFor="let item of paginatedCards"
         (click)="selectCard(item)"
         [style.border]="getRarityBorder(item.card)"
         [style.boxShadow]="getRarityGlow(item.card)"
@@ -21,6 +22,37 @@
         <div class="card-name">{{ item.card.name }}</div>
         <div class="card-rarity {{ item.card.rarity }}">{{ item.card.rarity | titlecase }}</div>
         <div class="card-status" *ngIf="!item.owned">Не получена</div>
+      </div>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination-container" *ngIf="totalPages > 1 && !showDetail">
+      <div class="pagination">
+        <div class="page-numbers">
+          <button
+            *ngFor="let page of pageNumbers"
+            class="page-btn"
+            [class.active]="page === currentPage"
+            (click)="goToPage(page)"
+          >
+            {{ page }}
+          </button>
+
+          <span class="ellipsis" *ngIf="totalPages > pageNumbers[pageNumbers.length - 1] + 1">...</span>
+
+          <button
+            *ngIf="totalPages > pageNumbers[pageNumbers.length - 1]"
+            class="page-btn"
+            [class.active]="totalPages === currentPage"
+            (click)="goToPage(totalPages)"
+          >
+            {{ totalPages }}
+          </button>
+        </div>
+      </div>
+
+      <div class="pagination-info">
+        Страница {{ currentPage }} из {{ totalPages }}
       </div>
     </div>
 

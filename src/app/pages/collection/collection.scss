@@ -55,6 +55,8 @@
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 20px; // увеличенные отступы между картами
   padding: 16px;
+  justify-content: space-between;
+  grid-auto-flow: dense;
 
   .card-item {
     background: #333;
@@ -475,6 +477,32 @@
   font-size: 1rem;
 }
 
+// Desktop optimization for 10 cards per page (5 columns × 2 rows)
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(5, minmax(140px, 1fr));
+    gap: 16px;
+    padding: 12px;
+  }
+
+  .card-item {
+    padding: 12px;
+
+    .card-name {
+      font-size: 0.9rem;
+    }
+
+    .card-rarity {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+    }
+
+    .card-status {
+      font-size: 0.65rem;
+    }
+  }
+}
+
 // Responsive
 @media (max-width: 768px) {
   .collection-container {
@@ -706,6 +734,195 @@
               font-size: 0.9rem;
             }
           }
+        }
+      }
+    }
+  }
+}
+
+// Pagination Styles
+.pagination-container {
+  margin: 30px 0;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    .pagination-btn {
+      background: linear-gradient(135deg, #00ccff, #0066ff);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+      min-height: 44px; // Better touch target for mobile
+
+      &:hover:not(.disabled) {
+        background: linear-gradient(135deg, #00ddff, #0077ff);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4);
+      }
+
+      &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background: linear-gradient(135deg, #666, #888);
+      }
+
+      .pagination-icon {
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+
+      .pagination-text {
+        font-size: 1rem;
+      }
+
+      &.prev-next {
+        min-width: 100px;
+      }
+    }
+
+    .page-numbers {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+
+      .page-btn {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+
+        &:hover:not(.active) {
+          background: rgba(255, 255, 255, 0.2);
+          border-color: #00ccff;
+          transform: translateY(-2px);
+        }
+
+        &.active {
+          background: linear-gradient(135deg, #ffcc00, #ff9900);
+          color: #000;
+          border-color: #ffcc00;
+          box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+          transform: scale(1.1);
+        }
+      }
+
+      .ellipsis {
+        color: #aaa;
+        padding: 0 10px;
+        font-size: 1.2rem;
+        user-select: none;
+      }
+    }
+  }
+
+  .pagination-info {
+    color: #aaa;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 5px;
+  }
+}
+
+// Page info in header
+.header .stats {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-end;
+
+  .page-info {
+    font-size: 0.9rem;
+    color: #00ccff;
+    background: rgba(0, 204, 255, 0.1);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 204, 255, 0.3);
+  }
+}
+
+// Responsive pagination
+@media (max-width: 768px) {
+  .pagination-container {
+    padding: 15px;
+    margin: 20px 0;
+
+    .pagination {
+      gap: 8px;
+
+      .pagination-btn {
+        padding: 8px 15px;
+        min-height: 40px;
+
+        &.prev-next {
+          min-width: 80px;
+
+          .pagination-text {
+            display: none; // Hide text on mobile, show only icons
+          }
+        }
+      }
+
+      .page-numbers {
+        .page-btn {
+          width: 36px;
+          height: 36px;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+
+  .header .stats {
+    align-items: center;
+    text-align: center;
+
+    .page-info {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination-container {
+    .pagination {
+      .page-numbers {
+        gap: 3px;
+
+        .page-btn {
+          width: 32px;
+          height: 32px;
+          font-size: 0.85rem;
+        }
+
+        .ellipsis {
+          padding: 0 5px;
         }
       }
     }

@@ -169,20 +169,20 @@ export class Collection implements OnInit {
 
   getRarityBorder(card: Card): string {
     switch (card.rarity) {
-      case 'common': return '2px solid #aaa';
-      case 'rare': return '2px solid #1e90ff';
-      case 'epic': return '2px solid #9b30ff';
-      case 'legendary': return '2px solid #ffd700';
-      default: return '2px solid #aaa';
+      case 'common': return '1px solid #aaa';
+      case 'rare': return '1px solid #1e90ff';
+      case 'epic': return '1px solid #9b30ff';
+      case 'legendary': return '1px solid #ffd700';
+      default: return '1px solid #aaa';
     }
   }
 
   getRarityGlow(card: Card): string {
     switch (card.rarity) {
-      case 'common': return '0 0 5px #aaa';
-      case 'rare': return '0 0 10px #1e90ff';
-      case 'epic': return '0 0 15px #9b30ff';
-      case 'legendary': return '0 0 20px #ffd700';
+      case 'common': return '0 0 3px #aaa';
+      case 'rare': return '0 0 5px #1e90ff';
+      case 'epic': return '0 0 7px #9b30ff';
+      case 'legendary': return '0 0 10px #ffd700';
       default: return 'none';
     }
   }

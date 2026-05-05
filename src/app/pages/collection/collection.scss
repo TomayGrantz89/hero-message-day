@@ -69,6 +69,7 @@
     align-items: center;
     padding: 16px;
     aspect-ratio: 2/3; // пропорции карт 2/3
+    border: 1px solid transparent; // Consistent border for all cards
 
     &:hover {
       transform: translateY(-10px);
@@ -139,6 +140,7 @@
     filter: grayscale(80%);
     cursor: not-allowed;
     position: relative;
+    border: 1px solid transparent; // Consistent border with regular cards
 
     &::before {
       content: '';

@@ -130,8 +130,6 @@ export class Collection implements OnInit {
     if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
       this.currentPage = page;
       this.updatePagination();
-      // Scroll to top of grid for better UX
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 

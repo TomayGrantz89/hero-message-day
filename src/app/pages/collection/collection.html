@@ -24,32 +24,25 @@
       </div>
     </div>
 
-    <!-- Detail View -->
-    <div class="detail-view" *ngIf="showDetail && selectedCard">
-      <button class="close-btn" (click)="closeDetail()">✕</button>
-      <h2 class="detail-title">{{ selectedCard.name }}</h2>
-
-      <div class="detail-card" (click)="flipDetail()">
-        <div class="detail-side face" *ngIf="detailSide === 'face'">
-          <div class="detail-image" [style.backgroundImage]="'url(' + selectedCard.imageUrl + ')'"></div>
-          <div class="detail-rarity {{ selectedCard.rarity }}">{{ selectedCard.rarity | titlecase }}</div>
-        </div>
-        <div class="detail-side back" *ngIf="detailSide === 'back'">
-          <div class="detail-info">
-            <h3>Описание</h3>
-            <p>{{ selectedCard.description }}</p>
-            <h3>История</h3>
-            <p>{{ selectedCard.history }}</p>
-            <p class="hint">Нажмите на карту, чтобы перевернуть</p>
+    <!-- Detail View - Enlarged Card -->
+    <div class="enlarged-card-overlay" *ngIf="showDetail && selectedCard" (click)="closeDetail()">
+      <div class="enlarged-card-container" (click)="$event.stopPropagation()">
+        <div class="enlarged-card" (click)="flipDetail()" [class.flipped]="detailSide === 'back'">
+          <div class="enlarged-card-face">
+            <div class="enlarged-card-image" [style.backgroundImage]="'url(' + selectedCard.imageUrl + ')'"></div>
+            <div class="enlarged-card-rarity {{ selectedCard.rarity }}">{{ selectedCard.rarity | titlecase }}</div>
+            <div class="enlarged-card-name">{{ selectedCard.name }}</div>
+          </div>
+          <div class="enlarged-card-back">
+            <div class="enlarged-card-info">
+              <h3>Описание</h3>
+              <p>{{ selectedCard.description }}</p>
+              <h3>История</h3>
+              <p>{{ selectedCard.history }}</p>
+              <p class="hint">Нажмите на карту, чтобы перевернуть</p>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="detail-controls">
-        <button class="btn-flip" (click)="flipDetail()">
-          {{ detailSide === 'face' ? 'Показать описание' : 'Показать лицо' }}
-        </button>
-        <button class="btn-close" (click)="closeDetail()">Вернуться к коллекции</button>
       </div>
     </div>
   </main>

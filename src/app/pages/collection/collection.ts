@@ -4,6 +4,11 @@ import { CommonModule } from '@angular/common';
 import { CardData, Card } from '../../services/card-data';
 import { Attempt } from '../../services/attempt';
 
+interface CollectionCard {
+  card: Card;
+  owned: boolean;
+}
+
 @Component({
   selector: 'app-collection',
   imports: [CommonModule, RouterLink],
@@ -11,7 +16,7 @@ import { Attempt } from '../../services/attempt';
   styleUrl: './collection.scss',
 })
 export class Collection implements OnInit {
-  cards: Card[] = [];
+  collectionCards: CollectionCard[] = [];
   selectedCard: Card | null = null;
   showDetail = false;
   detailSide: 'face' | 'back' = 'face';
@@ -22,19 +27,24 @@ export class Collection implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Load only cards from user's collection
     this.loadCollection();
   }
 
   private loadCollection(): void {
     const collectedIds = this.attemptService.getCollection();
-    this.cards = collectedIds
-      .map(id => this.cardData.getCard(id))
-      .filter((card): card is Card => card !== undefined);
+    const allCards = this.cardData.getAllCards();
+
+    this.collectionCards = allCards.map(card => ({
+      card,
+      owned: collectedIds.includes(card.id)
+    }));
   }
 
-  selectCard(card: Card): void {
-    this.selectedCard = card;
+  selectCard(item: CollectionCard): void {
+    if (!item.owned) {
+      return; // Do nothing for locked cards
+    }
+    this.selectedCard = item.card;
     this.showDetail = true;
     this.detailSide = 'face';
   }
@@ -46,6 +56,10 @@ export class Collection implements OnInit {
 
   flipDetail(): void {
     this.detailSide = this.detailSide === 'face' ? 'back' : 'face';
+  }
+
+  getCollectedCount(): number {
+    return this.collectionCards.filter(item => item.owned).length;
   }
 
   getRarityBorder(card: Card): string {

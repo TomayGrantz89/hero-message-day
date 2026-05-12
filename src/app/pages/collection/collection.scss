@@ -149,7 +149,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.85);
       z-index: 1;
       border-radius: 10px;
     }
@@ -160,20 +160,29 @@
     .card-status {
       position: relative;
       z-index: 2;
+      display: none !important; // Hide all card content
     }
 
-    .card-image {
-      background-image: url('https://via.placeholder.com/150x200/333333/666666?text=???') !important;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .card-name {
-      color: #999;
-    }
-
-    .card-rarity {
-      opacity: 0.7;
+    &::after {
+      content: '🔐';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5rem;
+      z-index: 3;
+      color: #ffcc00;
+      text-shadow: 0 0 20px rgba(255, 204, 0, 0.9);
+      opacity: 1;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+      filter: drop-shadow(0 0 10px gold);
     }
 
     &:hover {

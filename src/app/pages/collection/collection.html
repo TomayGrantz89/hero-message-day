@@ -21,7 +21,6 @@
         <div class="card-image" [style.backgroundImage]="'url(' + item.card.imageUrl + ')'"></div>
         <div class="card-name">{{ item.card.name }}</div>
         <div class="card-rarity {{ item.card.rarity }}">{{ item.card.rarity | titlecase }}</div>
-        <div class="card-status" *ngIf="!item.owned">Не получена</div>
       </div>
     </div>
 

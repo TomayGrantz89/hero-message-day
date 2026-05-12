@@ -518,3 +518,58 @@
     }
   }
 }
+
+// Landscape orientation for mobile devices
+@media (max-width: 768px) and (orientation: landscape) {
+  .prediction-container {
+    padding: 15px;
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      margin-bottom: 25px;
+    }
+  }
+
+  .card-wrapper {
+    width: 250px;
+    height: 375px;
+  }
+
+  .controls {
+    margin-top: 25px;
+
+    .btn-get-new {
+      padding: 14px 28px;
+      font-size: 1.1rem;
+    }
+  }
+}
+
+// Landscape orientation for small screens
+@media (max-width: 480px) and (orientation: landscape) {
+  .card-wrapper {
+    width: 220px;
+    height: 330px;
+  }
+
+  .card .side {
+    .prediction {
+      padding: 20px;
+
+      .prediction-text {
+        h3 {
+          font-size: 1.6rem;
+        }
+
+        p {
+          font-size: 1.05rem;
+        }
+      }
+    }
+  }
+}

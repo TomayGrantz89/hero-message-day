@@ -158,6 +158,57 @@
         font-size: 0.9rem;
       }
     }
+
+    // Landscape orientation for mobile devices
+    @media (max-width: 768px) and (orientation: landscape) {
+      .home-container {
+        padding: 15px;
+        min-height: auto;
+
+        h1 {
+          font-size: 1.8rem;
+          margin-bottom: 20px;
+        }
+
+        .subtitle {
+          font-size: 1rem;
+          margin-bottom: 25px;
+        }
+
+        .button-group {
+          flex-direction: row;
+          gap: 15px;
+          flex-wrap: wrap;
+          justify-content: center;
+
+          .btn {
+            padding: 14px 24px;
+            font-size: 1rem;
+            min-width: 160px;
+            max-width: 200px;
+          }
+        }
+      }
+    }
+
+    // Landscape orientation for small screens
+    @media (max-width: 480px) and (orientation: landscape) {
+      .home-container {
+        h1 {
+          font-size: 1.6rem;
+        }
+
+        .button-group {
+          gap: 10px;
+
+          .btn {
+            padding: 12px 18px;
+            font-size: 0.95rem;
+            min-width: 140px;
+          }
+        }
+      }
+    }
   }
 }
 

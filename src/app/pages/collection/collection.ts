@@ -39,6 +39,7 @@ export class Collection implements OnInit {
   }
 
   @HostListener('window:resize')
+  @HostListener('window:orientationchange')
   onResize(): void {
     const oldItemsPerPage = this.itemsPerPage;
     this.calculateItemsPerPage();
@@ -53,9 +54,19 @@ export class Collection implements OnInit {
 
   private calculateItemsPerPage(): void {
     const width = window.innerWidth;
+    const height = window.innerHeight;
+    const isLandscape = width > height;
+    const isMobile = width < 768;
 
-    if (width < 768) { // Mobile
-      this.itemsPerPage = 6;
+    if (isMobile) {
+      // Mobile devices
+      if (isLandscape) {
+        // Landscape orientation on mobile - more columns
+        this.itemsPerPage = 8; // 4 columns × 2 rows
+      } else {
+        // Portrait orientation on mobile
+        this.itemsPerPage = 6; // 3 columns × 2 rows
+      }
     } else if (width < 1024) { // Tablet
       this.itemsPerPage = 9;
     } else { // Desktop

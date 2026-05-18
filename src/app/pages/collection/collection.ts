@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardData, Card } from '../../services/card-data';
 import { Attempt } from '../../services/attempt';
+import { Premium } from '../../services/premium';
 
 interface CollectionCard {
   card: Card;
@@ -28,14 +29,21 @@ export class Collection implements OnInit {
   paginatedCards: CollectionCard[] = [];
   pageNumbers: number[] = [];
 
+  // Premium status
+  isPremium = false;
+  totalCards = 0;
+  accessibleCards = 0;
+
   constructor(
     private cardData: CardData,
-    private attemptService: Attempt
+    private attemptService: Attempt,
+    private premium: Premium
   ) {}
 
   ngOnInit(): void {
     this.calculateItemsPerPage();
     this.loadCollection();
+    this.updatePremiumStatus();
   }
 
   @HostListener('window:resize')
@@ -84,6 +92,18 @@ export class Collection implements OnInit {
     }));
 
     this.updatePagination();
+  }
+
+  private updatePremiumStatus(): void {
+    this.isPremium = this.premium.isPremium();
+
+    // Calculate card statistics
+    const allCards = this.cardData.getAllCards();
+    this.accessibleCards = allCards.length;
+
+    // For non-premium users, accessible cards are limited to 15
+    // For premium users, total cards is 50 (as defined in card-data.ts)
+    this.totalCards = this.isPremium ? 50 : 15;
   }
 
   private updatePagination(): void {

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Premium } from './premium';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class Attempt {
   private readonly COLLECTION_KEY = 'cardGameCollection';
   private readonly TODAY_PREDICTION_IDS_KEY = 'cardGameTodayPredictionIds';
 
-  constructor() {
+  constructor(private premium: Premium) {
     this.resetIfNeeded();
     this.initializeCollection();
   }
@@ -23,8 +24,19 @@ export class Attempt {
     const lastReset = localStorage.getItem(this.LAST_RESET_KEY);
 
     if (lastReset !== today) {
-      localStorage.setItem(this.STORAGE_KEY, '1'); // reset free attempts to 1
-      localStorage.setItem(this.AD_WATCHED_KEY, 'false');
+      // Set attempts based on premium status
+      const initialAttempts = this.premium.isPremium() ? 2 : 1;
+      localStorage.setItem(this.STORAGE_KEY, initialAttempts.toString());
+
+      // Reset ad watched flag only for non-premium users
+      // Premium users don't have ads
+      if (!this.premium.isPremium()) {
+        localStorage.setItem(this.AD_WATCHED_KEY, 'false');
+      } else {
+        // For premium users, mark ad as already watched (no ads available)
+        localStorage.setItem(this.AD_WATCHED_KEY, 'true');
+      }
+
       localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
       localStorage.setItem(this.TODAY_PREDICTION_IDS_KEY, JSON.stringify([]));
       localStorage.setItem(this.LAST_RESET_KEY, today);
@@ -51,10 +63,19 @@ export class Attempt {
   }
 
   canWatchAd(): boolean {
+    // Premium users don't have ads
+    if (this.premium.isPremium()) {
+      return false;
+    }
     return localStorage.getItem(this.AD_WATCHED_KEY) !== 'true';
   }
 
   watchAd(): void {
+    // Premium users cannot watch ads
+    if (this.premium.isPremium()) {
+      return;
+    }
+
     localStorage.setItem(this.AD_WATCHED_KEY, 'true');
     // Grant one extra attempt
     const current = this.getRemainingAttempts();

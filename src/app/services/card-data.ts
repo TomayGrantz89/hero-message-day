@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Premium } from './premium';
 
 export interface Card {
   id: number;
@@ -22,13 +23,13 @@ export class CardData {
   private cards: Card[] = [];
   private predictions: PredictionItem[] = [];
 
-  constructor() {
+  constructor(private premium: Premium) {
     this.generateMockData();
   }
 
   private generateMockData(): void {
-    // Generate 40 cards
-    for (let i = 1; i <= 40; i++) {
+    // Generate 50 cards (40 + 10 more for premium)
+    for (let i = 1; i <= 50; i++) {
       const rarities: Card['rarity'][] = ['common', 'rare', 'epic', 'legendary'];
       const rarity = rarities[Math.floor(Math.random() * rarities.length)];
       this.cards.push({
@@ -46,17 +47,30 @@ export class CardData {
       this.predictions.push({
         id: i,
         text: `Prediction ${i}: Today you will encounter something unexpected.`,
-        cardId: Math.floor(Math.random() * 40) + 1,
+        cardId: Math.floor(Math.random() * 50) + 1,
       });
     }
   }
 
   getAllCards(): Card[] {
-    return this.cards;
+    if (this.premium.isPremium()) {
+      return this.cards; // All 50 cards for premium users
+    } else {
+      // Only first 15 cards for non-premium users
+      return this.cards.slice(0, 15);
+    }
   }
 
   getCard(id: number): Card | undefined {
-    return this.cards.find(c => c.id === id);
+    const card = this.cards.find(c => c.id === id);
+    if (!card) return undefined;
+
+    // Check if card is accessible for non-premium users
+    if (!this.premium.isPremium() && id > 15) {
+      return undefined; // Card not accessible
+    }
+
+    return card;
   }
 
   getRandomPrediction(): PredictionItem {
@@ -92,9 +106,13 @@ export class CardData {
 
   // Simulate getting a new card with dynamic chance based on collection completion
   getNewCard(userCardIds: number[]): Card {
-    const newCards = this.cards.filter(c => !userCardIds.includes(c.id));
-    const totalCards = this.cards.length;
-    const collectedCount = userCardIds.length;
+    // Filter accessible cards based on premium status
+    const accessibleCards = this.premium.isPremium() ? this.cards : this.cards.slice(0, 15);
+
+    // Filter new cards from accessible cards
+    const newCards = accessibleCards.filter(c => !userCardIds.includes(c.id));
+    const totalCards = accessibleCards.length;
+    const collectedCount = userCardIds.filter(id => id <= (this.premium.isPremium() ? 50 : 15)).length;
     const collectionPercentage = totalCards > 0 ? (collectedCount / totalCards) * 100 : 0;
 
     // Base chance is 40%
@@ -116,7 +134,7 @@ export class CardData {
       return newCards[Math.floor(Math.random() * newCards.length)];
     } else {
       // Otherwise get any random card (including duplicates)
-      return this.cards[Math.floor(Math.random() * this.cards.length)];
+      return accessibleCards[Math.floor(Math.random() * accessibleCards.length)];
     }
   }
 }

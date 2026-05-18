@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardData, Card, PredictionItem } from '../../services/card-data';
 import { Attempt } from '../../services/attempt';
+import { Premium } from '../../services/premium';
 
 @Component({
   selector: 'app-prediction',
@@ -23,12 +24,18 @@ export class Prediction implements OnInit, OnDestroy {
   isNewCardAfterAd = false; // Flag that we're showing a new card after ad
   private previousPredictionId: number | null = null; // Track previous prediction ID to ensure different predictions
 
+  // Premium status
+  isPremium = false;
+  maxAttemptsPerDay = 1;
+
   constructor(
     private cardData: CardData,
-    public attemptService: Attempt
+    public attemptService: Attempt,
+    private premium: Premium
   ) {}
 
   ngOnInit(): void {
+    this.updatePremiumStatus();
     this.updateAttempts();
     this.startTimer();
     this.initializeCardState();
@@ -36,6 +43,11 @@ export class Prediction implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.timerInterval) clearInterval(this.timerInterval);
+  }
+
+  private updatePremiumStatus(): void {
+    this.isPremium = this.premium.isPremium();
+    this.maxAttemptsPerDay = this.isPremium ? 2 : 1;
   }
 
   private updateAttempts(): void {

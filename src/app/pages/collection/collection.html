@@ -3,7 +3,11 @@
     <a routerLink="/" class="home-link">🏠</a>
     <h1>Коллекция карт</h1>
     <div class="stats">
-      <div>Коллекция: {{ getCollectedCount() }} / {{ collectionCards.length }}</div>
+      <div class="premium-status" [class.premium]="isPremium" [class.free]="!isPremium">
+        <span class="premium-icon">{{ isPremium ? '⭐' : '🔒' }}</span>
+        {{ isPremium ? 'Премиум' : 'Бесплатно' }}
+      </div>
+      <div>Коллекция: {{ getCollectedCount() }} / {{ accessibleCards }} (доступно {{ totalCards }})</div>
       <div class="page-info" *ngIf="totalPages > 1">{{ getPageInfo() }}</div>
     </div>
   </header>

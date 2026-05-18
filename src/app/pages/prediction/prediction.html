@@ -4,7 +4,10 @@
     <div class="timer">
       До следующего предсказания: <strong>{{ timer }}</strong>
     </div>
-    <button class="ad-button" (click)="showAdModal = true" *ngIf="attemptsRemaining <= 0 && attemptService.canWatchAd()">
+    <div class="premium-indicator" [class.premium]="isPremium" [class.free]="!isPremium">
+      {{ isPremium ? '⭐ Премиум' : '🔒 Бесплатно' }}
+    </div>
+    <button class="ad-button" (click)="showAdModal = true" *ngIf="attemptsRemaining <= 0 && attemptService.canWatchAd() && !isPremium">
       📺 Реклама
     </button>
   </header>
@@ -46,15 +49,16 @@
       </button>
 
       <div class="attempts">
-        Осталось попыток: <span class="attempt-count">{{ attemptsRemaining }}</span>
+        Осталось попыток: <span class="attempt-count">{{ attemptsRemaining }}</span> / {{ maxAttemptsPerDay }}
         <span class="ad-icon"
-              *ngIf="attemptsRemaining === 0 && attemptService.canWatchAd()"
+              *ngIf="attemptsRemaining === 0 && attemptService.canWatchAd() && !isPremium"
               title="Получить ещё попытку через просмотр рекламы"
               (click)="showAdModal = true">
           🎬
         </span>
       </div>
-      <p class="hint">* 1 попытка в день. Вторую можно получить, посмотрев рекламу.</p>
+      <p class="hint" *ngIf="!isPremium">* 1 попытка в день. Вторую можно получить, посмотрев рекламу.</p>
+      <p class="hint premium-hint" *ngIf="isPremium">⭐ Премиум-доступ: 2 попытки в день без рекламы.</p>
     </div>
   </main>
 

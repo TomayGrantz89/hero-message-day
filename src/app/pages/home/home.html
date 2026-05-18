@@ -1,4 +1,14 @@
 <div class="home-container">
+  <div class="premium-header" [class.premium]="isPremium" [class.free]="!isPremium">
+    <div class="premium-status">
+      <span class="premium-icon">{{ isPremium ? '⭐' : '🔒' }}</span>
+      {{ isPremium ? 'Премиум-доступ активен' : 'Бесплатная версия' }}
+    </div>
+    <button *ngIf="!isPremium" class="btn-premium" (click)="purchasePremium()">
+      🛒 Купить премиум
+    </button>
+  </div>
+
   <h1>Карта дня</h1>
   <p>Получите предсказание на сегодня и собирайте коллекцию карт.</p>
 
@@ -12,7 +22,18 @@
   </div>
 
   <div class="info">
-    <p>Ежедневно вы можете получить одну карту бесплатно. Вторую — посмотрев рекламу.</p>
+    <div *ngIf="!isPremium">
+      <p>Ежедневно вы можете получить одну карту бесплатно. Вторую — посмотрев рекламу.</p>
+      <p>Доступно только 15 карт из 50.</p>
+    </div>
+    <div *ngIf="isPremium" class="premium-benefits">
+      <p>⭐ <strong>Премиум-преимущества:</strong></p>
+      <ul>
+        <li>2 попытки в день (без рекламы)</li>
+        <li>Доступ ко всем 50 картам</li>
+        <li>Нет рекламы</li>
+      </ul>
+    </div>
     <p>Карты добавляются в вашу коллекцию автоматически.</p>
   </div>
 </div>

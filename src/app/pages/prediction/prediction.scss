@@ -227,11 +227,29 @@
   .attempts {
     font-size: 1.3rem;
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 
     .attempt-count {
       font-weight: bold;
       color: #00ffaa;
       font-size: 1.8rem;
+    }
+
+    .ad-icon {
+      display: inline-block;
+      font-size: 1.5rem;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+      vertical-align: middle;
+      transition: transform 0.3s;
+
+      &:hover {
+        transform: scale(1.2);
+        color: #ffcc00;
+      }
     }
   }
 
@@ -484,6 +502,14 @@
 
     .attempts {
       font-size: 1rem;
+
+      .attempt-count {
+        font-size: 1.5rem;
+      }
+
+      .ad-icon {
+        font-size: 1.3rem;
+      }
     }
   }
 }
@@ -571,5 +597,21 @@
         }
       }
     }
+  }
+}
+
+// Animation for ad icon
+@keyframes pulse {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
   }
 }

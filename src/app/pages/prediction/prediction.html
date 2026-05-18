@@ -47,6 +47,12 @@
 
       <div class="attempts">
         Осталось попыток: <span class="attempt-count">{{ attemptsRemaining }}</span>
+        <span class="ad-icon"
+              *ngIf="attemptsRemaining === 0 && attemptService.canWatchAd()"
+              title="Получить ещё попытку через просмотр рекламы"
+              (click)="showAdModal = true">
+          🎬
+        </span>
       </div>
       <p class="hint">* 1 попытка в день. Вторую можно получить, посмотрев рекламу.</p>
     </div>

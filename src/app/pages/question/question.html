@@ -1,0 +1,70 @@
+<div class="question-container">
+  <header class="header">
+    <a routerLink="/" class="home-link">🏠</a>
+    <div class="premium-header" [class.premium]="isPremium" [class.free]="!isPremium">
+      <div class="premium-status">
+        <span class="premium-icon">{{ isPremium ? '⭐' : '🔒' }}</span>
+        {{ isPremium ? 'Премиум-доступ активен' : 'Бесплатная версия' }}
+      </div>
+      <button *ngIf="!isPremium" class="btn-premium" (click)="purchasePremium()">
+        🛒 Купить премиум
+      </button>
+    </div>
+  </header>
+
+  <div class="question-content">
+    <h1>Загадайте вопрос</h1>
+    <p class="instruction">Задайте вопрос, на который можно ответить «Да» или «Нет», и нажмите на волшевный шар.</p>
+
+    <div class="card-area">
+      <div class="magic-ball-container">
+        <div class="magic-ball" (click)="askQuestion()" [class.disabled]="!hasAttempt">
+          <div class="magic-ball-inner" [class.flipped]="showAnswer">
+            <div class="magic-ball-front">
+              <div class="magic-ball-icon">🔮</div>
+              <div class="magic-ball-text">Нажмите на волшебный шар</div>
+              <div class="attempt-info" *ngIf="!hasAttempt">
+                <span class="no-attempt">Нет попыток</span>
+              </div>
+            </div>
+            <div class="magic-ball-back">
+              <div class="answer">{{ currentAnswer }}</div>
+              <div class="answer-subtitle">Ответ вселенной</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="character-side">
+        <div class="character">
+          <div class="character-icon">👁️</div>
+          <div class="character-text">Всевидящее око</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="beautiful-answer" *ngIf="currentAnswer">
+      <div class="beautiful-answer-title">Ответ:</div>
+      <div class="beautiful-answer-text">{{ currentAnswer }}</div>
+    </div>
+
+    <div class="attempts-info">
+      <div class="info-box">
+        <div class="info-title">Осталось вопросов сегодня:</div>
+        <div class="info-value">{{ remainingQuestions }} / {{ maxQuestions }}</div>
+        <div class="info-detail" *ngIf="!isPremium">
+          Бесплатный пользователь может задать только один вопрос в день.
+        </div>
+        <div class="info-detail" *ngIf="isPremium">
+          Премиум-пользователь может задать три вопроса в день.
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-reset" (click)="resetQuestion()" [disabled]="!currentAnswer">
+        Сбросить ответ
+      </button>
+    </div>
+  </div>
+</div>

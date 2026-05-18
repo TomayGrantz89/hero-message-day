@@ -26,10 +26,12 @@
 
   .button-group {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
     gap: 20px;
-    justify-content: center;
     margin: 2rem 0;
+    width: 100%;
+    max-width: 300px;
 
     .btn {
       padding: 18px 36px;
@@ -40,9 +42,9 @@
       text-decoration: none;
       font-weight: bold;
       transition: all 0.3s ease;
-      min-width: 220px;
+      width: 100%;
       text-align: center;
-      display: inline-block;
+      display: block;
 
       &:hover {
         transform: translateY(-5px);
@@ -61,6 +63,11 @@
 
     .btn-prediction {
       background: linear-gradient(45deg, #ff416c, #ff4b2b);
+      color: white;
+    }
+
+    .btn-question {
+      background: linear-gradient(45deg, #11998e, #38ef7d);
       color: white;
     }
   }

@@ -12,6 +12,8 @@ export class Attempt {
   private readonly LAST_CARD_DATA_KEY = 'cardGameLastCardData';
   private readonly COLLECTION_KEY = 'cardGameCollection';
   private readonly TODAY_PREDICTION_IDS_KEY = 'cardGameTodayPredictionIds';
+  private readonly QUESTION_ATTEMPTS_KEY = 'cardGameQuestionAttempts';
+  private readonly QUESTION_LAST_RESET_KEY = 'cardGameQuestionLastReset';
 
   constructor(private premium: Premium) {
     this.resetIfNeeded();
@@ -40,6 +42,11 @@ export class Attempt {
       localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
       localStorage.setItem(this.TODAY_PREDICTION_IDS_KEY, JSON.stringify([]));
       localStorage.setItem(this.LAST_RESET_KEY, today);
+
+      // Reset question attempts
+      const initialQuestionAttempts = this.premium.isPremium() ? 3 : 1;
+      localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, initialQuestionAttempts.toString());
+      localStorage.setItem(this.QUESTION_LAST_RESET_KEY, today);
     }
   }
 
@@ -59,6 +66,28 @@ export class Attempt {
     const attempts = this.getRemainingAttempts();
     if (attempts <= 0) return false;
     localStorage.setItem(this.STORAGE_KEY, (attempts - 1).toString());
+    return true;
+  }
+
+  // Question attempts management
+  getRemainingQuestionAttempts(): number {
+    // Ensure daily reset
+    const now = new Date();
+    const today = now.toDateString();
+    const lastReset = localStorage.getItem(this.QUESTION_LAST_RESET_KEY);
+    if (lastReset !== today) {
+      const initialQuestionAttempts = this.premium.isPremium() ? 3 : 1;
+      localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, initialQuestionAttempts.toString());
+      localStorage.setItem(this.QUESTION_LAST_RESET_KEY, today);
+    }
+    const attempts = parseInt(localStorage.getItem(this.QUESTION_ATTEMPTS_KEY) || '1');
+    return attempts;
+  }
+
+  useQuestionAttempt(): boolean {
+    const attempts = this.getRemainingQuestionAttempts();
+    if (attempts <= 0) return false;
+    localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, (attempts - 1).toString());
     return true;
   }
 

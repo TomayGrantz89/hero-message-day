@@ -114,28 +114,11 @@
     }
 
     .back {
-      background: linear-gradient(45deg, #1a1a1a, #333);
+      background: #1a1a1a;
+      background-image: url('/assets/back/back.png');
+      background-size: cover;
+      background-position: center;
       border: 5px solid #555;
-
-      .card-back-pattern {
-        width: 80%;
-        height: 80%;
-        background: repeating-linear-gradient(
-          45deg,
-          #444,
-          #444 10px,
-          #555 10px,
-          #555 20px
-        );
-        border-radius: 10px;
-      }
-
-      .card-back-text {
-        position: absolute;
-        font-size: 5rem;
-        color: #ffcc00;
-        font-weight: bold;
-      }
     }
 
     .face {

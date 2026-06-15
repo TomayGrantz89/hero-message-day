@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Premium } from './premium';
+import { CHARACTER_CARDS } from '../models/character-card';
 
 export interface Card {
   id: number;
@@ -28,14 +29,19 @@ export class CardData {
   }
 
   private generateMockData(): void {
+    // Use real character card images from CHARACTER_CARDS
+    const realImages = CHARACTER_CARDS.map(c => c.image);
+
     // Generate 50 cards (40 + 10 more for premium)
     for (let i = 1; i <= 50; i++) {
       const rarities: Card['rarity'][] = ['common', 'rare', 'epic', 'legendary'];
       const rarity = rarities[Math.floor(Math.random() * rarities.length)];
+      // Cycle through real images, wrapping around if needed
+      const imageIndex = (i - 1) % realImages.length;
       this.cards.push({
         id: i,
         name: `Card ${i}`,
-        imageUrl: `assets/card${i}.jpg`,
+        imageUrl: realImages[imageIndex],
         rarity,
         description: `Description for card ${i}`,
         history: `Historical background for card ${i}. This card has a rich history dating back centuries.`,

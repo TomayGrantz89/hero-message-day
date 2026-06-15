@@ -276,7 +276,10 @@
       }
 
       &.back {
-        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        background: #1a1a1a;
+        background-image: url('/assets/back/back.png');
+        background-size: cover;
+        background-position: center;
         border-color: #00ccff;
         transform: rotateY(180deg);
         padding: 30px;
@@ -442,7 +445,10 @@
       }
 
       .enlarged-card-back {
-        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        background: #1a1a1a;
+        background-image: url('/assets/back/back.png');
+        background-size: cover;
+        background-position: center;
         border-color: #00ccff;
         transform: rotateY(180deg);
         padding: 40px;

@@ -106,37 +106,20 @@ export class CardData {
     return this.predictions.filter(p => p.cardId === cardId);
   }
 
-  // Simulate getting a new card with dynamic chance based on collection completion
+  // Get a new card that the user doesn't already have in their collection
   getNewCard(userCardIds: number[]): Card {
     // Filter accessible cards based on premium status
     const accessibleCards = this.premium.isPremium() ? this.cards : this.cards.slice(0, 15);
 
     // Filter new cards from accessible cards
     const newCards = accessibleCards.filter(c => !userCardIds.includes(c.id));
-    const totalCards = accessibleCards.length;
-    const collectedCount = userCardIds.filter(id => id <= (this.premium.isPremium() ? 50 : 15)).length;
-    const collectionPercentage = totalCards > 0 ? (collectedCount / totalCards) * 100 : 0;
 
-    // Base chance is 40%
-    let newCardChance = 0.4;
-
-    // Adjust chance based on collection percentage
-    if (collectionPercentage < 50) {
-      // Less than 50% collected - increase chance (e.g., +20%)
-      newCardChance = 0.6;
-    } else if (collectionPercentage > 50) {
-      // More than 50% collected - decrease chance (e.g., -20%)
-      newCardChance = 0.2;
-    }
-    // If exactly 50%, keep base chance
-
-    const chance = Math.random();
-    if (newCards.length > 0 && chance < newCardChance) {
-      // Get a new card (not in collection)
+    if (newCards.length > 0) {
+      // Always return a new card if one is available
       return newCards[Math.floor(Math.random() * newCards.length)];
-    } else {
-      // Otherwise get any random card (including duplicates)
-      return accessibleCards[Math.floor(Math.random() * accessibleCards.length)];
     }
+
+    // If all accessible cards are already collected, return a random one (duplicate)
+    return accessibleCards[Math.floor(Math.random() * accessibleCards.length)];
   }
 }

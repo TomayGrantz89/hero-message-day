@@ -1,6 +1,6 @@
 .question-container {
   min-height: 100vh;
-  background: #D4D0F0;
+  background: #BCD7F8;
   color: #333;
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -17,7 +17,7 @@
     .home-link {
       font-size: 2rem;
       text-decoration: none;
-      color: #6a0dad;
+      color: #1a3a6a;
       transition: transform 0.3s;
 
       &:hover {
@@ -57,7 +57,7 @@
 
       .btn-premium {
         background: #0D0528;
-        color: #D4D0F0;
+        color: #EDECF9;
         border: none;
         padding: 10px 20px;
         border-radius: 25px;
@@ -155,7 +155,7 @@
 
           .magic-ball-front {
             background: radial-gradient(circle at 30% 30%, #8a2be2, #4b0082);
-            color: white;
+            color: #edeCf9;
             border: 5px solid #9370db;
 
             .magic-ball-icon {
@@ -186,7 +186,7 @@
 
           .magic-ball-back {
             background: radial-gradient(circle at 30% 30%, #00ced1, #008b8b);
-            color: white;
+            color: #edeCf9;
             transform: rotateY(180deg);
             border: 5px solid #20b2aa;
 
@@ -225,7 +225,7 @@
           .character-text {
             font-size: 1.5rem;
             font-weight: 600;
-            color: #4a0080;
+            color: #0a1e3d;
           }
         }
       }
@@ -312,7 +312,7 @@
         cursor: pointer;
         transition: all 0.3s;
         background: #0D0528;
-        color: #D4D0F0;
+        color: #EDECF9;
 
         &:hover:not(:disabled) {
           transform: scale(1.05);

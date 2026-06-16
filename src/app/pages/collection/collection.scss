@@ -1,6 +1,6 @@
 .collection-container {
   min-height: 100vh;
-  background: #D4D0F0;
+  background: #BCD7F8;
   color: #333;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
@@ -21,7 +21,7 @@
   .home-link {
     font-size: 2.5rem;
     text-decoration: none;
-    color: #6a0dad;
+    color: #1a3a6a;
     transition: transform 0.3s;
 
     &:hover {
@@ -31,19 +31,19 @@
 
   h1 {
     font-size: 2.5rem;
-    color: #4a0080;
+    color: #0a1e3d;
     margin: 0;
     text-align: center;
     flex: 1;
   }
 
   .stats {
-    background: rgba(106, 13, 173, 0.1);
+    background: #BCD7F8;
     padding: 12px 24px;
     border-radius: 10px;
     font-size: 1.2rem;
-    border: 1px solid #6a0dad;
-    color: #333;
+    border: 1px solid #a0b8d6;
+    color: #5a6a7a;
   }
 }
 
@@ -134,14 +134,14 @@
   margin: 20px auto;
   max-width: 800px;
   position: relative;
-  border: 3px solid #ffcc00;
+  border: 3px solid rgb(85, 85, 85);
 
   .close-btn {
     position: absolute;
     top: 20px;
     right: 20px;
     background: #0D0528;
-    color: #D4D0F0;
+    color: #EDECF9;
     border: none;
     width: 40px;
     height: 40px;
@@ -185,7 +185,7 @@
 
       &.face {
         background: #222;
-        border-color: #ffcc00;
+        border: 5px solid rgb(85, 85, 85);
 
         .detail-image {
           width: 90%;
@@ -199,11 +199,8 @@
       }
 
       &.back {
-        background: #1a1a1a;
-        background-image: url('/assets/back/back.png');
-        background-size: cover;
-        background-position: center;
-        border-color: #00ccff;
+        background: #1A0A50;
+        border: 5px solid rgb(85, 85, 85);
         transform: rotateY(180deg);
         padding: 30px;
         text-align: left;
@@ -218,12 +215,12 @@
           p {
             font-size: 1.2rem;
             line-height: 1.6;
-            color: #D4D0F0;
+            color: #EDECF9;
           }
 
           .hint {
             font-size: 0.9rem;
-            color: #D4D0F0;
+            color: #EDECF9;
             font-style: italic;
             text-align: center;
             margin-top: 30px;
@@ -255,7 +252,7 @@
 
     .btn-flip {
       background: #0D0528;
-      color: #D4D0F0;
+      color: #EDECF9;
 
       &:hover {
         transform: translateY(-5px);
@@ -265,7 +262,7 @@
 
     .btn-close {
       background: #0D0528;
-      color: #D4D0F0;
+      color: #EDECF9;
 
       &:hover {
         transform: translateY(-5px);
@@ -332,7 +329,7 @@
 
       .enlarged-card-face {
         background: #222;
-        border-color: #ffcc00;
+        border: 5px solid rgb(85, 85, 85);
 
         .enlarged-card-image {
           width: 90%;
@@ -347,18 +344,15 @@
         .enlarged-card-name {
           font-size: 2rem;
           font-weight: bold;
-          color: #fff;
+          color: #edeCf9;
           text-align: center;
           padding: 0 20px;
         }
       }
 
       .enlarged-card-back {
-        background: #1a1a1a;
-        background-image: url('/assets/back/back.png');
-        background-size: cover;
-        background-position: center;
-        border-color: #00ccff;
+        background: #1A0A50;
+        border: 5px solid rgb(85, 85, 85);
         transform: rotateY(180deg);
         padding: 40px;
         text-align: left;
@@ -377,12 +371,12 @@
           p {
             font-size: 1.4rem;
             line-height: 1.6;
-            color: #D4D0F0;
+            color: #EDECF9;
           }
 
           .hint {
             font-size: 1.1rem;
-            color: #D4D0F0;
+            color: #EDECF9;
             font-style: italic;
             text-align: center;
             margin-top: 30px;
@@ -662,7 +656,7 @@
 
     .pagination-btn {
       background: #0D0528;
-      color: #D4D0F0;
+      color: #EDECF9;
       border: none;
       padding: 10px 20px;
       border-radius: 8px;
@@ -708,7 +702,7 @@
 
       .page-btn {
         background: #0D0528;
-        color: #D4D0F0;
+        color: #EDECF9;
         border: 1px solid #2a1a5a;
         width: 44px;
         height: 44px;
@@ -728,7 +722,7 @@
 
         &.active {
           background: #0D0528;
-          color: #D4D0F0;
+          color: #EDECF9;
           border-color: #0D0528;
           box-shadow: 0 0 15px rgba(13, 5, 40, 0.4);
           transform: scale(1.1);
@@ -761,11 +755,11 @@
 
   .page-info {
     font-size: 0.9rem;
-    color: #6a0dad;
-    background: rgba(106, 13, 173, 0.08);
+    color: #1a3a6a;
+    background: rgba(26, 58, 106, 0.08);
     padding: 4px 10px;
     border-radius: 6px;
-    border: 1px solid rgba(106, 13, 173, 0.3);
+    border: 1px solid rgba(26, 58, 106, 0.3);
   }
 }
 

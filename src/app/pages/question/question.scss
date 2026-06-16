@@ -1,7 +1,7 @@
 .question-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  color: #fff;
+  background: #D4D0F0;
+  color: #333;
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
@@ -10,14 +10,14 @@
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.5);
     border-radius: 15px;
     margin-bottom: 30px;
 
     .home-link {
       font-size: 2rem;
       text-decoration: none;
-      color: #ffcc00;
+      color: #6a0dad;
       transition: transform 0.3s;
 
       &:hover {
@@ -56,8 +56,8 @@
       }
 
       .btn-premium {
-        background: linear-gradient(90deg, #ffd700, #ffaa00);
-        color: #000;
+        background: #0D0528;
+        color: #D4D0F0;
         border: none;
         padding: 10px 20px;
         border-radius: 25px;
@@ -88,7 +88,7 @@
     .instruction {
       text-align: center;
       font-size: 1.2rem;
-      color: #aaa;
+      color: #666;
       margin-bottom: 40px;
       max-width: 600px;
       margin-left: auto;
@@ -211,10 +211,10 @@
           display: flex;
           flex-direction: column;
           align-items: center;
-          background: rgba(255, 255, 255, 0.05);
+          background: rgba(255, 255, 255, 0.5);
           border-radius: 20px;
           padding: 30px;
-          border: 2px solid rgba(255, 255, 255, 0.1);
+          border: 2px solid #c8c0e8;
           max-width: 250px;
 
           .character-icon {
@@ -225,7 +225,7 @@
           .character-text {
             font-size: 1.5rem;
             font-weight: 600;
-            color: #ffd700;
+            color: #4a0080;
           }
         }
       }
@@ -267,10 +267,10 @@
       margin-bottom: 40px;
 
       .info-box {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 0.5);
         border-radius: 15px;
         padding: 25px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid #c8c0e8;
         max-width: 500px;
         width: 100%;
         text-align: center;
@@ -278,7 +278,7 @@
         .info-title {
           font-size: 1.3rem;
           margin-bottom: 10px;
-          color: #aaa;
+          color: #666;
         }
 
         .info-value {
@@ -292,7 +292,7 @@
 
         .info-detail {
           font-size: 1rem;
-          color: #aaa;
+          color: #555;
           line-height: 1.5;
         }
       }
@@ -311,12 +311,12 @@
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s;
-        background: linear-gradient(90deg, #ff416c, #ff4b2b);
-        color: white;
+        background: #0D0528;
+        color: #D4D0F0;
 
         &:hover:not(:disabled) {
           transform: scale(1.05);
-          box-shadow: 0 10px 20px rgba(255, 65, 108, 0.3);
+          box-shadow: 0 10px 20px rgba(13, 5, 40, 0.3);
         }
 
         &:disabled {

@@ -1,7 +1,7 @@
 .prediction-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-  color: white;
+  background: #D4D0F0;
+  color: #333;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
   display: flex;
@@ -13,14 +13,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px 20px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.5);
   border-radius: 15px;
   margin-bottom: 30px;
 
   .home-link {
     font-size: 2rem;
     text-decoration: none;
-    color: #ffcc00;
+    color: #6a0dad;
     transition: transform 0.3s;
 
     &:hover {
@@ -30,19 +30,20 @@
 
   .timer {
     font-size: 1.1rem;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(106, 13, 173, 0.08);
     padding: 10px 20px;
     border-radius: 10px;
-    border: 1px solid #00ccff;
+    border: 1px solid #6a0dad;
+    color: #333;
 
     strong {
-      color: #00ffaa;
+      color: #2e7d32;
     }
   }
 
   .ad-button {
-    background: linear-gradient(45deg, #ff8a00, #e52e71);
-    color: white;
+    background: #0D0528;
+    color: #D4D0F0;
     border: none;
     padding: 12px 24px;
     border-radius: 10px;
@@ -52,7 +53,7 @@
 
     &:hover {
       transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(229, 46, 113, 0.4);
+      box-shadow: 0 5px 15px rgba(13, 5, 40, 0.4);
     }
   }
 }
@@ -67,13 +68,13 @@
   h1 {
     font-size: 2.8rem;
     margin-bottom: 10px;
-    color: #ffcc00;
-    text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+    color: #4a0080;
+    text-shadow: none;
   }
 
   .subtitle {
     font-size: 1.2rem;
-    color: #aaa;
+    color: #666;
     margin-bottom: 40px;
   }
 }
@@ -145,7 +146,10 @@
     }
 
     .prediction {
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      background: #1a1a1a;
+      background-image: url('/assets/back/back.png');
+      background-size: cover;
+      background-position: center;
       transform: rotateY(180deg);
       padding: 30px;
       text-align: center;
@@ -162,11 +166,12 @@
           font-size: 1.3rem;
           line-height: 1.5;
           margin-bottom: 15px;
+          color: #D4D0F0;
         }
 
         .card-info {
           font-size: 1rem;
-          color: #aaa;
+          color: #D4D0F0;
           margin-top: 20px;
         }
       }
@@ -176,15 +181,15 @@
 
 .controls {
   margin-top: 40px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.5);
   padding: 25px;
   border-radius: 15px;
   width: 100%;
   max-width: 500px;
 
-  .btn-open {
-    background: linear-gradient(45deg, #00c853, #64dd17);
-    color: white;
+  .btn-get-new {
+    background: #0D0528;
+    color: #D4D0F0;
     border: none;
     padding: 18px 40px;
     font-size: 1.5rem;
@@ -197,7 +202,32 @@
 
     &:hover:not(:disabled) {
       transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 200, 83, 0.4);
+      box-shadow: 0 10px 20px rgba(13, 5, 40, 0.4);
+    }
+
+    &:disabled {
+      background: #555;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+  }
+
+  .btn-open {
+    background: #0D0528;
+    color: #D4D0F0;
+    border: none;
+    padding: 18px 40px;
+    font-size: 1.5rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+    width: 100%;
+    margin-bottom: 20px;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(13, 5, 40, 0.4);
     }
 
     &:disabled {
@@ -238,7 +268,7 @@
 
   .hint {
     font-size: 0.9rem;
-    color: #aaa;
+    color: #666;
     font-style: italic;
   }
 }
@@ -256,21 +286,21 @@
   z-index: 1000;
 
   .modal {
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    background: #D4D0F0;
     padding: 30px;
     border-radius: 20px;
     max-width: 500px;
     width: 90%;
-    border: 3px solid #00ccff;
+    border: 3px solid #6a0dad;
     text-align: center;
 
     h2 {
-      color: #ffcc00;
+      color: #4a0080;
       margin-bottom: 20px;
     }
 
     p {
-      color: #ccc;
+      color: #555;
       margin-bottom: 30px;
     }
 
@@ -289,13 +319,13 @@
         transition: all 0.3s;
 
         &.watch {
-          background: linear-gradient(45deg, #ff8a00, #e52e71);
-          color: white;
+          background: #0D0528;
+          color: #D4D0F0;
         }
 
         &.cancel {
           background: #555;
-          color: white;
+          color: #D4D0F0;
         }
 
         &:hover {
@@ -305,10 +335,10 @@
     }
 
     .ad-placeholder {
-      background: #222;
+      background: rgba(255, 255, 255, 0.5);
       border-radius: 10px;
       padding: 40px;
-      border: 2px dashed #666;
+      border: 2px dashed #c8c0e8;
 
       .ad-sim {
         color: #888;

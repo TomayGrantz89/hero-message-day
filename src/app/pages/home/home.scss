@@ -6,14 +6,61 @@
   min-height: 100vh;
   padding: 20px;
   text-align: center;
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
-  color: #fff;
+  background: #D4D0F0;
+  color: #333;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  .premium-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    margin-bottom: 30px;
+
+    &.premium {
+      .premium-status {
+        color: #4a0080;
+      }
+    }
+
+    &.free {
+      .premium-status {
+        color: #555;
+      }
+    }
+
+    .premium-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .btn-premium {
+      background: #0D0528;
+      color: #D4D0F0;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
 
   h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: #ffcc00;
+    color: #4a0080;
   }
 
   p {
@@ -21,7 +68,7 @@
     max-width: 600px;
     margin-bottom: 2rem;
     line-height: 1.6;
-    color: #ccc;
+    color: #555;
   }
 
   .button-group {
@@ -57,23 +104,23 @@
     }
 
     .btn-collection {
-      background: linear-gradient(45deg, #6a11cb, #2575fc);
-      color: white;
+      background: #0D0528;
+      color: #D4D0F0;
     }
 
     .btn-prediction {
-      background: linear-gradient(45deg, #ff416c, #ff4b2b);
-      color: white;
+      background: #0D0528;
+      color: #D4D0F0;
     }
 
     .btn-question {
-      background: linear-gradient(45deg, #11998e, #38ef7d);
-      color: white;
+      background: #0D0528;
+      color: #D4D0F0;
     }
   }
 
   .info {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.5);
     border-radius: 15px;
     padding: 20px;
     max-width: 600px;
@@ -81,7 +128,19 @@
 
     p {
       margin: 10px 0;
-      color: #ddd;
+      color: #444;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0;
+
+      li {
+        color: #444;
+        padding: 5px 0;
+        font-size: 1rem;
+      }
     }
   }
 }

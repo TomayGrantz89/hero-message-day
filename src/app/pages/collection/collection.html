@@ -17,14 +17,12 @@
       <div
         class="card-item"
         [class.card-item--locked]="!item.owned"
+        [class.card-item--owned]="item.owned"
         *ngFor="let item of paginatedCards"
         (click)="selectCard(item)"
-        [style.border]="getRarityBorder(item.card)"
-        [style.boxShadow]="getRarityGlow(item.card)"
       >
         <div class="card-image" [style.backgroundImage]="'url(' + item.card.imageUrl + ')'"></div>
-        <div class="card-name">{{ item.card.name }}</div>
-        <div class="card-rarity {{ item.card.rarity }}">{{ item.card.rarity | titlecase }}</div>
+        <div class="card-name" *ngIf="item.owned">{{ item.card.name }}</div>
       </div>
     </div>
 
@@ -65,7 +63,6 @@
         <div class="enlarged-card" (click)="flipDetail()" [class.flipped]="detailSide === 'back'">
           <div class="enlarged-card-face">
             <div class="enlarged-card-image" [style.backgroundImage]="'url(' + selectedCard.imageUrl + ')'"></div>
-            <div class="enlarged-card-rarity {{ selectedCard.rarity }}">{{ selectedCard.rarity | titlecase }}</div>
             <div class="enlarged-card-name">{{ selectedCard.name }}</div>
           </div>
           <div class="enlarged-card-back">

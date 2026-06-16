@@ -1,7 +1,7 @@
 .collection-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-  color: white;
+  background: #D4D0F0;
+  color: #333;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
   display: flex;
@@ -13,7 +13,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.5);
   border-radius: 15px;
   margin-bottom: 30px;
   flex-wrap: wrap;
@@ -21,7 +21,7 @@
   .home-link {
     font-size: 2.5rem;
     text-decoration: none;
-    color: #ffcc00;
+    color: #6a0dad;
     transition: transform 0.3s;
 
     &:hover {
@@ -31,18 +31,19 @@
 
   h1 {
     font-size: 2.5rem;
-    color: #ffcc00;
+    color: #4a0080;
     margin: 0;
     text-align: center;
     flex: 1;
   }
 
   .stats {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(106, 13, 173, 0.1);
     padding: 12px 24px;
     border-radius: 10px;
     font-size: 1.2rem;
-    border: 1px solid #00ccff;
+    border: 1px solid #6a0dad;
+    color: #333;
   }
 }
 
@@ -59,7 +60,7 @@
   grid-auto-flow: dense;
 
   .card-item {
-    background: #333;
+    background: #fff;
     border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
@@ -69,17 +70,17 @@
     align-items: center;
     padding: 16px;
     aspect-ratio: 2/3; // пропорции карт 2/3
-    border: 1px solid transparent; // Consistent border for all cards
+    border: 1px solid #c8c0e8; // Consistent border for all cards
 
     &:hover {
       transform: translateY(-10px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
     }
 
     .card-image {
       width: 100%;
       height: 70%;
-      background-color: #444;
+      background-color: #e8e4f8;
       background-size: cover;
       background-position: center;
       border-radius: 8px;
@@ -92,97 +93,31 @@
       font-size: 1rem;
       margin-bottom: 5px;
       text-align: center;
-      color: #fff;
-    }
-
-    .card-rarity {
-      font-size: 0.8rem;
-      padding: 3px 10px;
-      border-radius: 12px;
-      text-transform: uppercase;
-      font-weight: bold;
-
-      &.common {
-        background: #aaa;
-        color: #000;
-      }
-
-      &.rare {
-        background: #1e90ff;
-        color: white;
-      }
-
-      &.epic {
-        background: #9b30ff;
-        color: white;
-      }
-
-      &.legendary {
-        background: #ffd700;
-        color: #000;
-      }
-    }
-
-    .card-status {
-      font-size: 0.7rem;
-      color: #ff6b6b;
-      background: rgba(255, 107, 107, 0.1);
-      padding: 2px 6px;
-      border-radius: 8px;
-      margin-top: 5px;
-      text-transform: uppercase;
-      font-weight: bold;
+      color: #333;
     }
   }
 
+  .card-item--owned {
+    border: 2px solid #0D0528;
+    box-shadow: 0 0 8px rgba(13, 5, 40, 0.4);
+  }
+
   .card-item--locked {
-    opacity: 0.6;
-    filter: grayscale(80%);
     cursor: not-allowed;
     position: relative;
-    border: 1px solid transparent; // Consistent border with regular cards
+    background: #0D0528;
+    background-image: url('/assets/back/back.png');
+    background-size: cover;
+    background-position: center;
+    border: 1px solid #2a1a5a;
+    padding: 0; // Remove padding so image covers entire card
 
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 1;
-      border-radius: 10px;
+    .card-image {
+      display: none; // Hide the image div, use card background instead
     }
 
-    .card-image,
-    .card-name,
-    .card-rarity,
-    .card-status {
-      position: relative;
-      z-index: 2;
-      display: none !important; // Hide all card content
-    }
-
-    &::after {
-      content: '🔐';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 5rem;
-      z-index: 3;
-      color: #ffcc00;
-      text-shadow: 0 0 20px rgba(255, 204, 0, 0.9);
-      opacity: 1;
-      background: rgba(0, 0, 0, 0.8);
-      border-radius: 50%;
-      width: 100px;
-      height: 100px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
-      filter: drop-shadow(0 0 10px gold);
+    .card-name {
+      display: none;
     }
 
     &:hover {
@@ -205,8 +140,8 @@
     position: absolute;
     top: 20px;
     right: 20px;
-    background: #ff4444;
-    color: white;
+    background: #0D0528;
+    color: #D4D0F0;
     border: none;
     width: 40px;
     height: 40px;
@@ -216,7 +151,7 @@
     transition: background 0.3s;
 
     &:hover {
-      background: #ff0000;
+      background: #1a0a4a;
     }
   }
 
@@ -261,18 +196,6 @@
           border-radius: 10px;
           margin-bottom: 20px;
         }
-
-        .detail-rarity {
-          font-size: 1.5rem;
-          padding: 8px 20px;
-          border-radius: 20px;
-          font-weight: bold;
-
-          &.common { background: #aaa; }
-          &.rare { background: #1e90ff; }
-          &.epic { background: #9b30ff; }
-          &.legendary { background: #ffd700; }
-        }
       }
 
       &.back {
@@ -295,12 +218,12 @@
           p {
             font-size: 1.2rem;
             line-height: 1.6;
-            color: #ddd;
+            color: #D4D0F0;
           }
 
           .hint {
             font-size: 0.9rem;
-            color: #aaa;
+            color: #D4D0F0;
             font-style: italic;
             text-align: center;
             margin-top: 30px;
@@ -331,22 +254,22 @@
     }
 
     .btn-flip {
-      background: linear-gradient(45deg, #00c853, #64dd17);
-      color: white;
+      background: #0D0528;
+      color: #D4D0F0;
 
       &:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 200, 83, 0.4);
+        box-shadow: 0 10px 20px rgba(13, 5, 40, 0.4);
       }
     }
 
     .btn-close {
-      background: linear-gradient(45deg, #ff416c, #ff4b2b);
-      color: white;
+      background: #0D0528;
+      color: #D4D0F0;
 
       &:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(255, 65, 108, 0.4);
+        box-shadow: 0 10px 20px rgba(13, 5, 40, 0.4);
       }
     }
   }
@@ -421,20 +344,6 @@
           margin-bottom: 20px;
         }
 
-        .enlarged-card-rarity {
-          font-size: 1.8rem;
-          padding: 10px 25px;
-          border-radius: 25px;
-          font-weight: bold;
-          margin-bottom: 15px;
-          text-transform: uppercase;
-
-          &.common { background: #aaa; color: #000; }
-          &.rare { background: #1e90ff; color: white; }
-          &.epic { background: #9b30ff; color: white; }
-          &.legendary { background: #ffd700; color: #000; }
-        }
-
         .enlarged-card-name {
           font-size: 2rem;
           font-weight: bold;
@@ -468,12 +377,12 @@
           p {
             font-size: 1.4rem;
             line-height: 1.6;
-            color: #ddd;
+            color: #D4D0F0;
           }
 
           .hint {
             font-size: 1.1rem;
-            color: #aaa;
+            color: #D4D0F0;
             font-style: italic;
             text-align: center;
             margin-top: 30px;
@@ -488,9 +397,9 @@
   text-align: center;
   padding: 20px;
   margin-top: 30px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.5);
   border-radius: 15px;
-  color: #aaa;
+  color: #666;
   font-size: 1rem;
 }
 
@@ -507,15 +416,6 @@
 
     .card-name {
       font-size: 0.85rem;
-    }
-
-    .card-rarity {
-      font-size: 0.7rem;
-      padding: 2px 6px;
-    }
-
-    .card-status {
-      font-size: 0.6rem;
     }
   }
 }
@@ -598,11 +498,6 @@
             height: 65%;
           }
 
-          .enlarged-card-rarity {
-            font-size: 1.6rem;
-            padding: 8px 20px;
-          }
-
           .enlarged-card-name {
             font-size: 1.8rem;
           }
@@ -669,11 +564,6 @@
     .card-name {
       font-size: 0.85rem;
     }
-
-    .card-rarity {
-      font-size: 0.7rem;
-      padding: 2px 6px;
-    }
   }
 
   .detail-view {
@@ -725,11 +615,6 @@
             height: 60%;
           }
 
-          .enlarged-card-rarity {
-            font-size: 1.4rem;
-            padding: 6px 16px;
-          }
-
           .enlarged-card-name {
             font-size: 1.6rem;
           }
@@ -761,7 +646,7 @@
 .pagination-container {
   margin: 30px 0;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.5);
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -776,8 +661,8 @@
     flex-wrap: wrap;
 
     .pagination-btn {
-      background: linear-gradient(135deg, #00ccff, #0066ff);
-      color: white;
+      background: #0D0528;
+      color: #D4D0F0;
       border: none;
       padding: 10px 20px;
       border-radius: 8px;
@@ -790,15 +675,15 @@
       min-height: 44px; // Better touch target for mobile
 
       &:hover:not(.disabled) {
-        background: linear-gradient(135deg, #00ddff, #0077ff);
+        background: #1a0a4a;
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4);
+        box-shadow: 0 5px 15px rgba(13, 5, 40, 0.4);
       }
 
       &.disabled {
         opacity: 0.5;
         cursor: not-allowed;
-        background: linear-gradient(135deg, #666, #888);
+        background: #555;
       }
 
       .pagination-icon {
@@ -822,9 +707,9 @@
       flex-wrap: wrap;
 
       .page-btn {
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: #0D0528;
+        color: #D4D0F0;
+        border: 1px solid #2a1a5a;
         width: 44px;
         height: 44px;
         border-radius: 8px;
@@ -836,22 +721,22 @@
         transition: all 0.3s;
 
         &:hover:not(.active) {
-          background: rgba(255, 255, 255, 0.2);
-          border-color: #00ccff;
+          background: #1a0a4a;
+          border-color: #0D0528;
           transform: translateY(-2px);
         }
 
         &.active {
-          background: linear-gradient(135deg, #ffcc00, #ff9900);
-          color: #000;
-          border-color: #ffcc00;
-          box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+          background: #0D0528;
+          color: #D4D0F0;
+          border-color: #0D0528;
+          box-shadow: 0 0 15px rgba(13, 5, 40, 0.4);
           transform: scale(1.1);
         }
       }
 
       .ellipsis {
-        color: #aaa;
+        color: #888;
         padding: 0 10px;
         font-size: 1.2rem;
         user-select: none;
@@ -860,7 +745,7 @@
   }
 
   .pagination-info {
-    color: #aaa;
+    color: #666;
     font-size: 0.9rem;
     text-align: center;
     margin-top: 5px;
@@ -876,11 +761,11 @@
 
   .page-info {
     font-size: 0.9rem;
-    color: #00ccff;
-    background: rgba(0, 204, 255, 0.1);
+    color: #6a0dad;
+    background: rgba(106, 13, 173, 0.08);
     padding: 4px 10px;
     border-radius: 6px;
-    border: 1px solid rgba(0, 204, 255, 0.3);
+    border: 1px solid rgba(106, 13, 173, 0.3);
   }
 }
 
@@ -995,11 +880,6 @@
             height: 55%;
           }
 
-          .enlarged-card-rarity {
-            font-size: 1.2rem;
-            padding: 5px 12px;
-          }
-
           .enlarged-card-name {
             font-size: 1.4rem;
           }
@@ -1047,10 +927,6 @@
 
             .card-name {
               font-size: 0.9rem;
-            }
-
-            .card-rarity {
-              font-size: 0.75rem;
             }
           }
 

@@ -1,5 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* Global CSS Variables */
+:root {
+  --button-color: #0D0528;
+  --text-light: #D4D0F0;
+}
+
 /* Global responsive base styles */
 * {
   box-sizing: border-box;
@@ -16,6 +22,7 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #D4D0F0;
 }
 
 /* Improve tap targets on mobile */

@@ -6,7 +6,6 @@ export interface Card {
   id: number;
   name: string;
   imageUrl: string;
-  rarity: 'common' | 'rare' | 'epic' | 'legendary';
   description: string;
   history: string;
 }
@@ -34,15 +33,12 @@ export class CardData {
 
     // Generate 50 cards (40 + 10 more for premium)
     for (let i = 1; i <= 50; i++) {
-      const rarities: Card['rarity'][] = ['common', 'rare', 'epic', 'legendary'];
-      const rarity = rarities[Math.floor(Math.random() * rarities.length)];
       // Cycle through real images, wrapping around if needed
       const imageIndex = (i - 1) % realImages.length;
       this.cards.push({
         id: i,
         name: `Card ${i}`,
         imageUrl: realImages[imageIndex],
-        rarity,
         description: `Description for card ${i}`,
         history: `Historical background for card ${i}. This card has a rich history dating back centuries.`,
       });

@@ -28,19 +28,18 @@ export class CardData {
   }
 
   private generateMockData(): void {
-    // Use real character card images from CHARACTER_CARDS
-    const realImages = CHARACTER_CARDS.map(c => c.image);
+    // Use real character card data from CHARACTER_CARDS (59 cards with names, images, stories)
+    // We create up to 50 cards for the game, using the first 50 character cards directly
+    const maxCards = Math.min(CHARACTER_CARDS.length, 50);
 
-    // Generate 50 cards (40 + 10 more for premium)
-    for (let i = 1; i <= 50; i++) {
-      // Cycle through real images, wrapping around if needed
-      const imageIndex = (i - 1) % realImages.length;
+    for (let i = 0; i < maxCards; i++) {
+      const character = CHARACTER_CARDS[i];
       this.cards.push({
-        id: i,
-        name: `Card ${i}`,
-        imageUrl: realImages[imageIndex],
-        description: `Description for card ${i}`,
-        history: `Historical background for card ${i}. This card has a rich history dating back centuries.`,
+        id: i + 1,
+        name: character.name,
+        imageUrl: character.image,
+        description: character.story,
+        history: character.story,
       });
     }
 

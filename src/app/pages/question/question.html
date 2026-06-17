@@ -14,31 +14,22 @@
 
   <div class="question-content">
     <h1>Загадайте вопрос</h1>
-    <p class="instruction">Задайте вопрос, на который можно ответить «Да» или «Нет», и нажмите на волшевный шар.</p>
+    <p class="instruction">Задайте вопрос, на который можно ответить «Да» или «Нет», и нажмите на волшебный шар.</p>
 
     <div class="card-area">
-      <div class="magic-ball-container">
-        <div class="magic-ball" (click)="askQuestion()" [class.disabled]="!hasAttempt">
-          <div class="magic-ball-inner" [class.flipped]="showAnswer">
-            <div class="magic-ball-front">
-              <div class="magic-ball-icon">🔮</div>
-              <div class="magic-ball-text">Нажмите на волшебный шар</div>
-              <div class="attempt-info" *ngIf="!hasAttempt">
-                <span class="no-attempt">Нет попыток</span>
-              </div>
-            </div>
-            <div class="magic-ball-back">
-              <div class="answer">{{ currentAnswer }}</div>
-              <div class="answer-subtitle">Ответ вселенной</div>
+      <div class="magic-ball" (click)="askQuestion()" [class.disabled]="!hasAttempt">
+        <div class="magic-ball-inner" [class.flipped]="showAnswer">
+          <div class="magic-ball-front">
+            <div class="magic-ball-icon">🔮</div>
+            <div class="magic-ball-text">Нажмите на волшебный шар</div>
+            <div class="attempt-info" *ngIf="!hasAttempt">
+              <span class="no-attempt">Нет попыток</span>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="character-side">
-        <div class="character">
-          <div class="character-icon">👁️</div>
-          <div class="character-text">Всевидящее око</div>
+          <div class="magic-ball-back">
+            <div class="answer">{{ currentAnswer }}</div>
+            <div class="answer-subtitle">Ответ вселенной</div>
+          </div>
         </div>
       </div>
     </div>

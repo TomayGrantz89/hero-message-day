@@ -33,13 +33,13 @@
 
       &.premium {
         .premium-status {
-          color: #ffd700;
+          color: #0a1e3d;
         }
       }
 
       &.free {
         .premium-status {
-          color: #6495ed;
+          color: #555;
         }
       }
 
@@ -80,15 +80,13 @@
       text-align: center;
       font-size: 2.8rem;
       margin-bottom: 10px;
-      background: linear-gradient(90deg, #ff7e5f, #feb47b);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #0a1e3d;
     }
 
     .instruction {
       text-align: center;
       font-size: 1.2rem;
-      color: #666;
+      color: #555;
       margin-bottom: 40px;
       max-width: 600px;
       margin-left: auto;
@@ -99,15 +97,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 60px;
       margin-bottom: 50px;
-      flex-wrap: wrap;
-
-      .magic-ball-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
 
       .magic-ball {
         width: 300px;
@@ -154,9 +144,9 @@
           }
 
           .magic-ball-front {
-            background: radial-gradient(circle at 30% 30%, #8a2be2, #4b0082);
-            color: #edeCf9;
-            border: 5px solid #9370db;
+            background: radial-gradient(circle at 30% 30%, #0D0528, #1a0a50);
+            color: #EDECF9;
+            border: 5px solid #4a3a8a;
 
             .magic-ball-icon {
               font-size: 80px;
@@ -185,10 +175,10 @@
           }
 
           .magic-ball-back {
-            background: radial-gradient(circle at 30% 30%, #00ced1, #008b8b);
-            color: #edeCf9;
+            background: radial-gradient(circle at 30% 30%, #1a3a6a, #0a1e3d);
+            color: #EDECF9;
             transform: rotateY(180deg);
-            border: 5px solid #20b2aa;
+            border: 5px solid #4a7ab5;
 
             .answer {
               font-size: 2rem;
@@ -205,30 +195,6 @@
           }
         }
       }
-
-      .character-side {
-        .character {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          background: rgba(255, 255, 255, 0.5);
-          border-radius: 20px;
-          padding: 30px;
-          border: 2px solid #c8c0e8;
-          max-width: 250px;
-
-          .character-icon {
-            font-size: 80px;
-            margin-bottom: 15px;
-          }
-
-          .character-text {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #0a1e3d;
-          }
-        }
-      }
     }
 
     .beautiful-answer {
@@ -239,7 +205,7 @@
 
       .beautiful-answer-title {
         font-size: 1.8rem;
-        color: #ffd700;
+        color: #0a1e3d;
         margin-bottom: 15px;
         font-weight: 600;
         text-transform: uppercase;
@@ -249,14 +215,11 @@
       .beautiful-answer-text {
         font-size: 2.5rem;
         font-weight: bold;
-        background: linear-gradient(90deg, #ff7e5f, #feb47b, #ff7e5f);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #0a1e3d;
         padding: 20px;
         border-radius: 15px;
-        background-color: rgba(255, 255, 255, 0.05);
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        text-shadow: 0 0 20px rgba(255, 126, 95, 0.3);
+        background: rgba(255, 255, 255, 0.5);
+        border: 2px solid #c8c0e8;
         animation: pulse 2s infinite;
       }
     }
@@ -278,16 +241,14 @@
         .info-title {
           font-size: 1.3rem;
           margin-bottom: 10px;
-          color: #666;
+          color: #555;
         }
 
         .info-value {
           font-size: 3rem;
           font-weight: bold;
           margin-bottom: 15px;
-          background: linear-gradient(90deg, #ff7e5f, #feb47b);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: #0a1e3d;
         }
 
         .info-detail {
@@ -357,10 +318,6 @@
       .magic-ball {
         width: 250px;
         height: 250px;
-      }
-
-      .character-side {
-        order: -1;
       }
     }
 

@@ -192,4 +192,10 @@ export class Collection implements OnInit {
   getCollectedCount(): number {
     return this.collectionCards.filter(item => item.owned).length;
   }
+
+  purchasePremium(): void {
+    this.premium.activatePremium();
+    this.isPremium = true;
+    this.totalCards = 50;
+  }
 }

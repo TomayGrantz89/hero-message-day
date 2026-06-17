@@ -1,13 +1,15 @@
 <div class="home-container">
-  <div class="premium-header" [class.premium]="isPremium" [class.free]="!isPremium">
-    <button *ngIf="!isPremium" class="btn-premium" (click)="purchasePremium()">
-      🛒 Купить премиум
-    </button>
-    <div *ngIf="isPremium" class="premium-status">
-      <span class="premium-icon">⭐</span>
-      Премиум-доступ активен
+  <header class="header">
+    <div class="premium-header" [class.premium]="isPremium" [class.free]="!isPremium">
+      <button *ngIf="!isPremium" class="btn-premium" (click)="purchasePremium()">
+        🛒 Купить премиум
+      </button>
+      <div *ngIf="isPremium" class="premium-status">
+        <span class="premium-icon">⭐</span>
+        Премиум-доступ активен
+      </div>
     </div>
-  </div>
+  </header>
 
   <h1>Карта дня</h1>
   <p>Получите предсказание на сегодня и собирайте коллекцию карт.</p>

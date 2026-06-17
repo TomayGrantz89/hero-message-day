@@ -5,6 +5,11 @@
     <div class="stats">
       <div>Коллекция: {{ getCollectedCount() }} / {{ totalCards }}</div>
     </div>
+    <div class="premium-header" *ngIf="!isPremium">
+      <button class="btn-premium" (click)="purchasePremium()">
+        🛒 Купить премиум
+      </button>
+    </div>
   </header>
 
   <main class="main">
@@ -71,11 +76,9 @@
   </main>
 
   <footer class="footer">
-    <p>Карты, полученные в разделе "Получить предсказание", автоматически добавляются сюда.</p>
-    <p>Серые карты с надписью "Не получена" ещё не открыты — продолжайте собирать предсказания!</p>
 
     <!-- Premium benefits section - shown only for non-premium users -->
-    <div class="premium-benefits" *ngIf="!isPremium">
+    <!-- <div class="premium-benefits" *ngIf="!isPremium">
       <h2 class="premium-title">⭐ Премиум-преимущества:</h2>
       <ul class="premium-list">
         <li>2 попытки в день (без рекламы)</li>
@@ -83,6 +86,6 @@
         <li>Нет рекламы</li>
         <li>Карты добавляются в вашу коллекцию автоматически.</li>
       </ul>
-    </div>
+    </div> -->
   </footer>
 </div>

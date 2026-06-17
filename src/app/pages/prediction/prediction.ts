@@ -154,8 +154,10 @@ export class Prediction implements OnInit, OnDestroy {
             return; // No attempt available
           }
         } else {
-          // For new card after ad, also add to collection (already done in loadRandomCard(true))
+          // For new card after ad or drawNewCard, also add to collection (already done in loadRandomCard(true))
           this.addCurrentCardToCollection();
+          // Reset flag so subsequent clicks work normally
+          this.isNewCardAfterAd = false;
         }
         this.flipToFace();
       } else if (this.attemptService.canWatchAd()) {
@@ -221,7 +223,7 @@ export class Prediction implements OnInit, OnDestroy {
 
   drawNewCard(): void {
     // Premium user with remaining attempts wants to draw a new card
-    // Use one attempt
+    // Use one attempt (already consumed here)
     const used = this.attemptService.useAttempt();
     if (used) {
       this.updateAttempts();
@@ -230,6 +232,8 @@ export class Prediction implements OnInit, OnDestroy {
       // Reset card display to show back side
       this.showCardFace = false;
       this.showPrediction = false;
+      // Mark as "new card after attempt" so flipCard() doesn't consume another attempt
+      this.isNewCardAfterAd = true;
     }
   }
 

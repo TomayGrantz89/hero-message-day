@@ -402,6 +402,45 @@
   font-size: 1rem;
 }
 
+.premium-benefits {
+  margin-top: 25px;
+  padding: 20px;
+  background: linear-gradient(135deg, #fff8e1, #fff3cd);
+  border: 2px solid #ffd700;
+  border-radius: 12px;
+  text-align: left;
+
+  .premium-title {
+    font-size: 1.3rem;
+    color: #b8860b;
+    margin: 0 0 12px 0;
+    font-weight: bold;
+  }
+
+  .premium-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      font-size: 1rem;
+      color: #5a4a1a;
+      padding: 6px 0;
+      padding-left: 24px;
+      position: relative;
+      line-height: 1.4;
+
+      &::before {
+        content: '✅';
+        position: absolute;
+        left: 0;
+        top: 6px;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
 // Desktop optimization for 14 cards per page (7 columns × 2 rows)
 @media (min-width: 1024px) {
   .grid {
@@ -527,6 +566,23 @@
     padding: 15px;
     font-size: 0.95rem;
     margin-top: 20px;
+  }
+
+  .premium-benefits {
+    padding: 15px;
+    margin-top: 20px;
+
+    .premium-title {
+      font-size: 1.1rem;
+    }
+
+    .premium-list {
+      li {
+        font-size: 0.9rem;
+        padding: 5px 0;
+        padding-left: 22px;
+      }
+    }
   }
 }
 
@@ -757,15 +813,6 @@
   flex-direction: column;
   gap: 5px;
   align-items: flex-end;
-
-  .page-info {
-    font-size: 0.9rem;
-    color: #1a3a6a;
-    background: rgba(26, 58, 106, 0.08);
-    padding: 4px 10px;
-    border-radius: 6px;
-    border: 1px solid rgba(26, 58, 106, 0.3);
-  }
 }
 
 // Responsive pagination
@@ -803,10 +850,6 @@
   .header .stats {
     align-items: center;
     text-align: center;
-
-    .page-info {
-      font-size: 0.8rem;
-    }
   }
 }
 

@@ -3,12 +3,7 @@
     <a routerLink="/" class="home-link"><img src="assets/ui/gate.png" alt="Home" class="home-icon"></a>
     <h1>Коллекция карт</h1>
     <div class="stats">
-      <div class="premium-status" [class.premium]="isPremium" [class.free]="!isPremium">
-        <span class="premium-icon">{{ isPremium ? '⭐' : '🔒' }}</span>
-        {{ isPremium ? 'Премиум' : 'Бесплатно' }}
-      </div>
-      <div>Коллекция: {{ getCollectedCount() }} / {{ accessibleCards }} (доступно {{ totalCards }})</div>
-      <div class="page-info" *ngIf="totalPages > 1">{{ getPageInfo() }}</div>
+      <div>Коллекция: {{ getCollectedCount() }} / {{ totalCards }}</div>
     </div>
   </header>
 
@@ -51,10 +46,6 @@
           </button>
         </div>
       </div>
-
-      <div class="pagination-info">
-        Страница {{ currentPage }} из {{ totalPages }}
-      </div>
     </div>
 
     <!-- Detail View - Enlarged Card -->
@@ -82,5 +73,16 @@
   <footer class="footer">
     <p>Карты, полученные в разделе "Получить предсказание", автоматически добавляются сюда.</p>
     <p>Серые карты с надписью "Не получена" ещё не открыты — продолжайте собирать предсказания!</p>
+
+    <!-- Premium benefits section - shown only for non-premium users -->
+    <div class="premium-benefits" *ngIf="!isPremium">
+      <h2 class="premium-title">⭐ Премиум-преимущества:</h2>
+      <ul class="premium-list">
+        <li>2 попытки в день (без рекламы)</li>
+        <li>Доступ ко всем 50 картам</li>
+        <li>Нет рекламы</li>
+        <li>Карты добавляются в вашу коллекцию автоматически.</li>
+      </ul>
+    </div>
   </footer>
 </div>

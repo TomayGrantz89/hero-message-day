@@ -219,6 +219,14 @@ export class Prediction implements OnInit, OnDestroy {
     // User can now flip this card (they have the ad attempt)
   }
 
+  purchasePremium(): void {
+    this.premium.activatePremium();
+    this.isPremium = true;
+    this.maxAttemptsPerDay = 2;
+    this.updateAttempts();
+    alert('Премиум-доступ активирован! Теперь вам доступны все карты и 2 попытки в день без рекламы.');
+  }
+
   closeAdModal(): void {
     this.showAdModal = false;
   }

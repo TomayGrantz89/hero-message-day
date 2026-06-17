@@ -4,8 +4,11 @@
     <div class="timer">
       До следующего предсказания: <strong>{{ timer }}</strong>
     </div>
-    <div class="premium-indicator" [class.premium]="isPremium" [class.free]="!isPremium">
-      {{ isPremium ? '⭐ Премиум' : '🔒 Бесплатно' }}
+    <button *ngIf="!isPremium" class="btn-premium" (click)="purchasePremium()">
+      🛒 Купить премиум
+    </button>
+    <div *ngIf="isPremium" class="premium-indicator premium">
+      ⭐ Премиум
     </div>
     <button class="ad-button" (click)="showAdModal = true" *ngIf="attemptsRemaining <= 0 && attemptService.canWatchAd() && !isPremium">
       📺 Реклама

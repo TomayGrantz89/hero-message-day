@@ -32,7 +32,6 @@ export class Collection implements OnInit {
   // Premium status
   isPremium = false;
   totalCards = 0;
-  accessibleCards = 0;
 
   constructor(
     private cardData: CardData,
@@ -96,10 +95,6 @@ export class Collection implements OnInit {
 
   private updatePremiumStatus(): void {
     this.isPremium = this.premium.isPremium();
-
-    // Calculate card statistics
-    const allCards = this.cardData.getAllCards();
-    this.accessibleCards = allCards.length;
 
     // For non-premium users, accessible cards are limited to 15
     // For premium users, total cards is 50 (as defined in card-data.ts)
@@ -196,11 +191,5 @@ export class Collection implements OnInit {
 
   getCollectedCount(): number {
     return this.collectionCards.filter(item => item.owned).length;
-  }
-
-  getPageInfo(): string {
-    const start = (this.currentPage - 1) * this.itemsPerPage + 1;
-    const end = Math.min(this.currentPage * this.itemsPerPage, this.collectionCards.length);
-    return `${start}-${end} из ${this.collectionCards.length}`;
   }
 }

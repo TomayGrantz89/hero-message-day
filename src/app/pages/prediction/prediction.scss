@@ -56,6 +56,21 @@
     color: #5a6a7a;
   }
 
+  .btn-premium {
+    background: #0D0528;
+    color: #EDECF9;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
   .ad-button {
     background: #0D0528;
     color: #EDECF9;

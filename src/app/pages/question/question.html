@@ -2,13 +2,13 @@
   <header class="header">
     <a routerLink="/" class="home-link"><img src="assets/ui/gate.png" alt="Home" class="home-icon"></a>
     <div class="premium-header" [class.premium]="isPremium" [class.free]="!isPremium">
-      <div class="premium-status">
-        <span class="premium-icon">{{ isPremium ? '⭐' : '🔒' }}</span>
-        {{ isPremium ? 'Премиум-доступ активен' : 'Бесплатная версия' }}
-      </div>
       <button *ngIf="!isPremium" class="btn-premium" (click)="purchasePremium()">
         🛒 Купить премиум
       </button>
+      <div *ngIf="isPremium" class="premium-status">
+        <span class="premium-icon">⭐</span>
+        Премиум-доступ активен
+      </div>
     </div>
   </header>
 
@@ -52,10 +52,10 @@
       </div>
     </div>
 
-    <div class="actions">
+    <!-- <div class="actions">
       <button class="btn btn-reset" (click)="resetQuestion()" [disabled]="!currentAnswer">
         Сбросить ответ
       </button>
-    </div>
+    </div> -->
   </div>
 </div>

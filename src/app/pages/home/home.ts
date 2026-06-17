@@ -22,6 +22,6 @@ export class Home implements OnInit {
     // Simulate purchase
     this.premium.activatePremium();
     this.isPremium = true;
-    alert('Премиум-доступ активирован! Теперь вам доступны все карты и 2 попытки в день без рекламы.');
+    // alert('Премиум-доступ активирован! Теперь вам доступны все карты и 2 попытки в день без рекламы.');
   }
 }

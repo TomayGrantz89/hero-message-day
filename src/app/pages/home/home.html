@@ -24,19 +24,19 @@
     </a>
   </div>
 
-  <div class="info">
-    <div *ngIf="!isPremium">
+  <div *ngIf="!isPremium" class="info">
+    <div>
       <p>Ежедневно вы можете получить одну карту бесплатно. Вторую — посмотрев рекламу.</p>
       <p>Доступно только 15 карт из 50.</p>
     </div>
-    <div *ngIf="isPremium" class="premium-benefits">
+    <!-- <div *ngIf="isPremium" class="premium-benefits">
       <p>⭐ <strong>Премиум-преимущества:</strong></p>
       <ul>
         <li>2 попытки в день (без рекламы)</li>
         <li>Доступ ко всем 50 картам</li>
         <li>Нет рекламы</li>
       </ul>
-    </div>
-    <p>Карты добавляются в вашу коллекцию автоматически.</p>
+    </div> -->
+    <!-- <p>Карты добавляются в вашу коллекцию автоматически.</p> -->
   </div>
 </div>

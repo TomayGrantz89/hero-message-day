@@ -238,6 +238,31 @@
     }
   }
 
+  .btn-draw-new {
+    background: linear-gradient(135deg, #0D0528, #2a1a6a);
+    color: #EDECF9;
+    border: 2px solid #4a3a8a;
+    padding: 14px 32px;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+    width: 100%;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(13, 5, 40, 0.3);
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(74, 58, 138, 0.5);
+      border-color: #7a6aba;
+    }
+
+    &:active {
+      transform: translateY(-1px);
+    }
+  }
+
   .btn-open {
     background: #0D0528;
     color: #EDECF9;

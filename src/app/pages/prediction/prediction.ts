@@ -219,12 +219,26 @@ export class Prediction implements OnInit, OnDestroy {
     // User can now flip this card (they have the ad attempt)
   }
 
+  drawNewCard(): void {
+    // Premium user with remaining attempts wants to draw a new card
+    // Use one attempt
+    const used = this.attemptService.useAttempt();
+    if (used) {
+      this.updateAttempts();
+      // Load a new random card and add to collection
+      this.loadRandomCard(true, true);
+      // Reset card display to show back side
+      this.showCardFace = false;
+      this.showPrediction = false;
+    }
+  }
+
   purchasePremium(): void {
     this.premium.activatePremium();
     this.isPremium = true;
     this.maxAttemptsPerDay = 2;
     this.updateAttempts();
-    alert('Премиум-доступ активирован! Теперь вам доступны все карты и 2 попытки в день без рекламы.');
+  //   alert('Премиум-доступ активирован! Теперь вам доступны все карты и 2 попытки в день без рекламы.');
   }
 
   closeAdModal(): void {

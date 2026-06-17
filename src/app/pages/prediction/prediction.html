@@ -49,6 +49,11 @@
         Получить новую карту
       </button>
 
+      <!-- Premium user with remaining attempts and card already shown - draw new card button -->
+      <button class="btn-draw-new" *ngIf="isPremium && attemptsRemaining > 0 && showCardFace && !showNewCardButton" (click)="drawNewCard()">
+        ✨ Вытянуть новую карту
+      </button>
+
       <div class="attempts">
         Осталось попыток: <span class="attempt-count">{{ attemptsRemaining }}</span> / {{ maxAttemptsPerDay }}
         <span class="ad-icon"
@@ -59,7 +64,7 @@
         </span>
       </div>
       <p class="hint" *ngIf="!isPremium">* 1 попытка в день. Вторую можно получить, посмотрев рекламу.</p>
-      <p class="hint premium-hint" *ngIf="isPremium">⭐ Премиум-доступ: 2 попытки в день без рекламы.</p>
+      <!-- <p class="hint premium-hint" *ngIf="isPremium">⭐ Премиум-доступ: 2 попытки в день без рекламы.</p> -->
     </div>
   </main>
 

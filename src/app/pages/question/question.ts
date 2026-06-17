@@ -92,7 +92,7 @@ export class Question implements OnInit {
     this.isPremium = true;
     this.maxQuestions = 3;
     this.updateRemainingQuestions();
-    alert('Премиум-доступ активирован! Теперь вы можете задавать три вопроса в день.');
+    // alert('Премиум-доступ активирован! Теперь вы можете задавать три вопроса в день.');
   }
 
   resetQuestion(): void {

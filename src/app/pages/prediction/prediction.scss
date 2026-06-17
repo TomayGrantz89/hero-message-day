@@ -18,10 +18,16 @@
   margin-bottom: 30px;
 
   .home-link {
-    font-size: 2rem;
     text-decoration: none;
-    color: #1a3a6a;
+    display: inline-flex;
+    align-items: center;
     transition: transform 0.3s;
+
+    .home-icon {
+      width: 2rem;
+      height: 2rem;
+      display: block;
+    }
 
     &:hover {
       transform: scale(1.2);

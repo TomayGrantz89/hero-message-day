@@ -1,6 +1,7 @@
 <div class="prediction-container">
   <header class="header">
     <a routerLink="/" class="home-link"><img src="assets/ui/gate.png" alt="Home" class="home-icon"></a>
+    <h1 style="font-size: 40px">Карта дня</h1>
     <div class="premium-header" [class.premium]="isPremium" [class.free]="!isPremium">
       <button *ngIf="!isPremium" class="btn-premium" (click)="purchasePremium()">
         🛒 Купить премиум
@@ -16,7 +17,6 @@
   </header>
 
   <main class="main">
-    <h1>Карта дня</h1>
     <p class="subtitle">Нажмите на карту, чтобы перевернуть её</p>
 
     <div class="card-wrapper" (click)="flipCard()">

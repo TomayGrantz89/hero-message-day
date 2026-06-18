@@ -21,8 +21,7 @@
         *ngFor="let item of paginatedCards"
         (click)="selectCard(item)"
       >
-        <div class="card-image" [style.backgroundImage]="'url(' + item.card.imageUrl + ')'"></div>
-        <div class="card-name" *ngIf="item.owned">{{ item.card.name }}</div>
+        <div class="card-image" *ngIf="item.owned" [style.backgroundImage]="'url(' + item.card.imageUrl + ')'"></div>
       </div>
     </div>
 

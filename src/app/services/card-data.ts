@@ -29,8 +29,8 @@ export class CardData {
 
   private generateMockData(): void {
     // Use real character card data from CHARACTER_CARDS (59 cards with names, images, stories)
-    // We create up to 50 cards for the game, using the first 50 character cards directly
-    const maxCards = Math.min(CHARACTER_CARDS.length, 50);
+    // We create up to 59 cards for the game, using the first 59 character cards directly
+    const maxCards = Math.min(CHARACTER_CARDS.length, 59);
 
     for (let i = 0; i < maxCards; i++) {
       const character = CHARACTER_CARDS[i];
@@ -48,14 +48,14 @@ export class CardData {
       this.predictions.push({
         id: i,
         text: `Prediction ${i}: Today you will encounter something unexpected.`,
-        cardId: Math.floor(Math.random() * 50) + 1,
+        cardId: Math.floor(Math.random() * 59) + 1,
       });
     }
   }
 
   getAllCards(): Card[] {
     if (this.premium.isPremium()) {
-      return this.cards; // All 50 cards for premium users
+      return this.cards; // All 59 cards for premium users
     } else {
       // Only first 14 cards for non-premium users
       return this.cards.slice(0, 14);

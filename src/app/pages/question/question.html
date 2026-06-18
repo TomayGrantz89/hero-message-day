@@ -1,6 +1,7 @@
 <div class="question-container">
   <header class="header">
     <a routerLink="/" class="home-link"><img src="assets/ui/gate.png" alt="Home" class="home-icon"></a>
+     <h1 style="font-size: 40px">Задайте вопрос</h1>
     <div class="premium-header" [class.premium]="isPremium" [class.free]="!isPremium">
       <button *ngIf="!isPremium" class="btn-premium" (click)="purchasePremium()">
         🛒 Купить премиум
@@ -13,7 +14,7 @@
   </header>
 
   <div class="question-content">
-    <h1>Загадайте вопрос</h1>
+
     <p class="instruction">Задайте вопрос, на который можно ответить «Да» или «Нет», и нажмите на волшебный шар.</p>
 
     <div class="card-area">

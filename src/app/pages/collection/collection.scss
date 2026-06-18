@@ -384,8 +384,11 @@
         padding: 40px;
         text-align: left;
         overflow-y: auto;
+        justify-content: flex-start;
 
         .enlarged-card-info {
+          width: 100%;
+
           h3 {
             color: #ffcc00;
             margin-top: 25px;
@@ -579,6 +582,8 @@
           padding: 30px;
 
           .enlarged-card-info {
+            width: 100%;
+
             h3 {
               font-size: 1.8rem;
             }
@@ -720,6 +725,8 @@
           padding: 25px;
 
           .enlarged-card-info {
+            width: 100%;
+
             h3 {
               font-size: 1.6rem;
             }
@@ -1097,6 +1104,8 @@
           padding: 20px;
 
           .enlarged-card-info {
+            width: 100%;
+
             h3 {
               font-size: 1.4rem;
             }

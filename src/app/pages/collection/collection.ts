@@ -96,9 +96,9 @@ export class Collection implements OnInit {
   private updatePremiumStatus(): void {
     this.isPremium = this.premium.isPremium();
 
-    // For non-premium users, accessible cards are limited to 15
+    // For non-premium users, accessible cards are limited to 14
     // For premium users, total cards is 50 (as defined in card-data.ts)
-    this.totalCards = this.isPremium ? 50 : 15;
+    this.totalCards = this.isPremium ? 50 : 14;
   }
 
   private updatePagination(): void {

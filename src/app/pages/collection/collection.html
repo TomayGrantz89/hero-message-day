@@ -2,7 +2,7 @@
   <header class="header">
     <a routerLink="/" class="home-link"><img src="assets/ui/gate.png" alt="Home" class="home-icon"></a>
     <h1>Коллекция карт</h1>
-    <div class="stats">
+    <div class="stats" *ngIf="isPremium">
       <div>Коллекция: {{ getCollectedCount() }} / {{ totalCards }}</div>
     </div>
     <div class="premium-header" *ngIf="!isPremium">
@@ -67,7 +67,7 @@
               <p>{{ selectedCard.description }}</p> -->
               <h3>История</h3>
               <p>{{ selectedCard.history }}</p>
-              <p class="hint">Нажмите на карту, чтобы перевернуть</p>
+              <!-- <p class="hint">Нажмите на карту, чтобы перевернуть</p> -->
             </div>
           </div>
         </div>

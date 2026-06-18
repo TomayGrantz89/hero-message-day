@@ -34,19 +34,6 @@
     }
   }
 
-  .timer {
-    font-size: 1.1rem;
-    background: #BCD7F8;
-    padding: 10px 20px;
-    border-radius: 10px;
-    border: 1px solid #a0b8d6;
-    color: #5a6a7a;
-
-    strong {
-      color: #5a6a7a;
-    }
-  }
-
   .premium-header {
     display: flex;
     justify-content: space-between;
@@ -197,7 +184,7 @@
     }
 
     .prediction {
-      background: #1A0A50;
+      background: #0D0528;
       transform: rotateY(180deg);
       padding: 30px;
       text-align: center;
@@ -223,6 +210,30 @@
           margin-top: 20px;
         }
       }
+    }
+  }
+}
+
+// Timer section - minimal style below card
+.timer-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+
+  .timer-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
+
+  .timer-text {
+    font-size: 1rem;
+    color: #0D0528;
+
+    strong {
+      font-weight: 600;
     }
   }
 }
@@ -438,14 +449,6 @@
       font-size: 1.8rem;
     }
 
-    .timer {
-      order: 2;
-      width: 100%;
-      text-align: center;
-      padding: 10px 15px;
-      font-size: 1rem;
-    }
-
     .premium-header {
       order: 3;
       width: 100%;
@@ -487,6 +490,19 @@
     width: 250px;
     height: 375px;
     margin: 20px auto;
+  }
+
+  .timer-section {
+    margin-top: 16px;
+
+    .timer-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .timer-text {
+      font-size: 0.95rem;
+    }
   }
 
   .controls {
@@ -545,11 +561,6 @@
     padding: 12px;
     gap: 12px;
 
-    .timer {
-      font-size: 0.95rem;
-      padding: 8px 12px;
-    }
-
     .premium-header {
       .premium-status {
         font-size: 0.95rem;
@@ -581,6 +592,19 @@
   .card-wrapper {
     width: 220px;
     height: 330px;
+  }
+
+  .timer-section {
+    margin-top: 14px;
+
+    .timer-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .timer-text {
+      font-size: 0.9rem;
+    }
   }
 
   .card .side {

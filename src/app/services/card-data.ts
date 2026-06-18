@@ -57,8 +57,8 @@ export class CardData {
     if (this.premium.isPremium()) {
       return this.cards; // All 50 cards for premium users
     } else {
-      // Only first 15 cards for non-premium users
-      return this.cards.slice(0, 15);
+      // Only first 14 cards for non-premium users
+      return this.cards.slice(0, 14);
     }
   }
 
@@ -67,7 +67,7 @@ export class CardData {
     if (!card) return undefined;
 
     // Check if card is accessible for non-premium users
-    if (!this.premium.isPremium() && id > 15) {
+    if (!this.premium.isPremium() && id > 14) {
       return undefined; // Card not accessible
     }
 
@@ -108,7 +108,7 @@ export class CardData {
   // Get a new card that the user doesn't already have in their collection
   getNewCard(userCardIds: number[]): Card {
     // Filter accessible cards based on premium status
-    const accessibleCards = this.premium.isPremium() ? this.cards : this.cards.slice(0, 15);
+    const accessibleCards = this.premium.isPremium() ? this.cards : this.cards.slice(0, 14);
 
     // Filter new cards from accessible cards
     const newCards = accessibleCards.filter(c => !userCardIds.includes(c.id));

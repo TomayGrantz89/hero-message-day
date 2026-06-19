@@ -98,7 +98,7 @@ export class Collection implements OnInit {
 
     // For non-premium users, accessible cards are limited to 14
     // For premium users, total cards is 50 (as defined in card-data.ts)
-    this.totalCards = this.isPremium ? 50 : 14;
+    this.totalCards = this.isPremium ? 59 : 14;
   }
 
   private updatePagination(): void {
@@ -196,6 +196,6 @@ export class Collection implements OnInit {
   purchasePremium(): void {
     this.premium.activatePremium();
     this.isPremium = true;
-    this.totalCards = 50;
+    this.totalCards = 59;
   }
 }

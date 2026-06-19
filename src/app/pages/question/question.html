@@ -1,7 +1,7 @@
 <div class="question-container">
   <header class="header">
     <a routerLink="/" class="home-link"><img src="assets/ui/gate.png" alt="Home" class="home-icon"></a>
-     <h1 style="font-size: 40px">Задайте вопрос</h1>
+     <h1>Одна карта</h1>
     <div class="premium-header" [class.premium]="isPremium" [class.free]="!isPremium">
       <button *ngIf="!isPremium" class="btn-premium" (click)="purchasePremium()">
         🛒 Купить премиум

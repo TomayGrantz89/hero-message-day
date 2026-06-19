@@ -4,69 +4,12 @@
   align-items: center;
   min-height: 100vh;
   padding: 20px;
+  padding-top: 70px;
   text-align: center;
   background: #BCD7F8;
   color: #333;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-  .header {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 15px 20px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 15px;
-    margin-bottom: 30px;
-    width: 100%;
-    box-sizing: border-box;
-
-    .premium-header {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 20px;
-      width: 100%;
-
-      &.premium {
-        .premium-status {
-          color: #0a1e3d;
-        }
-      }
-
-      &.free {
-        .premium-status {
-          color: #555;
-        }
-      }
-
-      .premium-status {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 18px;
-        font-weight: 600;
-
-        .premium-icon {
-          font-size: 24px;
-        }
-      }
-
-      .btn-premium {
-        background: #0D0528;
-        color: #EDECF9;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 25px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: transform 0.2s;
-
-        &:hover {
-          transform: scale(1.05);
-        }
-      }
-    }
-  }
+  font-family: 'EBGaramond', serif;
+  position: relative;
 
   h1 {
     font-size: 2.5rem;
@@ -156,30 +99,67 @@
   }
 }
 
+// Premium status text for premium users (fixed position)
+.premium-status {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #5A3E00;
+  white-space: nowrap;
+  z-index: 1000;
+
+  .premium-star {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+}
+
+// Premium purchase button for non-premium users (fixed position)
+.premium-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #0D0528;
+  color: #EDECF9;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 18px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+  white-space: nowrap;
+  z-index: 1000;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  .premium-icon {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+}
+
 // Responsive
 @media (max-width: 768px) {
   .home-container {
     padding: 15px;
-
-    .header {
-      padding: 12px 15px;
-      margin-bottom: 25px;
-
-      .premium-header {
-        .premium-status {
-          font-size: 16px;
-
-          .premium-icon {
-            font-size: 22px;
-          }
-        }
-
-        .btn-premium {
-          padding: 8px 16px;
-          font-size: 0.95rem;
-        }
-      }
-    }
+    padding-top: 65px;
 
     h1 {
       font-size: 2rem;
@@ -218,33 +198,36 @@
       }
     }
   }
+
+  .premium-btn {
+    top: 8px;
+    right: 8px;
+    padding: 6px 14px;
+
+    .premium-icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  .premium-status {
+    top: 12px;
+    right: 12px;
+    font-size: 0.85rem;
+
+    .premium-star {
+      width: 14px;
+      height: 14px;
+    }
+  }
 }
 
 // Extra small screens
 @media (max-width: 480px) {
   .home-container {
     padding: 10px;
+    padding-top: 60px;
     min-height: calc(100vh - 20px);
-
-    .header {
-      padding: 10px 12px;
-      margin-bottom: 20px;
-
-      .premium-header {
-        .premium-status {
-          font-size: 14px;
-
-          .premium-icon {
-            font-size: 20px;
-          }
-        }
-
-        .btn-premium {
-          padding: 6px 14px;
-          font-size: 0.85rem;
-        }
-      }
-    }
 
     h1 {
       font-size: 1.8rem;
@@ -275,74 +258,77 @@
         font-size: 0.9rem;
       }
     }
+  }
 
-    // Landscape orientation for mobile devices
-    @media (max-width: 768px) and (orientation: landscape) {
-      .home-container {
-        padding: 15px;
-        min-height: auto;
+  .premium-btn {
+    top: 6px;
+    right: 6px;
+    padding: 5px 12px;
 
-        .header {
-          padding: 10px 15px;
-          margin-bottom: 20px;
+    .premium-icon {
+      width: 12px;
+      height: 12px;
+    }
+  }
 
-          .premium-header {
-            .premium-status {
-              font-size: 14px;
+  .premium-status {
+    top: 10px;
+    right: 10px;
+    font-size: 0.8rem;
 
-              .premium-icon {
-                font-size: 18px;
-              }
-            }
+    .premium-star {
+      width: 12px;
+      height: 12px;
+    }
+  }
 
-            .btn-premium {
-              padding: 6px 14px;
-              font-size: 0.85rem;
-            }
-          }
-        }
+  // Landscape orientation for mobile devices
+  @media (max-width: 768px) and (orientation: landscape) {
+    .home-container {
+      padding: 15px;
+      padding-top: 60px;
+      min-height: auto;
 
-        h1 {
-          font-size: 1.8rem;
-          margin-bottom: 20px;
-        }
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+      }
 
-        .subtitle {
+      .subtitle {
+        font-size: 1rem;
+        margin-bottom: 25px;
+      }
+
+      .button-group {
+        flex-direction: row;
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .btn {
+          padding: 14px 24px;
           font-size: 1rem;
-          margin-bottom: 25px;
-        }
-
-        .button-group {
-          flex-direction: row;
-          gap: 15px;
-          flex-wrap: wrap;
-          justify-content: center;
-
-          .btn {
-            padding: 14px 24px;
-            font-size: 1rem;
-            min-width: 160px;
-            max-width: 200px;
-          }
+          min-width: 160px;
+          max-width: 200px;
         }
       }
     }
+  }
 
-    // Landscape orientation for small screens
-    @media (max-width: 480px) and (orientation: landscape) {
-      .home-container {
-        h1 {
-          font-size: 1.6rem;
-        }
+  // Landscape orientation for small screens
+  @media (max-width: 480px) and (orientation: landscape) {
+    .home-container {
+      h1 {
+        font-size: 1.6rem;
+      }
 
-        .button-group {
-          gap: 10px;
+      .button-group {
+        gap: 10px;
 
-          .btn {
-            padding: 12px 18px;
-            font-size: 0.95rem;
-            min-width: 140px;
-          }
+        .btn {
+          padding: 12px 18px;
+          font-size: 0.95rem;
+          min-width: 140px;
         }
       }
     }
@@ -352,25 +338,7 @@
 // Very small screens (phones in portrait)
 @media (max-width: 360px) {
   .home-container {
-    .header {
-      padding: 8px 10px;
-      margin-bottom: 15px;
-
-      .premium-header {
-        .premium-status {
-          font-size: 13px;
-
-          .premium-icon {
-            font-size: 18px;
-          }
-        }
-
-        .btn-premium {
-          padding: 5px 12px;
-          font-size: 0.8rem;
-        }
-      }
-    }
+    padding-top: 55px;
 
     h1 {
       font-size: 1.6rem;
@@ -380,6 +348,28 @@
       padding: 12px 16px;
       font-size: 0.95rem;
       max-width: 260px;
+    }
+  }
+
+  .premium-btn {
+    top: 5px;
+    right: 5px;
+    padding: 4px 10px;
+
+    .premium-icon {
+      width: 11px;
+      height: 11px;
+    }
+  }
+
+  .premium-status {
+    top: 8px;
+    right: 8px;
+    font-size: 0.75rem;
+
+    .premium-star {
+      width: 11px;
+      height: 11px;
     }
   }
 }

@@ -1,20 +1,30 @@
 <div class="prediction-container">
-  <header class="header">
-    <a routerLink="/" class="home-link"><img src="assets/ui/gate.png" alt="Home" class="home-icon"></a>
+  <!-- Fixed home icon in top-left corner -->
+  <a routerLink="/" class="fixed-home-link"><img src="assets/ui/gate.png" alt="Home" class="home-icon"></a>
+
+  <!-- Premium status/button in top-right corner -->
+  <ng-container *ngIf="isPremium; else premiumButton">
+    <span class="premium-status">
+      <img src="assets/ui/star.png" alt="★" class="premium-star" />
+      Премиум-доступ
+    </span>
+  </ng-container>
+  <ng-template #premiumButton>
+    <button class="premium-btn" (click)="purchasePremium()">
+      <img src="assets/ui/star.png" alt="★" class="premium-icon" />
+      <span>Купить премиум</span>
+    </button>
+  </ng-template>
+
+  <!-- <header class="header">
     <h1>Карта дня</h1>
-    <div class="premium-header" [class.premium]="isPremium" [class.free]="!isPremium">
-      <button *ngIf="!isPremium" class="btn-premium" (click)="purchasePremium()">
-        🛒 Купить премиум
-      </button>
-      <div *ngIf="isPremium" class="premium-status">
-        <span class="premium-icon">⭐</span>
-        Премиум-доступ активен
-      </div>
-    </div>
+    <button *ngIf="!isPremium" class="btn-premium" (click)="purchasePremium()">
+      🛒 Купить премиум
+    </button>
     <button class="ad-button" (click)="showAdModal = true" *ngIf="attemptsRemaining <= 0 && attemptService.canWatchAd() && !isPremium">
       📺 Реклама
     </button>
-  </header>
+  </header> -->
 
   <main class="main">
     <p class="subtitle">Нажмите на карту, чтобы перевернуть её</p>
@@ -34,18 +44,11 @@
         <!-- Prediction side -->
         <div class="side prediction" *ngIf="showPrediction">
           <div class="prediction-text">
-            <h3>Предсказание</h3>
             <p>{{ prediction?.text }}</p>
-            <p class="card-info">Карта: {{ card?.name }}</p>
+            <!-- <p class="card-info">Карта: {{ card?.name }}</p> -->
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Timer: shown only when no attempts remaining -->
-    <div class="timer-section" *ngIf="attemptsRemaining <= 0">
-      <img src="assets/ui/hourglass.png" alt="⏳" class="timer-icon">
-      <span class="timer-text">Следующая карта через: <strong>{{ timer }}</strong></span>
     </div>
 
     <div class="controls">
@@ -56,21 +59,25 @@
       </button>
 
       <!-- Premium user with remaining attempts and card already shown - draw new card button -->
-      <button class="btn-draw-new" *ngIf="isPremium && attemptsRemaining > 0 && showCardFace && !showNewCardButton" (click)="drawNewCard()">
+      <button class="btn-draw-new" *ngIf="isPremium && attemptsRemaining > 0 && showCardFace && !showNewCardButton"
+        (click)="drawNewCard()">
         ✨ Вытянуть новую карту
       </button>
 
       <div class="attempts">
         Осталось попыток: <span class="attempt-count">{{ attemptsRemaining }}</span> / {{ maxAttemptsPerDay }}
-        <span class="ad-icon"
-              *ngIf="attemptsRemaining === 0 && attemptService.canWatchAd() && !isPremium"
-              title="Получить ещё попытку через просмотр рекламы"
-              (click)="showAdModal = true">
+        <span class="ad-icon" *ngIf="attemptsRemaining === 0 && attemptService.canWatchAd() && !isPremium"
+          title="Получить ещё попытку через просмотр рекламы" (click)="showAdModal = true">
           🎬
         </span>
       </div>
       <p class="hint" *ngIf="!isPremium">* 1 попытка в день. Вторую можно получить, посмотрев рекламу.</p>
       <!-- <p class="hint premium-hint" *ngIf="isPremium">⭐ Премиум-доступ: 2 попытки в день без рекламы.</p> -->
+
+      <!-- Timer: shown only when no attempts remaining -->
+      <p class="timer-line" *ngIf="attemptsRemaining <= 0">
+        Следующая карта через: <strong>{{ timer }}</strong>
+      </p>
     </div>
   </main>
 

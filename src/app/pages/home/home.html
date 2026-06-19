@@ -1,18 +1,4 @@
 <div class="home-container">
-  <!-- Premium status/button in top-right corner (fixed) -->
-  <ng-container *ngIf="isPremium; else premiumButton">
-    <span class="premium-status">
-      <img src="assets/ui/star.png" alt="★" class="premium-star" />
-      Премиум-доступ
-    </span>
-  </ng-container>
-  <ng-template #premiumButton>
-    <button class="premium-btn" (click)="purchasePremium()">
-      <img src="assets/ui/star.png" alt="★" class="premium-icon" />
-      <span>Купить премиум</span>
-    </button>
-  </ng-template>
-
   <h1>Карта дня</h1>
   <p>Получите предсказание на сегодня и собирайте коллекцию карт.</p>
 

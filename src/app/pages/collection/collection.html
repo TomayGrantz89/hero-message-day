@@ -1,21 +1,4 @@
 <div class="collection-container">
-  <!-- Fixed home icon in top-left corner -->
-  <a routerLink="/" class="fixed-home-link"><img src="assets/ui/gate.png" alt="Home" class="home-icon"></a>
-
-  <!-- Premium status/button in top-right corner -->
-  <ng-container *ngIf="isPremium; else premiumButton">
-    <span class="premium-status">
-      <img src="assets/ui/star.png" alt="★" class="premium-star" />
-      Премиум-доступ
-    </span>
-  </ng-container>
-  <ng-template #premiumButton>
-    <button class="premium-btn" (click)="purchasePremium()">
-      <img src="assets/ui/star.png" alt="★" class="premium-icon" />
-      <span>Купить премиум</span>
-    </button>
-  </ng-template>
-
   <header class="header">
     <h1>Коллекция карт</h1>
     <div class="stats" *ngIf="isPremium">
@@ -60,11 +43,8 @@
           </div>
           <div class="enlarged-card-back">
             <div class="enlarged-card-info">
-              <!-- <h3>Описание</h3>
-              <p>{{ selectedCard.description }}</p> -->
               <h3>История</h3>
               <p>{{ selectedCard.history }}</p>
-              <!-- <p class="hint">Нажмите на карту, чтобы перевернуть</p> -->
             </div>
           </div>
         </div>

@@ -1,1 +1,21 @@
+<!-- Fixed top bar: home icon (left) + premium button/status (right) -->
+<div class="fixed-top-bar">
+  <a routerLink="/" class="fixed-home-link">
+    <img src="assets/ui/gate.png" alt="Home" class="home-icon">
+  </a>
+
+  <ng-container *ngIf="isPremium; else premiumButton">
+    <span class="premium-status">
+      <img src="assets/ui/star.png" alt="★" class="premium-star" />
+      Премиум-доступ
+    </span>
+  </ng-container>
+  <ng-template #premiumButton>
+    <button class="premium-btn" (click)="purchasePremium()">
+      <img src="assets/ui/star.png" alt="★" class="premium-icon" />
+      <span>Купить премиум</span>
+    </button>
+  </ng-template>
+</div>
+
 <router-outlet></router-outlet>

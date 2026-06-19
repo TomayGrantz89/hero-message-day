@@ -10,84 +10,6 @@
   position: relative;
 }
 
-// Fixed home icon in top-left corner
-.fixed-home-link {
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  z-index: 1000;
-  transition: transform 0.3s;
-
-  .home-icon {
-    width: 2.5rem;
-    height: 2.5rem;
-    display: block;
-  }
-
-  &:hover {
-    transform: scale(1.2);
-  }
-}
-
-// Premium status text for premium users (clean, no background)
-.premium-status {
-  position: fixed;
-  top: 14px;
-  right: 14px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #5A3E00;
-  white-space: nowrap;
-  z-index: 1000;
-
-  .premium-star {
-    width: 16px;
-    height: 16px;
-    display: block;
-  }
-}
-
-// Premium purchase button for non-premium users (app style)
-.premium-btn {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #0D0528;
-  color: #EDECF9;
-  border: none;
-  border-radius: 25px;
-  padding: 8px 18px;
-  font-weight: bold;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: transform 0.2s;
-  white-space: nowrap;
-  z-index: 1000;
-
-  &:hover {
-    transform: scale(1.05);
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
-
-  .premium-icon {
-    width: 16px;
-    height: 16px;
-    display: block;
-  }
-}
-
 .header {
   display: flex;
   align-items: center;
@@ -528,16 +450,6 @@
     padding-top: 65px;
   }
 
-  .fixed-home-link {
-    top: 10px;
-    left: 10px;
-
-    .home-icon {
-      width: 2rem;
-      height: 2rem;
-    }
-  }
-
   .header {
     flex-direction: column;
     gap: 12px;
@@ -670,16 +582,6 @@
   .collection-container {
     padding: 10px;
     padding-top: 60px;
-  }
-
-  .fixed-home-link {
-    top: 8px;
-    left: 8px;
-
-    .home-icon {
-      width: 1.8rem;
-      height: 1.8rem;
-    }
   }
 
   .header {
@@ -1027,16 +929,6 @@
           .collection-container {
             padding: 10px;
             padding-top: 60px;
-          }
-
-          .fixed-home-link {
-            top: 8px;
-            left: 10px;
-
-            .home-icon {
-              width: 1.8rem;
-              height: 1.8rem;
-            }
           }
 
           .header {

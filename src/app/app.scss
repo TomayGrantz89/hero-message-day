@@ -1,0 +1,181 @@
+/* Fixed top bar container */
+.fixed-top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  z-index: 1000;
+  pointer-events: none; /* Allow clicks to pass through the bar itself */
+}
+
+/* Allow pointer events on children */
+.fixed-top-bar > * {
+  pointer-events: auto;
+}
+
+/* Fixed home icon in top-left corner */
+.fixed-home-link {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  z-index: 1000;
+  transition: transform 0.3s;
+
+  .home-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: block;
+  }
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+// Premium status text for premium users (clean, no background)
+.premium-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #5A3E00;
+  white-space: nowrap;
+  z-index: 1000;
+
+  .premium-star {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+}
+
+// Premium purchase button for non-premium users (app style)
+.premium-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #0D0528;
+  color: #EDECF9;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 18px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+  white-space: nowrap;
+  z-index: 1000;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  .premium-icon {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .fixed-top-bar {
+    padding: 8px 12px;
+  }
+
+  .fixed-home-link {
+    .home-icon {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  .premium-btn {
+    padding: 6px 14px;
+
+    .premium-icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  .premium-status {
+    font-size: 0.85rem;
+
+    .premium-star {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .fixed-top-bar {
+    padding: 6px 10px;
+  }
+
+  .fixed-home-link {
+    .home-icon {
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+  }
+
+  .premium-btn {
+    padding: 5px 12px;
+
+    .premium-icon {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  .premium-status {
+    font-size: 0.8rem;
+
+    .premium-star {
+      width: 12px;
+      height: 12px;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .fixed-top-bar {
+    padding: 5px 8px;
+  }
+
+  .fixed-home-link {
+    .home-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  .premium-btn {
+    padding: 4px 10px;
+
+    .premium-icon {
+      width: 11px;
+      height: 11px;
+    }
+  }
+
+  .premium-status {
+    font-size: 0.75rem;
+
+    .premium-star {
+      width: 11px;
+      height: 11px;
+    }
+  }
+}

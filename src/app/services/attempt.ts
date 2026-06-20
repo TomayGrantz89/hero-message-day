@@ -158,6 +158,11 @@ export class Attempt {
     return data ? JSON.parse(data) : null;
   }
 
+  // Reset prediction received flag (used when premium user draws a second card)
+  resetPredictionReceived(): void {
+    localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
+  }
+
   // Reset for new card after ad (keeps prediction received flag but resets card display)
   resetForNewCard(): void {
     // Keep prediction received flag as true (since prediction was already received today)

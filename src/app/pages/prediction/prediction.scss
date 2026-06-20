@@ -216,6 +216,7 @@
       padding: 30px;
       text-align: center;
       border: 5px solid #555;
+      cursor: pointer;
 
       .prediction-text {
         h3 {
@@ -236,6 +237,17 @@
           color: #EDECF9;
           margin-top: 20px;
         }
+      }
+
+      .expand-hint {
+        position: absolute;
+        bottom: 15px;
+        left: 0;
+        right: 0;
+        font-size: 0.85rem;
+        color: rgba(237, 236, 249, 0.6);
+        animation: pulse-hint 2s ease-in-out infinite;
+        pointer-events: none;
       }
     }
   }
@@ -275,27 +287,31 @@
   }
 
   .btn-draw-new {
-    background: linear-gradient(135deg, #0D0528, #2a1a6a);
+    background: #0D0528;
     color: #EDECF9;
-    border: 2px solid #4a3a8a;
-    padding: 14px 32px;
-    font-size: 1.2rem;
+    border: none;
+    padding: 18px 40px;
+    font-size: 1.5rem;
     border-radius: 12px;
     cursor: pointer;
     font-weight: bold;
     transition: all 0.3s;
     width: 100%;
     margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(13, 5, 40, 0.3);
 
-    &:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(74, 58, 138, 0.5);
-      border-color: #7a6aba;
+    &:hover:not(:disabled) {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(13, 5, 40, 0.4);
+    }
+
+    &:disabled {
+      background: #555;
+      cursor: not-allowed;
+      opacity: 0.7;
     }
 
     &:active {
-      transform: translateY(-1px);
+      transform: translateY(0);
     }
   }
 
@@ -1009,5 +1025,18 @@
   100% {
     opacity: 0.7;
     transform: scale(1);
+  }
+}
+
+// Animation for expand hint on prediction side
+@keyframes pulse-hint {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
   }
 }

@@ -72,6 +72,16 @@ export class Prediction implements OnInit, OnDestroy {
   private initializeCardState(): void {
     // Check if prediction was already received today
     if (this.attemptService.wasPredictionReceivedToday()) {
+      // For premium users with remaining attempts, don't lock into last card
+      // They should be able to draw a new card
+      if (this.isPremium && this.attemptsRemaining > 0) {
+        // Premium user still has attempts - show card back so they can draw a new one
+        this.loadRandomCard(false);
+        this.showCardFace = false;
+        this.showPrediction = false;
+        return;
+      }
+
       // Load last card data if available
       const lastData = this.attemptService.getLastCardData();
       if (lastData) {
@@ -84,9 +94,9 @@ export class Prediction implements OnInit, OnDestroy {
         };
         // Store the prediction ID for future different predictions
         this.previousPredictionId = this.prediction.id;
-        // Show card face up (not prediction) as per requirements
+        // Show the prediction side (card remains open in its final state)
         this.showCardFace = true;
-        this.showPrediction = false;
+        this.showPrediction = true;
       } else {
         // Fallback: load random card but still show face up
         this.loadRandomCard(false);
@@ -162,6 +172,8 @@ export class Prediction implements OnInit, OnDestroy {
           this.addCurrentCardToCollection();
           // Reset flag so subsequent clicks work normally
           this.isNewCardAfterAd = false;
+          // Hide the "Get new card" button since user already used the ad attempt by clicking the card
+          this.showNewCardButton = false;
         }
         this.flipToFace();
       } else if (this.attemptService.canWatchAd()) {
@@ -173,8 +185,11 @@ export class Prediction implements OnInit, OnDestroy {
       // Flip from face to prediction
       this.flipToPrediction();
     } else if (this.showPrediction) {
-      // Flip back to face from prediction
-      this.showPrediction = false;
+      // When prediction is already showing, open enlarged overlay instead of flipping back
+      if (this.card) {
+        this.showEnlarged = true;
+        this.enlargedSide = 'face';
+      }
     }
   }
 
@@ -231,6 +246,8 @@ export class Prediction implements OnInit, OnDestroy {
     const used = this.attemptService.useAttempt();
     if (used) {
       this.updateAttempts();
+      // Reset prediction received flag so the new card can be tracked
+      this.attemptService.resetPredictionReceived();
       // Load a new random card and add to collection
       this.loadRandomCard(true, true);
       // Reset card display to show back side

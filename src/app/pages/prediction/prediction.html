@@ -19,7 +19,7 @@
   </ng-template>
 
   <main class="main">
-    <p class="subtitle">Нажмите на карту, чтобы перевернуть её</p>
+    <p class="subtitle">{{ showPrediction ? 'Нажмите на карту, чтобы увеличить и перевернуть её' : 'Нажмите на карту, чтобы перевернуть её' }}</p>
 
     <div class="card-wrapper" (click)="flipCard()">
       <div class="card" [class.flipped]="showCardFace || showPrediction">
@@ -34,11 +34,12 @@
         </div>
 
         <!-- Prediction side -->
-        <div class="side prediction" *ngIf="showPrediction">
+        <div class="side prediction" *ngIf="showPrediction" (click)="openEnlarged($event)">
           <div class="prediction-text">
             <p>{{ prediction?.text }}</p>
             <!-- <p class="card-info">Карта: {{ card?.name }}</p> -->
           </div>
+          <div class="expand-hint">👆 нажмите, чтобы увеличить</div>
         </div>
       </div>
     </div>
@@ -71,7 +72,7 @@
       <!-- Premium user with remaining attempts and card already shown - draw new card button -->
       <button class="btn-draw-new" *ngIf="isPremium && attemptsRemaining > 0 && showCardFace && !showNewCardButton"
         (click)="drawNewCard()">
-        ✨ Вытянуть новую карту
+        Получить новую карту
       </button>
 
       <div class="attempts">

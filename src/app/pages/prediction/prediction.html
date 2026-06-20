@@ -1,4 +1,23 @@
 <div class="prediction-container">
+  <!-- Fixed home icon (top-left) -->
+  <a routerLink="/" class="fixed-home-link">
+    <img src="assets/ui/gate.png" alt="Home" class="home-icon">
+  </a>
+
+  <!-- Fixed premium button/status (top-right) -->
+  <ng-container *ngIf="isPremium; else premiumButton">
+    <span class="premium-status">
+      <img src="assets/ui/star.png" alt="★" class="premium-star" />
+      Премиум-доступ
+    </span>
+  </ng-container>
+  <ng-template #premiumButton>
+    <button class="premium-btn" (click)="purchasePremium()">
+      <img src="assets/ui/star.png" alt="★" class="premium-icon" />
+      <span>Купить премиум</span>
+    </button>
+  </ng-template>
+
   <main class="main">
     <p class="subtitle">Нажмите на карту, чтобы перевернуть её</p>
 
@@ -9,7 +28,7 @@
         </div>
 
         <!-- Face side (card image) -->
-        <div class="side face" *ngIf="showCardFace && !showPrediction">
+        <div class="side face" *ngIf="showCardFace && !showPrediction" (click)="openEnlarged($event)">
           <div class="card-image" [style.backgroundImage]="'url(' + card?.imageUrl + ')'"></div>
           <div class="card-name">{{ card?.name }}</div>
         </div>
@@ -19,6 +38,24 @@
           <div class="prediction-text">
             <p>{{ prediction?.text }}</p>
             <!-- <p class="card-info">Карта: {{ card?.name }}</p> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Enlarged Card Overlay -->
+    <div class="enlarged-card-overlay" *ngIf="showEnlarged" (click)="closeEnlarged()">
+      <div class="enlarged-card-container" (click)="$event.stopPropagation()">
+        <div class="enlarged-card" (click)="flipEnlarged()" [class.flipped]="enlargedSide === 'back'">
+          <div class="enlarged-card-face">
+            <div class="enlarged-card-image" [style.backgroundImage]="'url(' + card?.imageUrl + ')'"></div>
+            <div class="enlarged-card-name">{{ card?.name }}</div>
+          </div>
+          <div class="enlarged-card-back">
+            <div class="enlarged-card-info">
+              <h3>Предсказание</h3>
+              <p>{{ prediction?.text }}</p>
+            </div>
           </div>
         </div>
       </div>

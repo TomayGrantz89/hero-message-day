@@ -24,6 +24,10 @@ export class Prediction implements OnInit, OnDestroy {
   isNewCardAfterAd = false; // Flag that we're showing a new card after ad
   private previousPredictionId: number | null = null; // Track previous prediction ID to ensure different predictions
 
+  // Enlarged card overlay
+  showEnlarged = false;
+  enlargedSide: 'face' | 'back' = 'face';
+
   // Premium status
   isPremium = false;
   maxAttemptsPerDay = 1;
@@ -247,5 +251,23 @@ export class Prediction implements OnInit, OnDestroy {
 
   closeAdModal(): void {
     this.showAdModal = false;
+  }
+
+  // Enlarged card overlay methods
+  openEnlarged(event: MouseEvent): void {
+    event.stopPropagation();
+    if (this.card) {
+      this.showEnlarged = true;
+      this.enlargedSide = 'face';
+    }
+  }
+
+  closeEnlarged(): void {
+    this.showEnlarged = false;
+    this.enlargedSide = 'face';
+  }
+
+  flipEnlarged(): void {
+    this.enlargedSide = this.enlargedSide === 'face' ? 'back' : 'face';
   }
 }

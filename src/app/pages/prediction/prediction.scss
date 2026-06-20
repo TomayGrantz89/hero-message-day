@@ -1,3 +1,81 @@
+// Fixed home icon (top-left)
+.fixed-home-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  z-index: 1000;
+  transition: transform 0.3s;
+
+  .home-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: block;
+  }
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+// Fixed premium status text (top-right)
+.premium-status {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #5A3E00;
+  white-space: nowrap;
+  z-index: 1000;
+
+  .premium-star {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+}
+
+// Fixed premium purchase button (top-right)
+.premium-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #0D0528;
+  color: #EDECF9;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 18px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+  white-space: nowrap;
+  z-index: 1000;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  .premium-icon {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+}
+
 .prediction-container {
   min-height: 100vh;
   background: #BCD7F8;
@@ -370,6 +448,41 @@
   }
 }
 
+// Responsive for fixed elements
+@media (max-width: 768px) {
+  .fixed-home-link {
+    top: 10px;
+    left: 10px;
+
+    .home-icon {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  .premium-btn {
+    top: 8px;
+    right: 8px;
+    padding: 6px 14px;
+
+    .premium-icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  .premium-status {
+    top: 12px;
+    right: 12px;
+    font-size: 0.85rem;
+
+    .premium-star {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
 // Responsive
 @media (max-width: 768px) {
   .prediction-container {
@@ -658,6 +771,225 @@
 
         p {
           font-size: 1.05rem;
+        }
+      }
+    }
+  }
+}
+
+// Enlarged Card Overlay (same pattern as collection page)
+.enlarged-card-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  cursor: pointer;
+
+  .enlarged-card-container {
+    cursor: default;
+
+    .enlarged-card {
+      perspective: 1000px;
+      width: 400px;
+      height: 600px;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s;
+
+      &:hover {
+        transform: scale(1.02);
+      }
+
+      &.flipped {
+        .enlarged-card-face {
+          transform: rotateY(180deg);
+        }
+
+        .enlarged-card-back {
+          transform: rotateY(0deg);
+        }
+      }
+
+      .enlarged-card-face,
+      .enlarged-card-back {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        backface-visibility: hidden;
+        border-radius: 25px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+        border: 5px solid;
+      }
+
+      .enlarged-card-face {
+        background: #222;
+        border: 5px solid rgb(85, 85, 85);
+
+        .enlarged-card-image {
+          width: 90%;
+          height: 70%;
+          background-color: #444;
+          background-size: cover;
+          background-position: center;
+          border-radius: 15px;
+          margin-bottom: 20px;
+        }
+
+        .enlarged-card-name {
+          font-size: 2rem;
+          font-weight: bold;
+          color: #edeCf9;
+          text-align: center;
+          padding: 0 20px;
+        }
+      }
+
+      .enlarged-card-back {
+        background: #1A0A50;
+        border: 5px solid rgb(85, 85, 85);
+        transform: rotateY(180deg);
+        padding: 40px;
+        text-align: left;
+        overflow-y: auto;
+        justify-content: flex-start;
+
+        .enlarged-card-info {
+          width: 100%;
+
+          h3 {
+            color: #ffcc00;
+            margin-top: 25px;
+            font-size: 2rem;
+            text-align: center;
+
+            &:first-child {
+              margin-top: 0;
+            }
+          }
+
+          p {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            color: #EDECF9;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive for enlarged card overlay
+@media (max-width: 768px) {
+  .enlarged-card-overlay {
+    .enlarged-card-container {
+      .enlarged-card {
+        width: 350px;
+        height: 525px;
+
+        .enlarged-card-face {
+          .enlarged-card-image {
+            height: 65%;
+          }
+
+          .enlarged-card-name {
+            font-size: 1.8rem;
+          }
+        }
+
+        .enlarged-card-back {
+          padding: 30px;
+
+          .enlarged-card-info {
+            h3 {
+              font-size: 1.8rem;
+            }
+
+            p {
+              font-size: 1.2rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .enlarged-card-overlay {
+    .enlarged-card-container {
+      .enlarged-card {
+        width: 300px;
+        height: 450px;
+
+        .enlarged-card-face {
+          .enlarged-card-image {
+            height: 60%;
+          }
+
+          .enlarged-card-name {
+            font-size: 1.6rem;
+          }
+        }
+
+        .enlarged-card-back {
+          padding: 25px;
+
+          .enlarged-card-info {
+            h3 {
+              font-size: 1.6rem;
+            }
+
+            p {
+              font-size: 1.1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .enlarged-card-overlay {
+    .enlarged-card-container {
+      .enlarged-card {
+        width: 250px;
+        height: 375px;
+
+        .enlarged-card-face {
+          .enlarged-card-image {
+            height: 55%;
+          }
+
+          .enlarged-card-name {
+            font-size: 1.4rem;
+          }
+        }
+
+        .enlarged-card-back {
+          padding: 20px;
+
+          .enlarged-card-info {
+            h3 {
+              font-size: 1.4rem;
+            }
+
+            p {
+              font-size: 1rem;
+            }
+          }
         }
       }
     }

@@ -1,4 +1,23 @@
 <div class="question-container">
+  <!-- Fixed home icon (top-left) -->
+  <a routerLink="/" class="fixed-home-link">
+    <img src="assets/ui/gate.png" alt="Home" class="home-icon">
+  </a>
+
+  <!-- Fixed premium button/status (top-right) -->
+  <ng-container *ngIf="isPremium; else premiumButton">
+    <span class="premium-status">
+      <img src="assets/ui/star.png" alt="★" class="premium-star" />
+      Премиум-доступ
+    </span>
+  </ng-container>
+  <ng-template #premiumButton>
+    <button class="premium-btn" (click)="purchasePremium()">
+      <img src="assets/ui/star.png" alt="★" class="premium-icon" />
+      <span>Купить премиум</span>
+    </button>
+  </ng-template>
+
   <div class="question-content">
 
     <p class="instruction">Задайте вопрос, на который можно ответить «Да» или «Нет», и нажмите на волшебный шар.</p>

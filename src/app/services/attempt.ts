@@ -44,7 +44,7 @@ export class Attempt {
       localStorage.setItem(this.LAST_RESET_KEY, today);
 
       // Reset question attempts
-      const initialQuestionAttempts = this.premium.isPremium() ? 3 : 1;
+      const initialQuestionAttempts = this.premium.isPremium() ? 5 : 1;
       localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, initialQuestionAttempts.toString());
       localStorage.setItem(this.QUESTION_LAST_RESET_KEY, today);
     }
@@ -76,7 +76,7 @@ export class Attempt {
     const today = now.toDateString();
     const lastReset = localStorage.getItem(this.QUESTION_LAST_RESET_KEY);
     if (lastReset !== today) {
-      const initialQuestionAttempts = this.premium.isPremium() ? 3 : 1;
+      const initialQuestionAttempts = this.premium.isPremium() ? 5 : 1;
       localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, initialQuestionAttempts.toString());
       localStorage.setItem(this.QUESTION_LAST_RESET_KEY, today);
     }
@@ -89,6 +89,30 @@ export class Attempt {
     if (attempts <= 0) return false;
     localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, (attempts - 1).toString());
     return true;
+  }
+
+  /**
+   * Refresh prediction attempts to premium maximum (2)
+   * Called when user purchases premium to immediately grant full attempts
+   */
+  refreshPredictionAttempts(): void {
+    localStorage.setItem(this.STORAGE_KEY, '2');
+    const today = new Date().toDateString();
+    localStorage.setItem(this.LAST_RESET_KEY, today);
+    // Reset prediction received flag so user can draw new cards
+    localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
+    // Reset ad watched flag (premium users don't have ads)
+    localStorage.setItem(this.AD_WATCHED_KEY, 'true');
+  }
+
+  /**
+   * Refresh question attempts to premium maximum (5)
+   * Called when user purchases premium to immediately grant full attempts
+   */
+  refreshQuestionAttempts(): void {
+    localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, '5');
+    const today = new Date().toDateString();
+    localStorage.setItem(this.QUESTION_LAST_RESET_KEY, today);
   }
 
   canWatchAd(): boolean {

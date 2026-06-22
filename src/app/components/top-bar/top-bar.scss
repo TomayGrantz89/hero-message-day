@@ -1,0 +1,154 @@
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: #E0DEF4;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  z-index: 1000;
+  box-sizing: border-box;
+
+  // Home icon (left side)
+  .top-bar-home-link {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+
+    .top-bar-home-icon {
+      width: 2.2rem;
+      height: 2.2rem;
+      display: block;
+    }
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+
+  // Spacer pushes premium to the right
+  .top-bar-spacer {
+    flex: 1;
+  }
+
+  // Premium status text (right side)
+  .top-bar-premium-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #5A3E00;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    .top-bar-premium-star {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+  }
+
+  // Premium purchase button (right side)
+  .top-bar-premium-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #0D0528;
+    color: #EDECF9;
+    border: none;
+    border-radius: 25px;
+    padding: 6px 16px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    .top-bar-premium-icon {
+      width: 14px;
+      height: 14px;
+      display: block;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .top-bar {
+    height: 60px;
+    padding: 0 10px;
+
+    .top-bar-home-link {
+      .top-bar-home-icon {
+        width: 1.8rem;
+        height: 1.8rem;
+      }
+    }
+
+    .top-bar-premium-btn {
+      padding: 5px 12px;
+      font-size: 0.8rem;
+
+      .top-bar-premium-icon {
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    .top-bar-premium-status {
+      font-size: 0.8rem;
+
+      .top-bar-premium-star {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bar {
+    height: 56px;
+    padding: 0 8px;
+
+    .top-bar-home-link {
+      .top-bar-home-icon {
+        width: 1.6rem;
+        height: 1.6rem;
+      }
+    }
+
+    .top-bar-premium-btn {
+      padding: 4px 10px;
+      font-size: 0.75rem;
+
+      .top-bar-premium-icon {
+        width: 11px;
+        height: 11px;
+      }
+    }
+
+    .top-bar-premium-status {
+      font-size: 0.75rem;
+
+      .top-bar-premium-star {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+}

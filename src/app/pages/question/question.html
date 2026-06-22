@@ -1,22 +1,5 @@
 <div class="question-container">
-  <!-- Fixed home icon (top-left) -->
-  <a routerLink="/" class="fixed-home-link">
-    <img src="assets/ui/gate.png" alt="Home" class="home-icon">
-  </a>
-
-  <!-- Fixed premium button/status (top-right) -->
-  <ng-container *ngIf="isPremium; else premiumButton">
-    <span class="premium-status">
-      <img src="/assets/ui/star.png" alt="★" class="premium-star" />
-      Премиум-доступ
-    </span>
-  </ng-container>
-  <ng-template #premiumButton>
-    <button class="premium-btn" (click)="purchasePremium()">
-      <img src="/assets/ui/star.png" alt="★" class="premium-icon" />
-      <span>Купить премиум</span>
-    </button>
-  </ng-template>
+  <app-top-bar (premiumPurchased)="onPremiumPurchased()"></app-top-bar>
 
   <div class="question-content">
 
@@ -39,7 +22,7 @@
     <div class="attempts-info">
       <div class="info-box">
         <span class="info-text">Вопросов на сегодня: <strong>{{ remainingQuestions }} / {{ maxQuestions }}</strong></span>
-        <span class="info-detail" *ngIf="!isPremium">Бесплатный пользователь может задать только один вопрос в день.</span>
+        <span class="info-detail" *ngIf="!isPremium">Премиум пользователь получает 5 вопросов в день.</span>
       </div>
     </div>
 

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { Attempt } from '../../services/attempt';
 import { Premium } from '../../services/premium';
+import { TopBarComponent } from '../../components/top-bar/top-bar';
 
 @Component({
   selector: 'app-question',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, TopBarComponent],
   templateUrl: './question.html',
   styleUrl: './question.scss'
 })
@@ -44,7 +44,7 @@ export class Question implements OnInit {
 
   ngOnInit(): void {
     this.isPremium = this.premium.isPremium();
-    this.maxQuestions = this.isPremium ? 3 : 1;
+    this.maxQuestions = this.isPremium ? 5 : 1;
     this.updateRemainingQuestions();
   }
 
@@ -90,9 +90,21 @@ export class Question implements OnInit {
     // Simulate purchase
     this.premium.activatePremium();
     this.isPremium = true;
-    this.maxQuestions = 3;
+    this.maxQuestions = 5;
+    // Refresh question attempts to premium maximum (5)
+    this.attempt.refreshQuestionAttempts();
     this.updateRemainingQuestions();
-    // alert('Премиум-доступ активирован! Теперь вы можете задавать три вопроса в день.');
+    alert('Премиум-доступ активирован! Теперь вы можете задавать 5 вопросов в день.');
+  }
+
+  /**
+   * Called when premium is purchased via the top-bar component
+   */
+  onPremiumPurchased(): void {
+    this.isPremium = true;
+    this.maxQuestions = 5;
+    // Refresh attempts (already done in top-bar, but re-read from localStorage)
+    this.updateRemainingQuestions();
   }
 
   resetQuestion(): void {

@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardData, Card, PredictionItem } from '../../services/card-data';
 import { Attempt } from '../../services/attempt';
 import { Premium } from '../../services/premium';
+import { TopBarComponent } from '../../components/top-bar/top-bar';
 
 @Component({
   selector: 'app-prediction',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, TopBarComponent],
   templateUrl: './prediction.html',
   styleUrl: './prediction.scss',
 })
@@ -262,8 +262,34 @@ export class Prediction implements OnInit, OnDestroy {
     this.premium.activatePremium();
     this.isPremium = true;
     this.maxAttemptsPerDay = 2;
+    // Immediately grant 2 prediction attempts for premium user
+    this.attemptService.refreshPredictionAttempts();
     this.updateAttempts();
+    // Refresh oracle question attempts to premium maximum (5)
+    this.attemptService.refreshQuestionAttempts();
+    // Reset card state so user can immediately draw a new card
+    this.loadRandomCard(false);
+    this.showCardFace = false;
+    this.showPrediction = false;
+    this.showNewCardButton = false;
+    this.isNewCardAfterAd = false;
   //   alert('Премиум-доступ активирован! Теперь вам доступны все карты и 2 попытки в день без рекламы.');
+  }
+
+  /**
+   * Called when premium is purchased via the top-bar component
+   */
+  onPremiumPurchased(): void {
+    this.isPremium = true;
+    this.maxAttemptsPerDay = 2;
+    // Refresh attempts (already done in top-bar, but re-read from localStorage)
+    this.updateAttempts();
+    // Reset card state so user can immediately draw a new card
+    this.loadRandomCard(false);
+    this.showCardFace = false;
+    this.showPrediction = false;
+    this.showNewCardButton = false;
+    this.isNewCardAfterAd = false;
   }
 
   closeAdModal(): void {

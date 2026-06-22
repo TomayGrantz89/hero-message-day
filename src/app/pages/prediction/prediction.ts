@@ -39,6 +39,7 @@ export class Prediction implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.showCardFace = true;
     this.updatePremiumStatus();
     this.updateAttempts();
     this.startTimer();
@@ -70,41 +71,23 @@ export class Prediction implements OnInit, OnDestroy {
   }
 
   private initializeCardState(): void {
-    // Check if prediction was already received today
-    if (this.attemptService.wasPredictionReceivedToday()) {
-      // For premium users with remaining attempts, don't lock into last card
-      // They should be able to draw a new card
-      if (this.isPremium && this.attemptsRemaining > 0) {
-        // Premium user still has attempts - show card back so they can draw a new one
-        this.loadRandomCard(false);
-        this.showCardFace = false;
-        this.showPrediction = false;
-        return;
-      }
-
-      // Load last card data if available
-      const lastData = this.attemptService.getLastCardData();
-      if (lastData) {
-        this.card = lastData.card;
-        // Create a PredictionItem with minimal data (text is the main thing needed)
-        this.prediction = {
-          id: lastData.predictionId || 1,
-          text: lastData.prediction,
-          cardId: lastData.card?.id || 1
-        };
-        // Store the prediction ID for future different predictions
-        this.previousPredictionId = this.prediction.id;
-        // Show the prediction side (card remains open in its final state)
-        this.showCardFace = true;
-        this.showPrediction = true;
-      } else {
-        // Fallback: load random card but still show face up
-        this.loadRandomCard(false);
-        this.showCardFace = true;
-        this.showPrediction = false;
-      }
+    // Check if there's saved card data (card was opened earlier today)
+    const lastData = this.attemptService.getLastCardData();
+    if (lastData) {
+      // Card was already opened today — show it face up with prediction
+      this.card = lastData.card;
+      this.prediction = {
+        id: lastData.predictionId || 1,
+        text: lastData.prediction,
+        cardId: lastData.card?.id || 1
+      };
+      // Store the prediction ID for future different predictions
+      this.previousPredictionId = this.prediction.id;
+      // Show the card face up and prediction
+      this.showCardFace = true;
+      this.showPrediction = true;
     } else {
-      // No prediction received today, show card back
+      // No card opened today — show card back
       this.loadRandomCard(false);
       this.showCardFace = false;
       this.showPrediction = false;
@@ -139,6 +122,11 @@ export class Prediction implements OnInit, OnDestroy {
     if (!this.showCardFace) {
       this.showCardFace = true;
       this.showPrediction = false;
+      // Save card data immediately when user flips to face,
+      // so that returning to the page shows the card face up
+      if (this.card && this.prediction) {
+        this.attemptService.markPredictionReceived(this.card, this.prediction.text, this.prediction.id);
+      }
     }
   }
 
@@ -147,7 +135,7 @@ export class Prediction implements OnInit, OnDestroy {
       this.showPrediction = true;
       // Mark prediction as received when user sees it
       if (this.card && this.prediction) {
-        this.attemptService.markPredictionReceived(this.card, this.prediction.text);
+        this.attemptService.markPredictionReceived(this.card, this.prediction.text, this.prediction.id);
       }
     }
   }
@@ -241,21 +229,28 @@ export class Prediction implements OnInit, OnDestroy {
   }
 
   drawNewCard(): void {
-    // Premium user with remaining attempts wants to draw a new card
-    // Use one attempt (already consumed here)
-    const used = this.attemptService.useAttempt();
-    if (used) {
-      this.updateAttempts();
-      // Reset prediction received flag so the new card can be tracked
-      this.attemptService.resetPredictionReceived();
-      // Load a new random card and add to collection
-      this.loadRandomCard(true, true);
-      // Reset card display to show back side
-      this.showCardFace = false;
-      this.showPrediction = false;
-      // Mark as "new card after attempt" so flipCard() doesn't consume another attempt
-      this.isNewCardAfterAd = true;
+    // User wants to draw a new card
+    // Check if user has remaining attempts
+    if (this.attemptsRemaining > 0) {
+      // Use one attempt
+      const used = this.attemptService.useAttempt();
+      if (used) {
+        this.updateAttempts();
+        // Reset prediction received flag so the new card can be tracked
+        this.attemptService.resetPredictionReceived();
+        // Load a new random card and add to collection
+        this.loadRandomCard(true, true);
+        // Reset card display to show back side
+        this.showCardFace = false;
+        this.showPrediction = false;
+        // Mark as "new card after attempt" so flipCard() doesn't consume another attempt
+        this.isNewCardAfterAd = true;
+      }
+    } else if (this.attemptService.canWatchAd()) {
+      // No attempts but can watch ad - show ad modal
+      this.showAdModal = true;
     }
+    // Otherwise do nothing (no attempts, ad already watched)
   }
 
   purchasePremium(): void {
@@ -302,6 +297,10 @@ export class Prediction implements OnInit, OnDestroy {
     if (this.card) {
       this.showEnlarged = true;
       this.enlargedSide = 'face';
+      // Mark prediction as received when user opens enlarged view (sees prediction on back)
+      if (this.prediction && !this.attemptService.wasPredictionReceivedToday()) {
+        this.attemptService.markPredictionReceived(this.card, this.prediction.text, this.prediction.id);
+      }
     }
   }
 

@@ -52,8 +52,9 @@
         Получить новую карту
       </button>
 
-      <!-- Premium user with remaining attempts and card already shown - draw new card button -->
-      <button class="btn-draw-new" *ngIf="isPremium && attemptsRemaining > 0 && showCardFace && !showNewCardButton"
+      <!-- Show "Get new card" button when user already opened a card today (prediction shown) -->
+      <!-- Works for both premium and non-premium users -->
+      <button class="btn-draw-new" *ngIf="showPrediction && !showNewCardButton"
         (click)="drawNewCard()">
         Получить новую карту
       </button>

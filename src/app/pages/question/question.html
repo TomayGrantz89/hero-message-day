@@ -7,13 +7,13 @@
   <!-- Fixed premium button/status (top-right) -->
   <ng-container *ngIf="isPremium; else premiumButton">
     <span class="premium-status">
-      <img src="assets/ui/star.png" alt="★" class="premium-star" />
+      <img src="/assets/ui/star.png" alt="★" class="premium-star" />
       Премиум-доступ
     </span>
   </ng-container>
   <ng-template #premiumButton>
     <button class="premium-btn" (click)="purchasePremium()">
-      <img src="assets/ui/star.png" alt="★" class="premium-icon" />
+      <img src="/assets/ui/star.png" alt="★" class="premium-icon" />
       <span>Купить премиум</span>
     </button>
   </ng-template>
@@ -23,20 +23,11 @@
     <p class="instruction">Задайте вопрос, на который можно ответить «Да» или «Нет», и нажмите на волшебный шар.</p>
 
     <div class="card-area">
-      <div class="magic-ball" (click)="askQuestion()" [class.disabled]="!hasAttempt">
-        <div class="magic-ball-inner" [class.flipped]="showAnswer">
-          <div class="magic-ball-front">
-            <div class="magic-ball-icon">🔮</div>
-            <div class="magic-ball-text">Нажмите на волшебный шар</div>
-            <div class="attempt-info" *ngIf="!hasAttempt">
-              <span class="no-attempt">Нет попыток</span>
-            </div>
-          </div>
-          <div class="magic-ball-back">
-            <div class="answer">{{ currentAnswer }}</div>
-            <div class="answer-subtitle">Ответ вселенной</div>
-          </div>
-        </div>
+      <div class="magic-image-wrapper" (click)="askQuestion()" [class.disabled]="!hasAttempt">
+        <img src="/assets/ui/magic.png" alt="Задать вопрос" class="magic-image" />
+        <!-- <div class="attempt-overlay" *ngIf="!hasAttempt">
+          <span class="no-attempt">Нет попыток</span>
+        </div> -->
       </div>
     </div>
 
@@ -47,14 +38,8 @@
 
     <div class="attempts-info">
       <div class="info-box">
-        <div class="info-title">Осталось вопросов сегодня:</div>
-        <div class="info-value">{{ remainingQuestions }} / {{ maxQuestions }}</div>
-        <div class="info-detail" *ngIf="!isPremium">
-          Бесплатный пользователь может задать только один вопрос в день.
-        </div>
-        <!-- <div class="info-detail" *ngIf="isPremium">
-          Премиум-пользователь может задать три вопроса в день.
-        </div> -->
+        <span class="info-text">Вопросов на сегодня: <strong>{{ remainingQuestions }} / {{ maxQuestions }}</strong></span>
+        <span class="info-detail" *ngIf="!isPremium">Бесплатный пользователь может задать только один вопрос в день.</span>
       </div>
     </div>
 

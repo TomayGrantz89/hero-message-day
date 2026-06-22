@@ -131,12 +131,12 @@
       align-items: center;
       margin-bottom: 50px;
 
-      .magic-ball {
-        width: 300px;
-        height: 300px;
-        perspective: 1000px;
+      .magic-image-wrapper {
+        position: relative;
         cursor: pointer;
         transition: transform 0.3s;
+        max-width: 400px;
+        width: 100%;
 
         &:hover:not(.disabled) {
           transform: translateY(-10px) scale(1.05);
@@ -144,87 +144,31 @@
 
         &.disabled {
           cursor: not-allowed;
-          opacity: 0.6;
+          // opacity: 0.6;
         }
 
-        .magic-ball-inner {
-          position: relative;
+        .magic-image {
+          display: block;
           width: 100%;
-          height: 100%;
-          text-align: center;
-          transition: transform 0.8s;
-          transform-style: preserve-3d;
-          border-radius: 50%;
-          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+          height: auto;
+          // border-radius: 20px;
+          // box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
 
-          &.flipped {
-            transform: rotateY(180deg);
-          }
+        .attempt-overlay {
+          position: absolute;
+          bottom: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          padding: 10px 20px;
+          background: rgba(0, 0, 0, 0.6);
+          border-radius: 10px;
 
-          .magic-ball-front,
-          .magic-ball-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-          }
-
-          .magic-ball-front {
-            background: radial-gradient(circle at 30% 30%, #0D0528, #1a0a50);
-            color: #EDECF9;
-            border: 5px solid #4a3a8a;
-
-            .magic-ball-icon {
-              font-size: 80px;
-              margin-bottom: 20px;
-              text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-            }
-
-            .magic-ball-text {
-              font-size: 1.3rem;
-              font-weight: 600;
-              margin-bottom: 20px;
-              text-align: center;
-            }
-
-            .attempt-info {
-              margin-top: 20px;
-              padding: 10px 20px;
-              background: rgba(255, 255, 255, 0.2);
-              border-radius: 10px;
-
-              .no-attempt {
-                color: #ff6b6b;
-                font-weight: bold;
-              }
-            }
-          }
-
-          .magic-ball-back {
-            background: radial-gradient(circle at 30% 30%, #1a3a6a, #0a1e3d);
-            color: #EDECF9;
-            transform: rotateY(180deg);
-            border: 5px solid #4a7ab5;
-
-            .answer {
-              font-size: 2rem;
-              font-weight: bold;
-              margin-bottom: 15px;
-              text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-              text-align: center;
-            }
-
-            .answer-subtitle {
-              font-size: 1.2rem;
-              color: rgba(255, 255, 255, 0.8);
-            }
-          }
+          // .no-attempt {
+          //   color: #ff6b6b;
+          //   font-weight: bold;
+          //   font-size: 1.1rem;
+          // }
         }
       }
     }
@@ -245,7 +189,7 @@
       }
 
       .beautiful-answer-text {
-        font-size: 2.5rem;
+        font-size: 1.5rem;
         font-weight: bold;
         color: #0a1e3d;
         padding: 20px;
@@ -264,29 +208,32 @@
       .info-box {
         background: rgba(255, 255, 255, 0.5);
         border-radius: 15px;
-        padding: 25px;
+        padding: 12px 20px;
         border: 1px solid #c8c0e8;
         max-width: 500px;
         width: 100%;
         text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
 
-        .info-title {
-          font-size: 1.3rem;
-          margin-bottom: 10px;
+        .info-text {
+          font-size: 1.15rem;
           color: #555;
-        }
+          white-space: nowrap;
 
-        .info-value {
-          font-size: 3rem;
-          font-weight: bold;
-          margin-bottom: 15px;
-          color: #0a1e3d;
+          strong {
+            color: #0a1e3d;
+            font-size: 1.25rem;
+          }
         }
 
         .info-detail {
-          font-size: 1rem;
-          color: #555;
-          line-height: 1.5;
+          font-size: 0.85rem;
+          color: #777;
+          white-space: nowrap;
         }
       }
     }
@@ -347,10 +294,6 @@
   100% {
     transform: scale(1);
   }
-}
-
-.card-back .answer {
-  animation: fadeIn 0.8s ease-out;
 }
 
 // Адаптивность
@@ -417,9 +360,8 @@
       flex-direction: column;
       gap: 30px;
 
-      .magic-ball {
-        width: 250px;
-        height: 250px;
+      .magic-image-wrapper {
+        max-width: 320px;
       }
     }
 

@@ -43,6 +43,9 @@ export class Attempt {
       localStorage.setItem(this.TODAY_PREDICTION_IDS_KEY, JSON.stringify([]));
       localStorage.setItem(this.LAST_RESET_KEY, today);
 
+      // Clear last card data when a new day starts (timer resets attempts)
+      this.clearLastCardData();
+
       // Reset question attempts
       const initialQuestionAttempts = this.premium.isPremium() ? 5 : 1;
       localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, initialQuestionAttempts.toString());
@@ -182,6 +185,13 @@ export class Attempt {
     return data ? JSON.parse(data) : null;
   }
 
+  /**
+   * Clear last card data when a new day starts
+   */
+  clearLastCardData(): void {
+    localStorage.removeItem(this.LAST_CARD_DATA_KEY);
+  }
+
   // Reset prediction received flag (used when premium user draws a second card)
   resetPredictionReceived(): void {
     localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
@@ -232,5 +242,12 @@ export class Attempt {
 
   getCollectionSize(): number {
     return this.getCollection().length;
+  }
+
+  /**
+   * Check if there is a last card data saved (card was opened today)
+   */
+  get haslastCard(): boolean {
+    return this.getLastCardData() !== null;
   }
 }

@@ -10,13 +10,13 @@
   <!-- Premium button/status (right side) -->
   <ng-container *ngIf="isPremium; else premiumButton">
     <span class="top-bar-premium-status">
-      <img src="assets/ui/star.png" alt="★" class="top-bar-premium-star" />
+      <img src="/assets/ui/star.png" alt="★" class="top-bar-premium-star" />
       Премиум-доступ
     </span>
   </ng-container>
   <ng-template #premiumButton>
     <button class="top-bar-premium-btn" (click)="purchasePremium()">
-      <img src="assets/ui/star.png" alt="★" class="top-bar-premium-icon" />
+      <img src="/assets/ui/star.png" alt="★" class="top-bar-premium-icon" />
       <span>Купить премиум</span>
     </button>
   </ng-template>

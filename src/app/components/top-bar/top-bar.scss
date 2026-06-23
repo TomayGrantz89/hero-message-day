@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   height: 64px;
-  background: #E0DEF4;
+  background: rgba(214, 232, 248, 0.85);
   display: flex;
   align-items: center;
   padding: 0 14px;
@@ -53,35 +53,74 @@
     }
   }
 
-  // Premium purchase button (right side)
-  .top-bar-premium-btn {
-    display: flex;
+  // Beautiful premium purchase button with gradient hover effect
+  .beautiful-button {
+    display: inline-flex;
     align-items: center;
-    gap: 6px;
-    background: #0D0528;
-    color: #EDECF9;
-    border: none;
-    border-radius: 25px;
-    padding: 6px 16px;
+    justify-content: center;
+    padding: 8px 20px;
+    border: 0;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10rem;
+    transition: all 0.02s;
     font-weight: bold;
-    font-size: 0.85rem;
     cursor: pointer;
-    transition: transform 0.2s;
+    color: rgb(37, 37, 37);
+    z-index: 0;
+    box-shadow: 0 0px 7px -5px rgba(0, 0, 0, 0.5);
     white-space: nowrap;
     flex-shrink: 0;
+  }
 
-    &:hover {
-      transform: scale(1.05);
+  .beautiful-button:hover {
+    background: rgb(193, 228, 248);
+    color: rgb(33, 0, 85);
+  }
+
+  .beautiful-button:active {
+    transform: scale(0.97);
+  }
+
+  .hoverEffect {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+
+  .hoverEffect div {
+    background: rgb(222, 0, 75);
+    background: linear-gradient(90deg,
+        rgba(222, 0, 75, 1) 0%,
+        rgba(191, 70, 255, 1) 49%,
+        rgba(0, 212, 255, 1) 100%);
+    border-radius: 40rem;
+    width: 10rem;
+    height: 10rem;
+    transition: 0.4s;
+    filter: blur(20px);
+    animation: effect infinite 3s linear;
+    opacity: 0.5;
+  }
+
+  .beautiful-button:hover .hoverEffect div {
+    width: 8rem;
+    height: 8rem;
+  }
+
+  @keyframes effect {
+    0% {
+      transform: rotate(0deg);
     }
 
-    &:active {
-      transform: scale(0.98);
-    }
-
-    .top-bar-premium-icon {
-      width: 14px;
-      height: 14px;
-      display: block;
+    100% {
+      transform: rotate(360deg);
     }
   }
 }
@@ -99,14 +138,9 @@
       }
     }
 
-    .top-bar-premium-btn {
-      padding: 5px 12px;
+    .beautiful-button {
+      padding: 6px 14px;
       font-size: 0.8rem;
-
-      .top-bar-premium-icon {
-        width: 12px;
-        height: 12px;
-      }
     }
 
     .top-bar-premium-status {
@@ -132,14 +166,9 @@
       }
     }
 
-    .top-bar-premium-btn {
-      padding: 4px 10px;
+    .beautiful-button {
+      padding: 5px 12px;
       font-size: 0.75rem;
-
-      .top-bar-premium-icon {
-        width: 11px;
-        height: 11px;
-      }
     }
 
     .top-bar-premium-status {

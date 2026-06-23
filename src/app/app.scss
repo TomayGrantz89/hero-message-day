@@ -1,1 +1,13 @@
+/* Global full-screen background */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background: url('/assets/ui/blue.png') center center / cover no-repeat fixed;
+  background-attachment: fixed;
+}
+
 /* App root - no shared top bar, each page has its own fixed elements */

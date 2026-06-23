@@ -62,7 +62,10 @@ export class Attempt {
 
   getRemainingAttempts(): number {
     const attempts = parseInt(localStorage.getItem(this.STORAGE_KEY) || '1');
-    return attempts;
+    // Cap attempts based on current premium status to prevent stale values
+    // (e.g., if user was premium and then lost access)
+    const maxAttempts = this.premium.isPremium() ? 2 : 1;
+    return Math.min(attempts, maxAttempts);
   }
 
   useAttempt(): boolean {
@@ -84,7 +87,10 @@ export class Attempt {
       localStorage.setItem(this.QUESTION_LAST_RESET_KEY, today);
     }
     const attempts = parseInt(localStorage.getItem(this.QUESTION_ATTEMPTS_KEY) || '1');
-    return attempts;
+    // Cap attempts based on current premium status to prevent stale values
+    // (e.g., if user was premium and then lost access)
+    const maxAttempts = this.premium.isPremium() ? 5 : 1;
+    return Math.min(attempts, maxAttempts);
   }
 
   useQuestionAttempt(): boolean {

@@ -1,13 +1,16 @@
 /* Global full-screen background */
-html, body {
+html {
   margin: 0;
   padding: 0;
   height: 100%;
 }
 
 body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  /* Fixed background covers entire viewport, no gaps */
   background: url('/assets/ui/blue.png') center center / cover no-repeat fixed;
-  background-attachment: fixed;
 }
 
 /* App root - no shared top bar, each page has its own fixed elements */

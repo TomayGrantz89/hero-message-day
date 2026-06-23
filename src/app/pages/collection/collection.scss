@@ -1,6 +1,9 @@
 .collection-container {
   min-height: 100vh;
-  /* background inherited from global body */
+  background: url('/assets/ui/blue.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: #333;
   font-family: 'EBGaramond', serif;
   padding: 20px;

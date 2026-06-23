@@ -1,6 +1,9 @@
 .question-container {
   min-height: 100vh;
-  /* background inherited from global body */
+  background: url('/assets/ui/blue.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: #333;
   padding: 20px;
   padding-top: 70px;

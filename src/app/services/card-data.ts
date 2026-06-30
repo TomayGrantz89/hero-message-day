@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Premium } from './premium';
-import { CHARACTER_CARDS } from '../models/character-card';
+import { CHARACTER_CARDS, PREDICTIONS } from '../models/character-card';
 
 export interface Card {
   id: number;
   name: string;
   imageUrl: string;
   description: string;
-  history: string;
+  /** История карты (отображается в коллекции) */
+  story: string;
 }
 
 export interface PredictionItem {
@@ -39,16 +40,16 @@ export class CardData {
         name: character.name,
         imageUrl: character.image,
         description: character.story,
-        history: character.story,
+        story: character.story,
       });
     }
 
-    // Generate 80 predictions, each linked to a random card
-    for (let i = 1; i <= 80; i++) {
+    // Generate predictions from the PREDICTIONS array (not tied to cards)
+    for (let i = 0; i < PREDICTIONS.length; i++) {
       this.predictions.push({
-        id: i,
-        text: `Prediction ${i}: Today you will encounter something unexpected.`,
-        cardId: Math.floor(Math.random() * 59) + 1,
+        id: i + 1,
+        text: PREDICTIONS[i],
+        cardId: 0, // Not tied to any card
       });
     }
   }

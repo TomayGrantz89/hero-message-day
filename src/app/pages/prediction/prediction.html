@@ -52,9 +52,10 @@
         Получить новую карту
       </button>
 
-      <!-- Show "Get new card" button when user already opened a card today (prediction shown) -->
-      <!-- Only shown if user has remaining attempts or can watch an ad -->
-      <button class="btn-draw-new" *ngIf="showPrediction && !showNewCardButton && (attemptsRemaining > 0 || attemptService.canWatchAd())"
+      <!-- Show "Get new card" button when user already opened a card today -->
+      <!-- For non-premium: shown when prediction is showing and user has attempts or can watch ad -->
+      <!-- For premium: shown when card face or prediction is showing and user has remaining attempts -->
+      <button class="btn-draw-new" *ngIf="!showNewCardButton && ((showPrediction && (attemptsRemaining > 0 || attemptService.canWatchAd())) || (isPremium && showCardFace && attemptsRemaining > 0))"
         (click)="drawNewCard()">
         Получить новую карту
       </button>

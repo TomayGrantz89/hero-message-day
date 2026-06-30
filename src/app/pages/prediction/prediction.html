@@ -33,7 +33,6 @@
         <div class="enlarged-card" (click)="flipEnlarged()" [class.flipped]="enlargedSide === 'back'">
           <div class="enlarged-card-face">
             <div class="enlarged-card-image" [style.backgroundImage]="'url(' + card?.imageUrl + ')'"></div>
-            <div class="enlarged-card-name">{{ card?.name }}</div>
           </div>
           <div class="enlarged-card-back">
             <div class="enlarged-card-info">

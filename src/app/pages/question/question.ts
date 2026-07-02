@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Attempt } from '../../services/attempt';
 import { Premium } from '../../services/premium';
-import { TopBarComponent } from '../../components/top-bar/top-bar';
 
 @Component({
   selector: 'app-question',
   standalone: true,
-  imports: [CommonModule, TopBarComponent],
+  imports: [CommonModule],
   templateUrl: './question.html',
   styleUrl: './question.scss'
 })
@@ -95,16 +94,6 @@ export class Question implements OnInit {
     this.attempt.refreshQuestionAttempts();
     this.updateRemainingQuestions();
     alert('Премиум-доступ активирован! Теперь вы можете задавать 5 вопросов в день.');
-  }
-
-  /**
-   * Called when premium is purchased via the top-bar component
-   */
-  onPremiumPurchased(): void {
-    this.isPremium = true;
-    this.maxQuestions = 5;
-    // Refresh attempts (already done in top-bar, but re-read from localStorage)
-    this.updateRemainingQuestions();
   }
 
   resetQuestion(): void {

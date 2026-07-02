@@ -11,6 +11,8 @@ body {
   min-height: 100vh;
   /* Fixed background covers entire viewport, no gaps */
   background: url('/assets/ui/blue.png') center center / cover no-repeat fixed;
+  /* Padding for bottom navigation bar */
+  padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
 }
 
 /* App root - no shared top bar, each page has its own fixed elements */

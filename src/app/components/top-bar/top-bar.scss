@@ -4,186 +4,48 @@
   left: 0;
   right: 0;
   padding-top: env(safe-area-inset-top, 0px);
-
-  /* 2. Высоту делаем через min-height, чтобы она складывалась из отступа телефона + высоты контента */
-  min-height: calc(env(safe-area-inset-top, 0px) + 64px);
-  padding-left: 14px;
-  padding-right: 14px;
-  padding-bottom: 0;
-  background: rgba(214, 232, 248, 0.85);
+  height: calc(env(safe-area-inset-top, 0px) + 44px);
   display: flex;
-  align-items: center;
-  padding: 0 14px;
+  align-items: flex-end;
+  padding-left: 16px;
+  padding-bottom: 8px;
   z-index: 1000;
   box-sizing: border-box;
+  background: transparent;
+  pointer-events: none;
+}
 
-  // Home icon (left side)
-  .top-bar-home-link {
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    transition: transform 0.3s;
-    flex-shrink: 0;
-
-    .top-bar-home-icon {
-      width: 2.2rem;
-      height: 2.2rem;
-      display: block;
-    }
-
-    &:hover {
-      transform: scale(1.2);
-    }
-  }
-
-  // Spacer pushes premium to the right
-  .top-bar-spacer {
-    flex: 1;
-  }
-
-  // Premium status text (right side)
-  .top-bar-premium-status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 2rem;
-    font-weight: 600;
-    // color: #5A3E00;
-    white-space: nowrap;
-    flex-shrink: 0;
-
-    .top-bar-premium-star {
-      width: 24px;
-      height: 24px;
-      display: block;
-    }
-  }
-
-  // Beautiful premium purchase button with gradient hover effect
-  .beautiful-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 20px;
-    border: 0;
-    position: relative;
-    overflow: hidden;
-    border-radius: 10rem;
-    transition: all 0.02s;
-    font-weight: bold;
-    cursor: pointer;
-    color: rgb(37, 37, 37);
-    z-index: 0;
-    box-shadow: 0 0px 7px -5px rgba(0, 0, 0, 0.5);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .beautiful-button:hover {
-    background: rgb(193, 228, 248);
-    color: rgb(33, 0, 85);
-  }
-
-  .beautiful-button:active {
-    transform: scale(0.97);
-  }
-
-  .hoverEffect {
-    position: absolute;
-    bottom: 0;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-  }
-
-  .hoverEffect div {
-    background: rgb(222, 0, 75);
-    background: linear-gradient(90deg,
-        rgba(222, 0, 75, 1) 0%,
-        rgba(191, 70, 255, 1) 49%,
-        rgba(0, 212, 255, 1) 100%);
-    border-radius: 40rem;
-    width: 10rem;
-    height: 10rem;
-    transition: 0.4s;
-    filter: blur(20px);
-    animation: effect infinite 3s linear;
-    opacity: 0.5;
-  }
-
-  .beautiful-button:hover .hoverEffect div {
-    width: 8rem;
-    height: 8rem;
-  }
-
-  @keyframes effect {
-    0% {
-      transform: rotate(0deg);
-    }
-
-    100% {
-      transform: rotate(360deg);
-    }
-  }
+.top-bar-title {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: #0a1e3d;
+  letter-spacing: 0.3px;
+  pointer-events: auto;
+  user-select: none;
 }
 
 // Responsive adjustments
 @media (max-width: 768px) {
   .top-bar {
-    height: 60px;
-    padding: 0 10px;
+    height: calc(env(safe-area-inset-top, 0px) + 40px);
+    padding-left: 14px;
+    padding-bottom: 6px;
+  }
 
-    .top-bar-home-link {
-      .top-bar-home-icon {
-        width: 1.8rem;
-        height: 1.8rem;
-      }
-    }
-
-    .beautiful-button {
-      padding: 6px 14px;
-      font-size: 0.8rem;
-    }
-
-    .top-bar-premium-status {
-      font-size: 0.8rem;
-
-      .top-bar-premium-star {
-        width: 14px;
-        height: 14px;
-      }
-    }
+  .top-bar-title {
+    font-size: 16px;
   }
 }
 
 @media (max-width: 480px) {
   .top-bar {
-    height: 56px;
-    padding: 0 8px;
+    height: calc(env(safe-area-inset-top, 0px) + 36px);
+    padding-left: 12px;
+    padding-bottom: 5px;
+  }
 
-    .top-bar-home-link {
-      .top-bar-home-icon {
-        width: 1.6rem;
-        height: 1.6rem;
-      }
-    }
-
-    .beautiful-button {
-      padding: 5px 12px;
-      font-size: 0.75rem;
-    }
-
-    .top-bar-premium-status {
-      font-size: 0.75rem;
-
-      .top-bar-premium-star {
-        width: 12px;
-        height: 12px;
-      }
-    }
+  .top-bar-title {
+    font-size: 15px;
   }
 }

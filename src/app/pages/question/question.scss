@@ -6,7 +6,8 @@
   background-repeat: no-repeat;
   color: #333;
   padding: 20px;
-  padding-top: 70px;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 60px);
+  padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 20px);
   font-family: 'EBGaramond', serif;
   position: relative;
 
@@ -225,7 +226,8 @@
 @media (max-width: 768px) {
   .question-container {
     padding: 15px;
-    padding-top: 65px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 55px);
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
   }
 
   .fixed-home-link {
@@ -254,10 +256,11 @@
 
   // Small screens
   @media (max-width: 480px) {
-    .question-container {
-      padding: 10px;
-      padding-top: 60px;
-    }
+      .question-container {
+        padding: 10px;
+        padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
+        padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 10px);
+      }
 
     .fixed-home-link {
       top: 8px;

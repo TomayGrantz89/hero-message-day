@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { CardData, Card } from '../../services/card-data';
 import { Attempt } from '../../services/attempt';
 import { Premium } from '../../services/premium';
-import { TopBarComponent } from '../../components/top-bar/top-bar';
 
 interface CollectionCard {
   card: Card;
@@ -12,7 +11,7 @@ interface CollectionCard {
 
 @Component({
   selector: 'app-collection',
-  imports: [CommonModule, TopBarComponent],
+  imports: [CommonModule],
   templateUrl: './collection.html',
   styleUrl: './collection.scss',
 })
@@ -197,14 +196,5 @@ export class Collection implements OnInit {
     this.premium.activatePremium();
     this.isPremium = true;
     this.totalCards = 64;
-  }
-
-  /**
-   * Called when premium is purchased via the top-bar component
-   */
-  onPremiumPurchased(): void {
-    this.isPremium = true;
-    this.totalCards = 64;
-    this.loadCollection();
   }
 }

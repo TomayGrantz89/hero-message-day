@@ -1,6 +1,4 @@
 <div class="prediction-container">
-  <app-top-bar (premiumPurchased)="onPremiumPurchased()"></app-top-bar>
-
   <main class="main">
     <p class="subtitle">{{ showPrediction ? 'Нажмите на карту, чтобы увеличить и перевернуть её' : 'Нажмите на карту, чтобы перевернуть её' }}</p>
 
@@ -20,7 +18,6 @@
         <div class="side prediction" *ngIf="showPrediction" (click)="openEnlarged($event)">
           <div class="prediction-text">
             <p>{{ prediction?.text }}</p>
-            <!-- <p class="card-info">Карта: {{ card?.name }}</p> -->
           </div>
           <div class="expand-hint">👆 нажмите, чтобы увеличить</div>
         </div>
@@ -67,7 +64,6 @@
         </span>
       </div>
       <p class="hint" *ngIf="!isPremium">* 1 попытка в день. Вторую можно получить, посмотрев рекламу.</p>
-      <!-- <p class="hint premium-hint" *ngIf="isPremium">⭐ Премиум-доступ: 2 попытки в день без рекламы.</p> -->
 
       <!-- Timer: shown only when no attempts remaining -->
       <p class="timer-line" *ngIf="attemptsRemaining <= 0">

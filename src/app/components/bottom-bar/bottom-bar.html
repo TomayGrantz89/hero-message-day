@@ -1,0 +1,37 @@
+<div class="bottom-bar">
+  <a *ngFor="let item of navItems"
+     class="nav-item"
+     [class.active]="item.isActive"
+     [routerLink]="item.link || null"
+     (click)="onNavClick(item, $event)">
+    <img [src]="item.icon" [alt]="item.label" class="nav-icon" />
+    <span class="nav-label">{{ item.label }}</span>
+  </a>
+</div>
+
+<!-- Premium Modal -->
+<div class="premium-modal-overlay" *ngIf="showPremiumModal" (click)="closePremiumModal()">
+  <div class="premium-modal" (click)="$event.stopPropagation()">
+    <button class="premium-modal-close" (click)="closePremiumModal()">✕</button>
+
+    <div class="premium-modal-icon">⭐</div>
+    <h2 class="premium-modal-title">Премиум-доступ</h2>
+
+    <div *ngIf="isPremium; else notPremium">
+      <p class="premium-modal-text">У вас уже есть премиум-доступ. Спасибо за поддержку!</p>
+    </div>
+
+    <ng-template #notPremium>
+      <p class="premium-modal-text">Откройте все возможности приложения:</p>
+      <ul class="premium-modal-list">
+        <li>2 попытки в день (без рекламы)</li>
+        <li>Доступ ко всем 64 картам</li>
+        <li>5 вопросов оракулу в день</li>
+        <li>Нет рекламы</li>
+      </ul>
+      <button class="premium-modal-btn" (click)="purchasePremium()">
+        Купить премиум
+      </button>
+    </ng-template>
+  </div>
+</div>

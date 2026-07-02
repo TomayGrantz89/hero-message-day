@@ -5,7 +5,8 @@
   background: url('/assets/ui/blue.png');
   font-family: 'EBGaramond', serif;
   padding: 20px;
-  padding-top: 70px;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 60px);
+  padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 20px);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -426,7 +427,8 @@
 @media (max-width: 768px) {
   .prediction-container {
     padding: 15px;
-    padding-top: 65px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 55px);
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
   }
 
   .header {
@@ -522,7 +524,8 @@
 @media (max-width: 480px) {
   .prediction-container {
     padding: 10px;
-    padding-top: 60px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 10px);
   }
 
   .header {
@@ -609,7 +612,8 @@
 // Very small screens
 @media (max-width: 360px) {
   .prediction-container {
-    padding-top: 55px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 45px);
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 10px);
   }
 
   .card-wrapper {
@@ -645,7 +649,8 @@
 @media (max-width: 768px) and (orientation: landscape) {
   .prediction-container {
     padding: 15px;
-    padding-top: 60px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
   }
 
   .header {

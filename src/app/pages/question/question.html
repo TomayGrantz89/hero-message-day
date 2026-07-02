@@ -1,6 +1,4 @@
 <div class="question-container">
-  <app-top-bar (premiumPurchased)="onPremiumPurchased()"></app-top-bar>
-
   <div class="question-content">
 
     <p class="instruction">Задайте вопрос, на который можно ответить «Да» или «Нет», и нажмите на волшебный шар.</p>
@@ -8,9 +6,6 @@
     <div class="card-area">
       <div class="magic-image-wrapper" (click)="askQuestion()" [class.disabled]="!hasAttempt">
         <img src="/assets/ui/magic.png" alt="Задать вопрос" class="magic-image" />
-        <!-- <div class="attempt-overlay" *ngIf="!hasAttempt">
-          <span class="no-attempt">Нет попыток</span>
-        </div> -->
       </div>
     </div>
 
@@ -25,11 +20,5 @@
         <span class="info-detail" *ngIf="!isPremium">Премиум пользователь получает 5 вопросов в день.</span>
       </div>
     </div>
-
-    <!-- <div class="actions">
-      <button class="btn btn-reset" (click)="resetQuestion()" [disabled]="!currentAnswer">
-        Сбросить ответ
-      </button>
-    </div> -->
   </div>
 </div>

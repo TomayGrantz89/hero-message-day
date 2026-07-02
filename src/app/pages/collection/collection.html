@@ -1,6 +1,4 @@
 <div class="collection-container">
-  <app-top-bar (premiumPurchased)="onPremiumPurchased()"></app-top-bar>
-
   <header class="header">
     <h1>Коллекция карт</h1>
     <div class="stats" *ngIf="isPremium">
@@ -55,16 +53,5 @@
   </main>
 
   <footer class="footer">
-
-    <!-- Premium benefits section - shown only for non-premium users -->
-    <!-- <div class="premium-benefits" *ngIf="!isPremium">
-      <h2 class="premium-title">⭐ Премиум-преимущества:</h2>
-      <ul class="premium-list">
-        <li>2 попытки в день (без рекламы)</li>
-        <li>Доступ ко всем 50 картам</li>
-        <li>Нет рекламы</li>
-        <li>Карты добавляются в вашу коллекцию автоматически.</li>
-      </ul>
-    </div> -->
   </footer>
 </div>

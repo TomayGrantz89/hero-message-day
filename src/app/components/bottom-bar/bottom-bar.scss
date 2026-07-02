@@ -1,0 +1,257 @@
+/* ============================================
+   Bottom Navigation Bar — iOS-style
+   ============================================ */
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: rgba(242, 242, 247, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 0.5px solid rgba(60, 60, 67, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 1000;
+  box-sizing: content-box;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  text-decoration: none;
+  padding: 4px 8px;
+  min-width: 56px;
+  min-height: 44px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.15s ease;
+
+  &:active {
+    opacity: 0.6;
+  }
+}
+
+.nav-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  color: #8E8E93;
+  transition: color 0.15s ease;
+  /* Apply color via CSS filter since SVG uses currentColor */
+}
+
+.nav-label {
+  font-size: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-weight: 500;
+  color: #8E8E93;
+  letter-spacing: 0.2px;
+  transition: color 0.15s ease;
+  white-space: nowrap;
+}
+
+/* Active state */
+.nav-item.active {
+  .nav-icon {
+    color: #007AFF;
+  }
+  .nav-label {
+    color: #007AFF;
+  }
+}
+
+/* ============================================
+   Premium Modal
+   ============================================ */
+
+.premium-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.premium-modal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 24px 24px;
+  max-width: 340px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  animation: modalSlideUp 0.3s ease;
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.premium-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #8E8E93;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  min-width: auto;
+  min-height: auto;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.premium-modal-icon {
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.premium-modal-title {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  color: #1C1C1E;
+  margin: 0 0 12px;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+}
+
+.premium-modal-text {
+  font-size: 14px;
+  color: #636366;
+  text-align: center;
+  margin: 0 0 16px;
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+
+.premium-modal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+
+  li {
+    padding: 8px 0;
+    font-size: 14px;
+    color: #1C1C1E;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+
+    &::before {
+      content: '✓ ';
+      color: #34C759;
+      font-weight: 700;
+    }
+  }
+}
+
+.premium-modal-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: #007AFF;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  min-width: auto;
+  min-height: auto;
+
+  &:hover {
+    background: #0066D6;
+  }
+
+  &:active {
+    background: #0055B3;
+  }
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+
+@media (max-width: 374px) {
+  .bottom-bar {
+    height: 60px;
+  }
+
+  .nav-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .nav-label {
+    font-size: 9px;
+  }
+
+  .nav-item {
+    min-width: 48px;
+    padding: 2px 4px;
+  }
+}
+
+@media (min-width: 768px) {
+  .bottom-bar {
+    height: 76px;
+  }
+
+  .nav-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .nav-label {
+    font-size: 11px;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 480px) and (orientation: landscape) {
+  .bottom-bar {
+    height: 52px;
+  }
+
+  .nav-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .nav-label {
+    font-size: 9px;
+  }
+}

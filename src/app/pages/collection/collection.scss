@@ -488,16 +488,6 @@
   }
 }
 
-.footer {
-  text-align: center;
-  padding: 20px;
-  margin-top: 30px;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 15px;
-  color: #666;
-  font-size: 1rem;
-}
-
 .premium-benefits {
   margin-top: 25px;
   padding: 20px;
@@ -702,12 +692,6 @@
     }
   }
 
-  .footer {
-    padding: 15px;
-    font-size: 0.95rem;
-    margin-top: 20px;
-  }
-
   .premium-benefits {
     padding: 15px;
     margin-top: 20px;
@@ -785,6 +769,7 @@
     }
 
     .detail-controls {
+
       .btn-flip,
       .btn-close {
         padding: 12px 18px;
@@ -923,6 +908,7 @@
 
 // Prevent horizontal scrolling on all orientations
 @media (max-width: 768px) {
+
   html,
   body {
     overflow-x: hidden;
@@ -938,6 +924,7 @@
 // Desktop styles (> 768px)
 // ============================================
 @media (min-width: 769px) {
+
   // Show desktop grid on desktop
   .desktop-grid {
     display: block;

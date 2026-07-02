@@ -10,6 +10,8 @@
   padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 20px);
   font-family: 'EBGaramond', serif;
   position: relative;
+  display: flex;
+  flex-direction: column;
 
   .header {
     display: flex;
@@ -33,6 +35,10 @@
   .question-content {
     max-width: 1200px;
     margin: 0 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     h1 {
       text-align: center;
@@ -45,7 +51,7 @@
       text-align: center;
       font-size: 1.2rem;
       color: #555;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
@@ -55,7 +61,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 50px;
+      margin-bottom: 20px;
 
       .magic-image-wrapper {
         position: relative;
@@ -100,7 +106,7 @@
     }
 
     .beautiful-answer {
-      margin: 40px auto;
+      margin: 20px auto;
       max-width: 600px;
       text-align: center;
       animation: fadeIn 0.8s ease-out;
@@ -129,7 +135,7 @@
     .attempts-info {
       display: flex;
       justify-content: center;
-      margin-bottom: 40px;
+      margin-bottom: 10px;
 
       .info-box {
         background: rgba(255, 255, 255, 0.5);

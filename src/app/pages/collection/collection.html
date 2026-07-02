@@ -1,11 +1,4 @@
 <div class="collection-container">
-  <header class="header">
-    <h1>Коллекция карт</h1>
-    <div class="stats" *ngIf="isPremium">
-      <div>Получено: {{ getCollectedCount() }} / {{ totalCards }}</div>
-    </div>
-  </header>
-
   <main class="main">
     <div class="grid" *ngIf="!showDetail">
       <div class="card-item" [class.card-item--locked]="!item.owned" [class.card-item--owned]="item.owned"

@@ -55,6 +55,7 @@
   align-items: center;
   text-align: center;
   justify-content: center;
+  padding-top: 8px;
 
   h1 {
     font-size: 2.8rem;
@@ -64,16 +65,17 @@
   }
 
   .subtitle {
-    font-size: 1.2rem;
-    color: #666;
+    font-size: 1.3rem;
+    color: #444;
     margin-bottom: 20px;
   }
 }
 
 .card-wrapper {
   perspective: 1000px;
-  width: 300px;
-  height: 450px;
+  width: calc(55vh * 2 / 3);
+  height: 55vh;
+  max-width: 90vw;
   margin: 10px auto;
   cursor: pointer;
 
@@ -151,7 +153,7 @@
         }
 
         p {
-          font-size: 1.3rem;
+          font-size: 1.4rem;
           line-height: 1.5;
           margin-bottom: 15px;
           color: #EDECF9;
@@ -169,7 +171,7 @@
         bottom: 15px;
         left: 0;
         right: 0;
-        font-size: 0.85rem;
+        font-size: 0.95rem;
         color: rgba(237, 236, 249, 0.6);
         animation: pulse-hint 2s ease-in-out infinite;
         pointer-events: none;
@@ -193,7 +195,7 @@
     border: none;
     border-radius: 14px;
     padding: 16px 32px;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -215,8 +217,8 @@
 
   .attempts-counter {
     text-align: center;
-    font-size: 1rem;
-    color: #8E8E93;
+    font-size: 1.1rem;
+    color: #666;
     margin-top: 12px;
     font-weight: 400;
 
@@ -228,7 +230,7 @@
 }
 
 .timer-line {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: #0a1e3d;
   margin-top: 20px;
   padding-top: 12px;
@@ -415,14 +417,15 @@
     }
 
     .subtitle {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       margin-bottom: 16px;
     }
   }
 
   .card-wrapper {
-    width: 250px;
-    height: 375px;
+    width: calc(55vh * 2 / 3);
+    height: 55vh;
+    max-width: 90vw;
     margin: 8px auto;
   }
 
@@ -432,17 +435,17 @@
 
     .btn-action {
       padding: 14px 28px;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
     }
 
     .attempts-counter {
-      font-size: 0.95rem;
+      font-size: 1.05rem;
       margin-top: 10px;
     }
   }
 
   .timer-line {
-    font-size: 1rem;
+    font-size: 1.1rem;
     margin-top: 16px;
     padding-top: 10px;
   }
@@ -476,14 +479,15 @@
     }
 
     .subtitle {
-      font-size: 1rem;
+      font-size: 1.1rem;
       margin-bottom: 14px;
     }
   }
 
   .card-wrapper {
-    width: 220px;
-    height: 330px;
+    width: calc(55vh * 2 / 3);
+    height: 55vh;
+    max-width: 90vw;
     margin: 6px auto;
   }
 
@@ -515,18 +519,18 @@
 
     .btn-action {
       padding: 14px 24px;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       border-radius: 12px;
     }
 
     .attempts-counter {
-      font-size: 0.9rem;
+      font-size: 1rem;
       margin-top: 10px;
     }
   }
 
   .timer-line {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     margin-top: 14px;
     padding-top: 8px;
   }
@@ -540,8 +544,9 @@
   }
 
   .card-wrapper {
-    width: 200px;
-    height: 300px;
+    width: calc(55vh * 2 / 3);
+    height: 55vh;
+    max-width: 90vw;
     margin: 4px auto;
   }
 
@@ -595,14 +600,15 @@
 
   .main {
     .subtitle {
-      font-size: 1rem;
+      font-size: 1.1rem;
       margin-bottom: 14px;
     }
   }
 
   .card-wrapper {
-    width: 250px;
-    height: 375px;
+    width: calc(65vh * 2 / 3);
+    height: 65vh;
+    max-width: 50vw;
     margin: 6px auto;
   }
 
@@ -620,8 +626,9 @@
   }
 
   .card-wrapper {
-    width: 220px;
-    height: 330px;
+    width: calc(65vh * 2 / 3);
+    height: 65vh;
+    max-width: 50vw;
   }
 
   .card .side {

@@ -83,9 +83,9 @@ export class Prediction implements OnInit, OnDestroy {
       };
       // Store the prediction ID for future different predictions
       this.previousPredictionId = this.prediction.id;
-      // Show the card face up and prediction
+      // Show the card face up (image side), not prediction
       this.showCardFace = true;
-      this.showPrediction = true;
+      this.showPrediction = false;
     } else {
       // No card opened today — show card back
       this.loadRandomCard(false);
@@ -306,6 +306,8 @@ export class Prediction implements OnInit, OnDestroy {
 
   closeEnlarged(): void {
     this.showEnlarged = false;
+    this.showCardFace = true;
+    this.showPrediction = false;
     this.enlargedSide = 'face';
   }
 

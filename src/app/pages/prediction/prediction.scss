@@ -56,6 +56,7 @@
   text-align: center;
   justify-content: center;
   padding-top: 8px;
+  min-height: calc(100vh - 160px);
 
   h1 {
     font-size: 2.8rem;
@@ -72,7 +73,6 @@
 }
 
 .card-wrapper {
-  perspective: 1000px;
   width: calc(60vh * 2 / 3);
   height: 60vh;
   max-width: 90vw;
@@ -83,21 +83,16 @@
     width: 100%;
     height: 100%;
     position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border-radius: 20px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
     box-sizing: border-box;
 
-    &.flipped {
-      transform: rotateY(180deg);
-    }
-
     .side {
       position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      backface-visibility: hidden;
       border-radius: 20px;
       display: flex;
       flex-direction: column;
@@ -105,6 +100,7 @@
       align-items: center;
       overflow: hidden;
       box-sizing: border-box;
+      transition: opacity 0.5s ease;
     }
 
     .back {
@@ -113,40 +109,26 @@
       background-size: cover;
       background-position: center;
       border: 5px solid #555;
+      z-index: 2;
+
+      &.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
     }
 
     .face {
       background: transparent;
-      transform: rotateY(180deg);
-      border: none;
+      border: 5px solid transparent;
       padding: 0;
       justify-content: flex-start;
+      z-index: 1;
+      opacity: 0;
+      pointer-events: none;
 
-      // Inner container for the second flip (image ↔ prediction)
-      .card-inner {
-        width: 100%;
-        height: 100%;
-        position: relative;
-        transform-style: preserve-3d;
-        transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        border-radius: 20px;
-
-        &.show-prediction {
-          transform: rotateY(180deg);
-        }
-      }
-
-      .card-front {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        backface-visibility: hidden;
-        display: flex;
-        flex-direction: column;
-        border-radius: 20px;
-        overflow: hidden;
+      &.visible {
+        opacity: 1;
+        pointer-events: auto;
       }
 
       .card-image {
@@ -178,15 +160,33 @@
         }
       }
 
-      // Prediction on the back of the face side (inner flip)
-      .prediction-back {
+      // Image layer
+      .face-image-layer {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        backface-visibility: hidden;
-        transform: rotateY(180deg);
+        display: flex;
+        flex-direction: column;
+        border-radius: 20px;
+        overflow: hidden;
+        transition: opacity 0.5s ease;
+        z-index: 2;
+
+        &.hidden {
+          opacity: 0;
+          pointer-events: none;
+        }
+      }
+
+      // Prediction layer
+      .face-prediction-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         background: var(--prediction-bg, #2A2A2E);
         display: flex;
         align-items: center;
@@ -194,6 +194,15 @@
         padding: 30px;
         border-radius: 20px;
         box-sizing: border-box;
+        transition: opacity 0.5s ease;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 1;
+
+        &.visible {
+          opacity: 1;
+          pointer-events: auto;
+        }
 
         p {
           font-family: 'EBGaramond', serif;
@@ -208,14 +217,16 @@
   }
 }
 
-/* New button section - replaces old .controls */
-.button-section {
+/* Unified action area — fixed height container, no layout shift */
+.action-area {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   max-width: 320px;
+  min-height: 140px;
+  justify-content: flex-start;
 
   .btn-action {
     background: #FFFFFF;
@@ -231,6 +242,11 @@
     width: 100%;
     text-align: center;
     letter-spacing: 0.3px;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
 
     &:hover {
       transform: translateY(-2px);
@@ -240,6 +256,33 @@
     &:active {
       transform: translateY(0);
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  /* Timer block — same height as button, centered content */
+  .timer-block {
+    width: 100%;
+    min-height: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 14px;
+    padding: 8px 32px;
+    box-sizing: border-box;
+
+    .timer-label {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 2px;
+    }
+
+    .timer-value {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #cc3300;
+      letter-spacing: 1px;
     }
   }
 
@@ -254,19 +297,6 @@
       font-weight: 600;
       color: #0a1e3d;
     }
-  }
-}
-
-.timer-line {
-  font-size: 1.2rem;
-  color: #0a1e3d;
-  margin-top: 20px;
-  padding-top: 12px;
-  text-align: center;
-
-  strong {
-    color: #cc3300;
-    font-weight: bold;
   }
 }
 
@@ -351,25 +381,34 @@
     margin: 8px auto;
   }
 
-  .button-section {
+  .action-area {
     margin-top: 16px;
     max-width: 280px;
+    min-height: 130px;
 
     .btn-action {
       padding: 14px 28px;
       font-size: 1.2rem;
+      min-height: 52px;
+    }
+
+    .timer-block {
+      min-height: 52px;
+      padding: 6px 28px;
+
+      .timer-label {
+        font-size: 0.85rem;
+      }
+
+      .timer-value {
+        font-size: 1.2rem;
+      }
     }
 
     .attempts-counter {
       font-size: 1.05rem;
       margin-top: 10px;
     }
-  }
-
-  .timer-line {
-    font-size: 1.1rem;
-    margin-top: 16px;
-    padding-top: 10px;
   }
 }
 
@@ -428,26 +467,35 @@
     }
   }
 
-  .button-section {
+  .action-area {
     margin-top: 14px;
     max-width: 260px;
+    min-height: 120px;
 
     .btn-action {
       padding: 14px 24px;
       font-size: 1.2rem;
+      min-height: 50px;
       border-radius: 12px;
+    }
+
+    .timer-block {
+      min-height: 50px;
+      padding: 6px 24px;
+
+      .timer-label {
+        font-size: 0.8rem;
+      }
+
+      .timer-value {
+        font-size: 1.15rem;
+      }
     }
 
     .attempts-counter {
       font-size: 1rem;
       margin-top: 10px;
     }
-  }
-
-  .timer-line {
-    font-size: 1.05rem;
-    margin-top: 14px;
-    padding-top: 8px;
   }
 }
 
@@ -475,10 +523,20 @@
     }
   }
 
-  .button-section {
+  .action-area {
     .btn-action {
       padding: 12px 20px;
       font-size: 1rem;
+      min-height: 46px;
+    }
+
+    .timer-block {
+      min-height: 46px;
+      padding: 4px 20px;
+
+      .timer-value {
+        font-size: 1.05rem;
+      }
     }
   }
 }
@@ -521,7 +579,7 @@
     margin: 6px auto;
   }
 
-  .button-section {
+  .action-area {
     margin-top: 14px;
   }
 }
@@ -556,9 +614,11 @@
   0% {
     opacity: 0.4;
   }
+
   50% {
     opacity: 1;
   }
+
   100% {
     opacity: 0.4;
   }

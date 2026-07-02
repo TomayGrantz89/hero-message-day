@@ -140,38 +140,40 @@ export class Prediction implements OnInit, OnDestroy {
 
   /**
    * Determines if the action button should be shown
+   * Button is shown when there are attempts remaining, regardless of card state
    */
   get showButton(): boolean {
-    // Show button only when card is not yet opened (back side up)
-    return !this.showCardFace;
+    return this.attemptsRemaining > 0;
   }
 
   /**
    * Returns the button text based on current state
    */
   get buttonText(): string {
+    if (this.attemptsRemaining <= 0) {
+      return 'Купить премиум';
+    }
     if (!this.showCardFace) {
-      // Free user with no attempts — offer premium purchase
-      if (!this.isPremium && this.attemptsRemaining <= 0) {
-        return 'Купить премиум';
-      }
       return 'Открыть карту';
     }
-    return '';
+    // Card is face up and has attempts (premium user getting second card)
+    return 'Получить вторую карту';
   }
 
   /**
    * Handles the action button click
    */
   onActionButtonClick(): void {
+    if (this.attemptsRemaining <= 0) {
+      this.purchasePremium();
+      return;
+    }
     if (!this.showCardFace) {
-      // Free user with no attempts — offer premium purchase
-      if (!this.isPremium && this.attemptsRemaining <= 0) {
-        this.purchasePremium();
-        return;
-      }
-      // Card not opened — flip it (uses an attempt)
+      // Card back is showing — flip to open it
       this.flipCard();
+    } else {
+      // Card is face up, user wants second card — draw new card
+      this.drawNewCard();
     }
   }
 
@@ -185,11 +187,19 @@ export class Prediction implements OnInit, OnDestroy {
         this.updateAttempts();
         // Reset prediction received flag so the new card can be tracked
         this.attemptService.resetPredictionReceived();
-        // Load a new random card and add to collection
-        this.loadRandomCard(true, true);
-        // Reset card display to show back side
+
+        // Step 1: Immediately hide the face to show back
         this.showCardFace = false;
         this.showPrediction = false;
+
+        // Step 2: Clear current card to prevent any image loading flash
+        this.card = null;
+        this.prediction = null;
+
+        // Step 3: Defer loading new card data to ensure back is rendered first
+        setTimeout(() => {
+          this.loadRandomCard(true, true);
+        }, 50);
       }
     }
     // Otherwise do nothing (no attempts)
@@ -204,9 +214,18 @@ export class Prediction implements OnInit, OnDestroy {
     this.updateAttempts();
     // Refresh oracle question attempts to premium maximum (5)
     this.attemptService.refreshQuestionAttempts();
-    // Reset card state so user can immediately draw a new card
-    this.loadRandomCard(false);
-    this.showCardFace = false;
-    this.showPrediction = false;
+
+    if (this.showCardFace) {
+      // Card is already open — keep it, set attempts to 1 (1 used, 1 remaining)
+      this.attemptService.setAttempts(1);
+      this.updateAttempts();
+      // Button will show "Получить вторую карту", counter shows 1/2
+    } else {
+      // No card opened — load fresh card with back showing
+      this.loadRandomCard(false);
+      this.showCardFace = false;
+      this.showPrediction = false;
+      // attemptsRemaining is already 2 from refreshPredictionAttempts
+    }
   }
 }

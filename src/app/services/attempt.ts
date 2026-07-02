@@ -65,6 +65,15 @@ export class Attempt {
     return true;
   }
 
+  /**
+   * Set attempts to a specific count (capped by premium max)
+   */
+  setAttempts(count: number): void {
+    const maxAttempts = this.premium.isPremium() ? 2 : 1;
+    const cappedCount = Math.min(count, maxAttempts);
+    localStorage.setItem(this.STORAGE_KEY, cappedCount.toString());
+  }
+
   // Question attempts management
   getRemainingQuestionAttempts(): number {
     // Ensure daily reset

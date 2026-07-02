@@ -1,46 +1,49 @@
 <div class="prediction-container">
   <main class="main">
-    <p class="subtitle">{{ showCardFace ? (showPrediction ? '' : 'Нажмите на карту, чтобы узнать предсказание') : 'Нажмите на карту, чтобы открыть её' }}</p>
+    <p class="subtitle">{{ !showCardFace ? 'Нажмите на карту, чтобы открыть её' : (showPrediction ? 'Нажмите на карту, чтобы увидеть изображение' : 'Нажмите на карту, чтобы узнать предсказание') }}</p>
 
     <div class="card-wrapper" (click)="flipCard()">
-      <div class="card" [class.flipped]="showCardFace">
+      <div class="card" [class.show-face]="showCardFace">
         <!-- Back side (card back / рубашка) -->
-        <div class="side back">
+        <div class="side back" [class.hidden]="showCardFace">
         </div>
 
-        <!-- Face side — картинка спереди, предсказание сзади (внутренний флип) -->
-        <div class="side face">
-          <div class="card-inner" [class.show-prediction]="showPrediction">
-            <!-- Front: картинка + имя -->
-            <div class="card-front">
-              <div class="card-image" [style.backgroundImage]="'url(' + card?.imageUrl + ')'"></div>
-              <div class="card-name-bar">
-                <span class="card-name">{{ card?.name }}</span>
-              </div>
+        <!-- Face side — картинка спереди, предсказание сзади -->
+        <div class="side face" [class.visible]="showCardFace">
+          <!-- Image layer -->
+          <div class="face-image-layer" [class.hidden]="showPrediction">
+            <div class="card-image" [style.backgroundImage]="'url(' + card?.imageUrl + ')'"></div>
+            <div class="card-name-bar">
+              <span class="card-name">{{ card?.name }}</span>
             </div>
+          </div>
 
-            <!-- Back: предсказание -->
-            <div class="prediction-back">
-              <p>{{ prediction?.text }}</p>
-            </div>
+          <!-- Prediction layer -->
+          <div class="face-prediction-layer" [class.visible]="showPrediction">
+            <p>{{ prediction?.text }}</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Button section under the card -->
-    <div class="button-section" *ngIf="showButton">
-      <button class="btn-action" (click)="onActionButtonClick()">
+    <!-- Unified action area — fixed height, no layout shift -->
+    <div class="action-area">
+      <!-- Button (shown when attempts > 0) -->
+      <button class="btn-action" *ngIf="showButton" (click)="onActionButtonClick()">
         {{ buttonText }}
       </button>
+
+      <!-- Timer (shown when attempts <= 0) -->
+      <div class="timer-block" *ngIf="!showButton">
+        <span class="timer-label">Следующая карта через:</span>
+        <span class="timer-value">{{ timer }}</span>
+      </div>
+
+      <!-- Attempts counter (always visible) -->
       <div class="attempts-counter">
         Осталось попыток: <span class="attempt-count">{{ attemptsRemaining }}</span> / {{ maxAttemptsPerDay }}
       </div>
-    </div>
 
-    <!-- Timer: shown only when no attempts remaining and card is showing -->
-    <p class="timer-line" *ngIf="attemptsRemaining <= 0 && showCardFace">
-      Следующая карта через: <strong>{{ timer }}</strong>
-    </p>
+    </div>
   </main>
 </div>

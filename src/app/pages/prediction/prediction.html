@@ -24,65 +24,35 @@
       </div>
     </div>
 
-    <!-- Enlarged Card Overlay -->
-    <div class="enlarged-card-overlay" *ngIf="showEnlarged" (click)="closeEnlarged()">
-      <div class="enlarged-card-container" (click)="$event.stopPropagation()">
-        <div class="enlarged-card" (click)="flipEnlarged()" [class.flipped]="enlargedSide === 'back'">
-          <div class="enlarged-card-face">
-            <div class="enlarged-card-image" [style.backgroundImage]="'url(' + card?.imageUrl + ')'"></div>
-          </div>
-          <div class="enlarged-card-back">
-            <div class="enlarged-card-info">
-              <h3>Предсказание</h3>
-              <p>{{ prediction?.text }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="controls">
-      <!-- "Open card" button removed as per requirements -->
-      <!-- Show "Get new card" button only after ad -->
-      <button class="btn-get-new" *ngIf="showNewCardButton" (click)="getNewCardAfterAd()">
-        Получить новую карту
+    <!-- Button section under the card -->
+    <div class="button-section" *ngIf="showButton">
+      <button class="btn-action" (click)="onActionButtonClick()">
+        {{ buttonText }}
       </button>
-
-      <!-- Show "Get new card" button when user already opened a card today -->
-      <!-- For non-premium: shown when prediction is showing and user has attempts or can watch ad -->
-      <!-- For premium: shown when card face or prediction is showing and user has remaining attempts -->
-      <button class="btn-draw-new" *ngIf="!showNewCardButton && ((showPrediction && (attemptsRemaining > 0 || attemptService.canWatchAd())) || (isPremium && showCardFace && attemptsRemaining > 0))"
-        (click)="drawNewCard()">
-        Получить новую карту
-      </button>
-
-      <div class="attempts">
+      <div class="attempts-counter">
         Осталось попыток: <span class="attempt-count">{{ attemptsRemaining }}</span> / {{ maxAttemptsPerDay }}
-        <span class="ad-icon" *ngIf="attemptsRemaining === 0 && attemptService.canWatchAd() && !isPremium"
-          title="Получить ещё попытку через просмотр рекламы" (click)="showAdModal = true">
-          🎬
-        </span>
       </div>
-      <p class="hint" *ngIf="!isPremium">* 1 попытка в день. Вторую можно получить, посмотрев рекламу.</p>
-
-      <!-- Timer: shown only when no attempts remaining -->
-      <p class="timer-line" *ngIf="attemptsRemaining <= 0">
-        Следующая карта через: <strong>{{ timer }}</strong>
-      </p>
     </div>
+
+    <!-- Timer: shown only when no attempts remaining and card is showing -->
+    <p class="timer-line" *ngIf="attemptsRemaining <= 0 && (showCardFace || showPrediction)">
+      Следующая карта через: <strong>{{ timer }}</strong>
+    </p>
   </main>
 
-  <!-- Ad Modal -->
-  <div class="modal-overlay" *ngIf="showAdModal">
-    <div class="modal">
-      <h2>Посмотреть рекламу?</h2>
-      <p>После просмотра рекламы вы получите дополнительную попытку открыть карту.</p>
-      <div class="modal-buttons">
-        <button class="modal-btn watch" (click)="watchAd()">Смотреть рекламу</button>
-        <button class="modal-btn cancel" (click)="closeAdModal()">Отмена</button>
-      </div>
-      <div class="ad-placeholder">
-        <div class="ad-sim">Здесь будет рекламный ролик</div>
+  <!-- Enlarged Card Overlay -->
+  <div class="enlarged-card-overlay" *ngIf="showEnlarged" (click)="closeEnlarged()">
+    <div class="enlarged-card-container" (click)="$event.stopPropagation()">
+      <div class="enlarged-card" (click)="flipEnlarged()" [class.flipped]="enlargedSide === 'back'">
+        <div class="enlarged-card-face">
+          <div class="enlarged-card-image" [style.backgroundImage]="'url(' + card?.imageUrl + ')'"></div>
+        </div>
+        <div class="enlarged-card-back">
+          <div class="enlarged-card-info">
+            <h3>Предсказание</h3>
+            <p>{{ prediction?.text }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

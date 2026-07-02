@@ -9,8 +9,8 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  /* Fixed background covers entire viewport, no gaps */
-  background: url('/assets/ui/blue.png') center center / cover no-repeat fixed;
+  /* Light background with subtle blue tint */
+  background: linear-gradient(180deg, #F5F8FC 0%, #EBF0F7 100%) center center / cover no-repeat fixed;
   /* Padding for bottom navigation bar */
   padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
 }

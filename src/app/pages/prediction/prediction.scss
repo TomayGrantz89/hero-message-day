@@ -2,7 +2,7 @@
   min-height: 100vh;
   /* background inherited from global body */
   color: #333;
-  background: url('/assets/ui/blue.png');
+  background: transparent;
   font-family: 'EBGaramond', serif;
   padding: 20px;
   padding-top: calc(env(safe-area-inset-top, 0px) + 60px);
@@ -177,547 +177,65 @@
   }
 }
 
-.controls {
+/* New button section - replaces old .controls */
+.button-section {
   margin-top: 40px;
-  background: rgb(255, 255, 255);
-  padding: 25px;
-  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
-  max-width: 500px;
+  max-width: 320px;
 
-  .btn-get-new {
-    background: #0D0528;
-    color: #EDECF9;
+  .btn-action {
+    background: #FFFFFF;
+    color: #007AFF;
     border: none;
-    padding: 18px 40px;
-    font-size: 1.5rem;
-    border-radius: 12px;
+    border-radius: 14px;
+    padding: 16px 32px;
+    font-size: 1.2rem;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
     width: 100%;
-    margin-bottom: 20px;
+    text-align: center;
+    letter-spacing: 0.3px;
 
-    &:hover:not(:disabled) {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(13, 5, 40, 0.4);
-    }
-
-    &:disabled {
-      background: #555;
-      cursor: not-allowed;
-      opacity: 0.7;
-    }
-  }
-
-  .btn-draw-new {
-    background: #0D0528;
-    color: #EDECF9;
-    border: none;
-    padding: 18px 40px;
-    font-size: 1.5rem;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s;
-    width: 100%;
-    margin-bottom: 20px;
-
-    &:hover:not(:disabled) {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(13, 5, 40, 0.4);
-    }
-
-    &:disabled {
-      background: #555;
-      cursor: not-allowed;
-      opacity: 0.7;
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     }
 
     &:active {
       transform: translateY(0);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
     }
   }
 
-  .btn-open {
-    background: #0D0528;
-    color: #EDECF9;
-    border: none;
-    padding: 18px 40px;
-    font-size: 1.5rem;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s;
-    width: 100%;
-    margin-bottom: 20px;
-
-    &:hover:not(:disabled) {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(13, 5, 40, 0.4);
-    }
-
-    &:disabled {
-      background: #555;
-      cursor: not-allowed;
-      opacity: 0.7;
-    }
-  }
-
-  .attempts {
-    font-size: 1.3rem;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+  .attempts-counter {
+    text-align: center;
+    font-size: 1rem;
+    color: #8E8E93;
+    margin-top: 12px;
+    font-weight: 400;
 
     .attempt-count {
-      font-weight: bold;
-      color: #00ffaa;
-      font-size: 1.8rem;
-    }
-
-    .ad-icon {
-      display: inline-block;
-      font-size: 1.5rem;
-      cursor: pointer;
-      animation: pulse 2s infinite;
-      vertical-align: middle;
-      transition: transform 0.3s;
-
-      &:hover {
-        transform: scale(1.2);
-        color: #ffcc00;
-      }
-    }
-  }
-
-  .hint {
-    font-size: 0.9rem;
-    color: #666;
-    font-style: italic;
-  }
-
-  .timer-line {
-    font-size: 1.1rem;
-    color: #0a1e3d;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid rgba(10, 30, 61, 0.15);
-
-    strong {
-      color: #cc3300;
-      font-weight: bold;
-    }
-  }
-}
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-
-  .modal {
-    background: #BCD7F8;
-    padding: 30px;
-    border-radius: 20px;
-    max-width: 500px;
-    width: 90%;
-    border: 3px solid #1a3a6a;
-    text-align: center;
-
-    h2 {
+      font-weight: 600;
       color: #0a1e3d;
-      margin-bottom: 20px;
-    }
-
-    p {
-      color: #555;
-      margin-bottom: 30px;
-    }
-
-    .modal-buttons {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      margin-bottom: 30px;
-
-      .modal-btn {
-        padding: 15px 30px;
-        border: none;
-        border-radius: 10px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.3s;
-
-        &.watch {
-          background: #0D0528;
-          color: #EDECF9;
-        }
-
-        &.cancel {
-          background: #555;
-          color: #EDECF9;
-        }
-
-        &:hover {
-          transform: translateY(-3px);
-        }
-      }
-    }
-
-    .ad-placeholder {
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 10px;
-      padding: 40px;
-      border: 2px dashed #c8c0e8;
-
-      .ad-sim {
-        color: #888;
-        font-size: 1.2rem;
-      }
     }
   }
 }
 
-// Responsive for fixed elements
-@media (max-width: 768px) {
-  .fixed-home-link {
-    top: 10px;
-    left: 10px;
+.timer-line {
+  font-size: 1.1rem;
+  color: #0a1e3d;
+  margin-top: 20px;
+  padding-top: 12px;
+  text-align: center;
 
-    .home-icon {
-      width: 2rem;
-      height: 2rem;
-    }
-  }
-
-  .premium-btn {
-    top: 8px;
-    right: 8px;
-    padding: 6px 14px;
-
-    .premium-icon {
-      width: 14px;
-      height: 14px;
-    }
-  }
-
-  .premium-status {
-    top: 12px;
-    right: 12px;
-    font-size: 0.85rem;
-
-    .premium-star {
-      width: 14px;
-      height: 14px;
-    }
-  }
-}
-
-// Responsive
-@media (max-width: 768px) {
-  .prediction-container {
-    padding: 15px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 55px);
-    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
-  }
-
-  .header {
-    flex-direction: column;
-    gap: 12px;
-    padding: 14px;
-    margin-bottom: 20px;
-
-    h1 {
-      font-size: 2rem;
-      width: 100%;
-      text-align: center;
-    }
-
-    .ad-button {
-      width: 100%;
-      padding: 14px 20px;
-      font-size: 1.1rem;
-    }
-  }
-
-  .main {
-    h1 {
-      font-size: 2.2rem;
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      font-size: 1.1rem;
-      margin-bottom: 30px;
-    }
-  }
-
-  .card-wrapper {
-    width: 250px;
-    height: 375px;
-    margin: 20px auto;
-  }
-
-  .controls {
-    padding: 20px;
-    margin-top: 30px;
-    max-width: 400px;
-
-    .btn-get-new {
-      padding: 16px 30px;
-      font-size: 1.3rem;
-      width: 100%;
-      margin-bottom: 15px;
-    }
-
-    .attempts {
-      font-size: 1.1rem;
-
-      .attempt-count {
-        font-size: 1.5rem;
-      }
-    }
-
-    .hint {
-      font-size: 0.85rem;
-    }
-
-    .timer-line {
-      font-size: 1rem;
-      margin-top: 10px;
-      padding-top: 10px;
-    }
-  }
-
-  .modal-overlay .modal {
-    padding: 25px;
-    width: 95%;
-    max-width: 400px;
-
-    .modal-buttons {
-      flex-direction: column;
-      gap: 12px;
-
-      .modal-btn {
-        width: 100%;
-        padding: 14px 20px;
-      }
-    }
-
-    .ad-placeholder {
-      padding: 30px;
-    }
-  }
-}
-
-// Small screens
-@media (max-width: 480px) {
-  .prediction-container {
-    padding: 10px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
-    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 10px);
-  }
-
-  .header {
-    padding: 12px;
-    gap: 10px;
-
-    h1 {
-      font-size: 1.8rem;
-    }
-
-    .ad-button {
-      padding: 12px 18px;
-      font-size: 1rem;
-    }
-  }
-
-  .main {
-    h1 {
-      font-size: 2rem;
-    }
-
-    .subtitle {
-      font-size: 1rem;
-      margin-bottom: 25px;
-    }
-  }
-
-  .card-wrapper {
-    width: 220px;
-    height: 330px;
-  }
-
-  .card .side {
-    .face .card-name {
-      font-size: 1.5rem;
-    }
-
-    .prediction {
-      padding: 20px;
-
-      .prediction-text {
-        h3 {
-          font-size: 1.7rem;
-          margin-bottom: 15px;
-        }
-
-        p {
-          font-size: 1.1rem;
-          line-height: 1.4;
-        }
-      }
-    }
-  }
-
-  .controls {
-    padding: 15px;
-    margin-top: 25px;
-
-    .btn-get-new {
-      padding: 14px 25px;
-      font-size: 1.2rem;
-    }
-
-    .attempts {
-      font-size: 1rem;
-
-      .attempt-count {
-        font-size: 1.5rem;
-      }
-
-      .ad-icon {
-        font-size: 1.3rem;
-      }
-    }
-
-    .timer-line {
-      font-size: 0.95rem;
-      margin-top: 8px;
-      padding-top: 8px;
-    }
-  }
-}
-
-// Very small screens
-@media (max-width: 360px) {
-  .prediction-container {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 45px);
-    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 10px);
-  }
-
-  .card-wrapper {
-    width: 200px;
-    height: 300px;
-  }
-
-  .card .side {
-    .prediction {
-      padding: 15px;
-
-      .prediction-text {
-        h3 {
-          font-size: 1.5rem;
-        }
-
-        p {
-          font-size: 1rem;
-        }
-      }
-    }
-  }
-
-  .controls {
-    .btn-get-new {
-      padding: 12px 20px;
-      font-size: 1.1rem;
-    }
-  }
-}
-
-// Landscape orientation for mobile devices
-@media (max-width: 768px) and (orientation: landscape) {
-  .prediction-container {
-    padding: 15px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
-    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
-  }
-
-  .header {
-    flex-direction: row;
-    gap: 10px;
-    padding: 12px 15px;
-    margin-bottom: 15px;
-
-    h1 {
-      font-size: 1.8rem;
-      width: auto;
-    }
-
-    .ad-button {
-      width: auto;
-    }
-  }
-
-  .main {
-    .subtitle {
-      font-size: 1rem;
-      margin-bottom: 25px;
-    }
-  }
-
-  .card-wrapper {
-    width: 250px;
-    height: 375px;
-  }
-
-  .controls {
-    margin-top: 25px;
-
-    .btn-get-new {
-      padding: 14px 28px;
-      font-size: 1.1rem;
-    }
-  }
-}
-
-// Landscape orientation for small screens
-@media (max-width: 480px) and (orientation: landscape) {
-  .header {
-    h1 {
-      font-size: 1.6rem;
-    }
-  }
-
-  .card-wrapper {
-    width: 220px;
-    height: 330px;
-  }
-
-  .card .side {
-    .prediction {
-      padding: 20px;
-
-      .prediction-text {
-        h3 {
-          font-size: 1.6rem;
-        }
-
-        p {
-          font-size: 1.05rem;
-        }
-      }
-    }
+  strong {
+    color: #cc3300;
+    font-weight: bold;
   }
 }
 
@@ -827,7 +345,299 @@
   }
 }
 
-// Responsive for enlarged card overlay
+// Responsive for fixed elements
+@media (max-width: 768px) {
+  .fixed-home-link {
+    top: 10px;
+    left: 10px;
+
+    .home-icon {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  .premium-btn {
+    top: 8px;
+    right: 8px;
+    padding: 6px 14px;
+
+    .premium-icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  .premium-status {
+    top: 12px;
+    right: 12px;
+    font-size: 0.85rem;
+
+    .premium-star {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .prediction-container {
+    padding: 15px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 55px);
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+    margin-bottom: 20px;
+
+    h1 {
+      font-size: 2rem;
+      width: 100%;
+      text-align: center;
+    }
+
+    .ad-button {
+      width: 100%;
+      padding: 14px 20px;
+      font-size: 1.1rem;
+    }
+  }
+
+  .main {
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+  }
+
+  .card-wrapper {
+    width: 250px;
+    height: 375px;
+    margin: 20px auto;
+  }
+
+  .button-section {
+    margin-top: 30px;
+    max-width: 280px;
+
+    .btn-action {
+      padding: 14px 28px;
+      font-size: 1.1rem;
+    }
+
+    .attempts-counter {
+      font-size: 0.95rem;
+      margin-top: 10px;
+    }
+  }
+
+  .timer-line {
+    font-size: 1rem;
+    margin-top: 16px;
+    padding-top: 10px;
+  }
+}
+
+// Small screens
+@media (max-width: 480px) {
+  .prediction-container {
+    padding: 10px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 10px);
+  }
+
+  .header {
+    padding: 12px;
+    gap: 10px;
+
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    .ad-button {
+      padding: 12px 18px;
+      font-size: 1rem;
+    }
+  }
+
+  .main {
+    h1 {
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      margin-bottom: 25px;
+    }
+  }
+
+  .card-wrapper {
+    width: 220px;
+    height: 330px;
+  }
+
+  .card .side {
+    .face .card-name {
+      font-size: 1.5rem;
+    }
+
+    .prediction {
+      padding: 20px;
+
+      .prediction-text {
+        h3 {
+          font-size: 1.7rem;
+          margin-bottom: 15px;
+        }
+
+        p {
+          font-size: 1.1rem;
+          line-height: 1.4;
+        }
+      }
+    }
+  }
+
+  .button-section {
+    margin-top: 25px;
+    max-width: 260px;
+
+    .btn-action {
+      padding: 14px 24px;
+      font-size: 1.1rem;
+      border-radius: 12px;
+    }
+
+    .attempts-counter {
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+  }
+
+  .timer-line {
+    font-size: 0.95rem;
+    margin-top: 14px;
+    padding-top: 8px;
+  }
+}
+
+// Very small screens
+@media (max-width: 360px) {
+  .prediction-container {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 45px);
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 10px);
+  }
+
+  .card-wrapper {
+    width: 200px;
+    height: 300px;
+  }
+
+  .card .side {
+    .prediction {
+      padding: 15px;
+
+      .prediction-text {
+        h3 {
+          font-size: 1.5rem;
+        }
+
+        p {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  .button-section {
+    .btn-action {
+      padding: 12px 20px;
+      font-size: 1rem;
+    }
+  }
+}
+
+// Landscape orientation for mobile devices
+@media (max-width: 768px) and (orientation: landscape) {
+  .prediction-container {
+    padding: 15px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
+  }
+
+  .header {
+    flex-direction: row;
+    gap: 10px;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+
+    h1 {
+      font-size: 1.8rem;
+      width: auto;
+    }
+
+    .ad-button {
+      width: auto;
+    }
+  }
+
+  .main {
+    .subtitle {
+      font-size: 1rem;
+      margin-bottom: 25px;
+    }
+  }
+
+  .card-wrapper {
+    width: 250px;
+    height: 375px;
+  }
+
+  .button-section {
+    margin-top: 25px;
+  }
+}
+
+// Landscape orientation for small screens
+@media (max-width: 480px) and (orientation: landscape) {
+  .header {
+    h1 {
+      font-size: 1.6rem;
+    }
+  }
+
+  .card-wrapper {
+    width: 220px;
+    height: 330px;
+  }
+
+  .card .side {
+    .prediction {
+      padding: 20px;
+
+      .prediction-text {
+        h3 {
+          font-size: 1.6rem;
+        }
+
+        p {
+          font-size: 1.05rem;
+        }
+      }
+    }
+  }
+}
+
+// Enlarged Card Overlay responsive
 @media (max-width: 768px) {
   .enlarged-card-overlay {
     .enlarged-card-container {
@@ -921,22 +731,6 @@
         }
       }
     }
-  }
-}
-
-// Animation for ad icon
-@keyframes pulse {
-  0% {
-    opacity: 0.7;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-  100% {
-    opacity: 0.7;
-    transform: scale(1);
   }
 }
 

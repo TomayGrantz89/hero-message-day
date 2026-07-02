@@ -6,7 +6,6 @@ import { Premium } from './premium';
 })
 export class Attempt {
   private readonly STORAGE_KEY = 'cardGameAttempts';
-  private readonly AD_WATCHED_KEY = 'cardGameAdWatched';
   private readonly LAST_RESET_KEY = 'cardGameLastReset';
   private readonly PREDICTION_RECEIVED_KEY = 'cardGamePredictionReceived';
   private readonly LAST_CARD_DATA_KEY = 'cardGameLastCardData';
@@ -29,15 +28,6 @@ export class Attempt {
       // Set attempts based on premium status
       const initialAttempts = this.premium.isPremium() ? 2 : 1;
       localStorage.setItem(this.STORAGE_KEY, initialAttempts.toString());
-
-      // Reset ad watched flag only for non-premium users
-      // Premium users don't have ads
-      if (!this.premium.isPremium()) {
-        localStorage.setItem(this.AD_WATCHED_KEY, 'false');
-      } else {
-        // For premium users, mark ad as already watched (no ads available)
-        localStorage.setItem(this.AD_WATCHED_KEY, 'true');
-      }
 
       localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
       localStorage.setItem(this.TODAY_PREDICTION_IDS_KEY, JSON.stringify([]));
@@ -110,8 +100,6 @@ export class Attempt {
     localStorage.setItem(this.LAST_RESET_KEY, today);
     // Reset prediction received flag so user can draw new cards
     localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
-    // Reset ad watched flag (premium users don't have ads)
-    localStorage.setItem(this.AD_WATCHED_KEY, 'true');
   }
 
   /**
@@ -122,26 +110,6 @@ export class Attempt {
     localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, '5');
     const today = new Date().toDateString();
     localStorage.setItem(this.QUESTION_LAST_RESET_KEY, today);
-  }
-
-  canWatchAd(): boolean {
-    // Premium users don't have ads
-    if (this.premium.isPremium()) {
-      return false;
-    }
-    return localStorage.getItem(this.AD_WATCHED_KEY) !== 'true';
-  }
-
-  watchAd(): void {
-    // Premium users cannot watch ads
-    if (this.premium.isPremium()) {
-      return;
-    }
-
-    localStorage.setItem(this.AD_WATCHED_KEY, 'true');
-    // Grant one extra attempt
-    const current = this.getRemainingAttempts();
-    localStorage.setItem(this.STORAGE_KEY, (current + 1).toString());
   }
 
   getTimeUntilNextReset(): string {
@@ -203,22 +171,9 @@ export class Attempt {
     localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
   }
 
-  // Reset for new card after ad (keeps prediction received flag but resets card display)
-  resetForNewCard(): void {
-    // Keep prediction received flag as true (since prediction was already received today)
-    // But we need to allow flipping a new card
-    // We'll track separately that a new card is available after ad
-    localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
-  }
-
-  // Check if user has free attempt remaining (not ad attempt)
+  // Check if user has free attempt remaining
   hasFreeAttempt(): boolean {
     return this.getRemainingAttempts() > 0;
-  }
-
-  // Check if user has used ad attempt today
-  hasUsedAdAttempt(): boolean {
-    return localStorage.getItem(this.AD_WATCHED_KEY) === 'true';
   }
 
   // Collection management

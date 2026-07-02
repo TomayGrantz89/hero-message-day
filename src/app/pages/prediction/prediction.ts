@@ -18,9 +18,6 @@ export class Prediction implements OnInit, OnDestroy {
   attemptsRemaining = 0;
   timer = '00:00:00';
   private timerInterval: any;
-  showAdModal = false;
-  showNewCardButton = false; // Button "Получить новую карту" after ad
-  isNewCardAfterAd = false; // Flag that we're showing a new card after ad
   private previousPredictionId: number | null = null; // Track previous prediction ID to ensure different predictions
 
   // Enlarged card overlay
@@ -142,32 +139,17 @@ export class Prediction implements OnInit, OnDestroy {
   flipCard(): void {
     // If card is showing back side and we need to flip to face
     if (!this.showCardFace && !this.showPrediction) {
-      // Check if user can flip (has attempt or is in new card after ad state)
-      if (this.attemptsRemaining > 0 || this.isNewCardAfterAd) {
-        // Use attempt if not in new card after ad state
-        if (!this.isNewCardAfterAd) {
-          const used = this.attemptService.useAttempt();
-          if (used) {
-            this.updateAttempts();
-            // Add card to collection when attempt is used
-            this.addCurrentCardToCollection();
-          } else {
-            return; // No attempt available
-          }
-        } else {
-          // For new card after ad or drawNewCard, also add to collection (already done in loadRandomCard(true))
+      // Check if user can flip (has attempt)
+      if (this.attemptsRemaining > 0) {
+        const used = this.attemptService.useAttempt();
+        if (used) {
+          this.updateAttempts();
+          // Add card to collection when attempt is used
           this.addCurrentCardToCollection();
-          // Reset flag so subsequent clicks work normally
-          this.isNewCardAfterAd = false;
-          // Hide the "Get new card" button since user already used the ad attempt by clicking the card
-          this.showNewCardButton = false;
+          this.flipToFace();
         }
-        this.flipToFace();
-      } else if (this.attemptService.canWatchAd()) {
-        // No attempts but can watch ad - show ad modal
-        this.showAdModal = true;
       }
-      // Otherwise do nothing (no attempts, ad already watched)
+      // Otherwise do nothing (no attempts)
     } else if (this.showCardFace && !this.showPrediction) {
       // Flip from face to prediction
       this.flipToPrediction();
@@ -186,45 +168,46 @@ export class Prediction implements OnInit, OnDestroy {
     }
   }
 
-  openCard(): void {
-    if (this.attemptsRemaining <= 0) {
-      // Show ad modal if possible
-      if (this.attemptService.canWatchAd()) {
-        this.showAdModal = true;
-        return;
-      }
-      return;
+  /**
+   * Determines if the action button should be shown
+   */
+  get showButton(): boolean {
+    // Show button when:
+    // 1. Card is not yet opened (back side up) — "Открыть карту"
+    // 2. Card is opened AND user is premium AND has remaining attempts — "Получить вторую карту"
+    if (!this.showCardFace && !this.showPrediction) {
+      return true;
     }
-
-    const used = this.attemptService.useAttempt();
-    if (used) {
-      this.updateAttempts();
-      this.addCurrentCardToCollection();
-      this.flipToFace();
+    if ((this.showCardFace || this.showPrediction) && this.isPremium && this.attemptsRemaining > 0) {
+      return true;
     }
+    return false;
   }
 
-  watchAd(): void {
-    this.attemptService.watchAd();
-    this.showAdModal = false;
-    this.updateAttempts();
-    // Show "Get new card" button, but keep current card visible
-    this.showNewCardButton = true;
-    this.isNewCardAfterAd = true;
-    // Do NOT hide the card face/prediction - keep last opened card visible
-    // showCardFace and showPrediction remain unchanged
+  /**
+   * Returns the button text based on current state
+   */
+  get buttonText(): string {
+    if (!this.showCardFace && !this.showPrediction) {
+      return 'Открыть карту';
+    }
+    if ((this.showCardFace || this.showPrediction) && this.isPremium && this.attemptsRemaining > 0) {
+      return 'Получить вторую карту';
+    }
+    return '';
   }
 
-  getNewCardAfterAd(): void {
-    // Load a new random card and add to collection, ensuring different prediction
-    this.loadRandomCard(true, true);
-    // Reset flags
-    this.showNewCardButton = false;
-    this.isNewCardAfterAd = false;
-    // Card shows back side (face down)
-    this.showCardFace = false;
-    this.showPrediction = false;
-    // User can now flip this card (they have the ad attempt)
+  /**
+   * Handles the action button click
+   */
+  onActionButtonClick(): void {
+    if (!this.showCardFace && !this.showPrediction) {
+      // Card not opened — flip it (uses an attempt)
+      this.flipCard();
+    } else if ((this.showCardFace || this.showPrediction) && this.isPremium && this.attemptsRemaining > 0) {
+      // Premium user wants a second card
+      this.drawNewCard();
+    }
   }
 
   drawNewCard(): void {
@@ -242,14 +225,9 @@ export class Prediction implements OnInit, OnDestroy {
         // Reset card display to show back side
         this.showCardFace = false;
         this.showPrediction = false;
-        // Mark as "new card after attempt" so flipCard() doesn't consume another attempt
-        this.isNewCardAfterAd = true;
       }
-    } else if (this.attemptService.canWatchAd()) {
-      // No attempts but can watch ad - show ad modal
-      this.showAdModal = true;
     }
-    // Otherwise do nothing (no attempts, ad already watched)
+    // Otherwise do nothing (no attempts)
   }
 
   purchasePremium(): void {
@@ -265,12 +243,6 @@ export class Prediction implements OnInit, OnDestroy {
     this.loadRandomCard(false);
     this.showCardFace = false;
     this.showPrediction = false;
-    this.showNewCardButton = false;
-    this.isNewCardAfterAd = false;
-  }
-
-  closeAdModal(): void {
-    this.showAdModal = false;
   }
 
   // Enlarged card overlay methods

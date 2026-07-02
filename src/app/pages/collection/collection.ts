@@ -170,5 +170,8 @@ export class Collection implements OnInit {
     this.premium.activatePremium();
     this.isPremium = true;
     this.totalCards = 64;
+    // Grant premium prediction and question attempts
+    this.attemptService.refreshPredictionAttempts();
+    this.attemptService.refreshQuestionAttempts();
   }
 }

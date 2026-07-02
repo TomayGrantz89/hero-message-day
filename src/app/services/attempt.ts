@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Premium } from './premium';
 
 @Injectable({
@@ -14,9 +15,20 @@ export class Attempt {
   private readonly QUESTION_ATTEMPTS_KEY = 'cardGameQuestionAttempts';
   private readonly QUESTION_LAST_RESET_KEY = 'cardGameQuestionLastReset';
 
+  /** Reactive subject that emits remaining attempts whenever they change */
+  private attemptsChangedSource!: BehaviorSubject<number>;
+  attemptsChanged$!: import('rxjs').Observable<number>;
+
   constructor(private premium: Premium) {
+    this.attemptsChangedSource = new BehaviorSubject<number>(this.getRemainingAttempts());
+    this.attemptsChanged$ = this.attemptsChangedSource.asObservable();
     this.resetIfNeeded();
     this.initializeCollection();
+  }
+
+  /** Notify subscribers that attempts have changed */
+  private notifyAttemptsChanged(): void {
+    this.attemptsChangedSource.next(this.getRemainingAttempts());
   }
 
   private resetIfNeeded(): void {
@@ -25,9 +37,8 @@ export class Attempt {
     const lastReset = localStorage.getItem(this.LAST_RESET_KEY);
 
     if (lastReset !== today) {
-      // Set attempts based on premium status
-      const initialAttempts = this.premium.isPremium() ? 2 : 1;
-      localStorage.setItem(this.STORAGE_KEY, initialAttempts.toString());
+      // All users get 1 prediction attempt per day
+      localStorage.setItem(this.STORAGE_KEY, '1');
 
       localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
       localStorage.setItem(this.TODAY_PREDICTION_IDS_KEY, JSON.stringify([]));
@@ -52,26 +63,25 @@ export class Attempt {
 
   getRemainingAttempts(): number {
     const attempts = parseInt(localStorage.getItem(this.STORAGE_KEY) || '1');
-    // Cap attempts based on current premium status to prevent stale values
-    // (e.g., if user was premium and then lost access)
-    const maxAttempts = this.premium.isPremium() ? 2 : 1;
-    return Math.min(attempts, maxAttempts);
+    // All users get max 1 attempt per day
+    return Math.min(attempts, 1);
   }
 
   useAttempt(): boolean {
     const attempts = this.getRemainingAttempts();
     if (attempts <= 0) return false;
     localStorage.setItem(this.STORAGE_KEY, (attempts - 1).toString());
+    this.notifyAttemptsChanged();
     return true;
   }
 
   /**
-   * Set attempts to a specific count (capped by premium max)
+   * Set attempts to a specific count (capped at 1)
    */
   setAttempts(count: number): void {
-    const maxAttempts = this.premium.isPremium() ? 2 : 1;
-    const cappedCount = Math.min(count, maxAttempts);
+    const cappedCount = Math.min(count, 1);
     localStorage.setItem(this.STORAGE_KEY, cappedCount.toString());
+    this.notifyAttemptsChanged();
   }
 
   // Question attempts management
@@ -96,19 +106,32 @@ export class Attempt {
     const attempts = this.getRemainingQuestionAttempts();
     if (attempts <= 0) return false;
     localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, (attempts - 1).toString());
+    this.notifyAttemptsChanged();
     return true;
   }
 
   /**
-   * Refresh prediction attempts to premium maximum (2)
-   * Called when user purchases premium to immediately grant full attempts
+   * Refresh prediction attempts after premium purchase.
+   * All users get 1 attempt per day, so this just ensures the day is marked as reset.
+   * Called when user purchases premium to ensure fresh state.
    */
   refreshPredictionAttempts(): void {
-    localStorage.setItem(this.STORAGE_KEY, '2');
     const today = new Date().toDateString();
     localStorage.setItem(this.LAST_RESET_KEY, today);
-    // Reset prediction received flag so user can draw new cards
-    localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
+
+    // Check if a card was already opened today
+    const lastCardData = this.getLastCardData();
+    if (lastCardData) {
+      // Card was already opened — 0 attempts remaining
+      localStorage.setItem(this.STORAGE_KEY, '0');
+      localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'true');
+    } else {
+      // No card opened — 1 attempt available
+      localStorage.setItem(this.STORAGE_KEY, '1');
+      localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
+    }
+
+    this.notifyAttemptsChanged();
   }
 
   /**
@@ -119,6 +142,7 @@ export class Attempt {
     localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, '5');
     const today = new Date().toDateString();
     localStorage.setItem(this.QUESTION_LAST_RESET_KEY, today);
+    this.notifyAttemptsChanged();
   }
 
   getTimeUntilNextReset(): string {
@@ -173,11 +197,6 @@ export class Attempt {
    */
   clearLastCardData(): void {
     localStorage.removeItem(this.LAST_CARD_DATA_KEY);
-  }
-
-  // Reset prediction received flag (used when premium user draws a second card)
-  resetPredictionReceived(): void {
-    localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
   }
 
   // Check if user has free attempt remaining

@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { CardData, Card, PredictionItem } from '../../services/card-data';
 import { Attempt } from '../../services/attempt';
 import { Premium } from '../../services/premium';
@@ -19,10 +20,7 @@ export class Prediction implements OnInit, OnDestroy {
   timer = '00:00:00';
   private timerInterval: any;
   private previousPredictionId: number | null = null;
-
-  // Premium status
-  isPremium = false;
-  maxAttemptsPerDay = 1;
+  private attemptsSubscription: Subscription | null = null;
 
   constructor(
     private cardData: CardData,
@@ -31,19 +29,19 @@ export class Prediction implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.updatePremiumStatus();
     this.updateAttempts();
     this.startTimer();
     this.initializeCardState();
+
+    // Subscribe to reactive attempt changes (e.g., premium purchased from another page)
+    this.attemptsSubscription = this.attemptService.attemptsChanged$.subscribe(() => {
+      this.updateAttempts();
+    });
   }
 
   ngOnDestroy(): void {
     if (this.timerInterval) clearInterval(this.timerInterval);
-  }
-
-  private updatePremiumStatus(): void {
-    this.isPremium = this.premium.isPremium();
-    this.maxAttemptsPerDay = this.isPremium ? 2 : 1;
+    if (this.attemptsSubscription) this.attemptsSubscription.unsubscribe();
   }
 
   private updateAttempts(): void {
@@ -156,8 +154,8 @@ export class Prediction implements OnInit, OnDestroy {
     if (!this.showCardFace) {
       return 'Открыть карту';
     }
-    // Card is face up and has attempts (premium user getting second card)
-    return 'Получить вторую карту';
+    // Card is face up and no attempts remaining — show premium button
+    return 'Купить премиум';
   }
 
   /**
@@ -171,61 +169,26 @@ export class Prediction implements OnInit, OnDestroy {
     if (!this.showCardFace) {
       // Card back is showing — flip to open it
       this.flipCard();
-    } else {
-      // Card is face up, user wants second card — draw new card
-      this.drawNewCard();
     }
-  }
-
-  drawNewCard(): void {
-    // User wants to draw a new card
-    // Check if user has remaining attempts
-    if (this.attemptsRemaining > 0) {
-      // Use one attempt
-      const used = this.attemptService.useAttempt();
-      if (used) {
-        this.updateAttempts();
-        // Reset prediction received flag so the new card can be tracked
-        this.attemptService.resetPredictionReceived();
-
-        // Step 1: Immediately hide the face to show back
-        this.showCardFace = false;
-        this.showPrediction = false;
-
-        // Step 2: Clear current card to prevent any image loading flash
-        this.card = null;
-        this.prediction = null;
-
-        // Step 3: Defer loading new card data to ensure back is rendered first
-        setTimeout(() => {
-          this.loadRandomCard(true, true);
-        }, 50);
-      }
-    }
-    // Otherwise do nothing (no attempts)
+    // If card is already face up and attempts > 0, do nothing (shouldn't happen with 1 attempt)
   }
 
   purchasePremium(): void {
     this.premium.activatePremium();
-    this.isPremium = true;
-    this.maxAttemptsPerDay = 2;
-    // Immediately grant 2 prediction attempts for premium user
+    // refreshPredictionAttempts handles the "already opened card" case:
+    // - If card was already opened → sets attempts to 0
+    // - If no card was opened → sets attempts to 1
     this.attemptService.refreshPredictionAttempts();
     this.updateAttempts();
     // Refresh oracle question attempts to premium maximum (5)
     this.attemptService.refreshQuestionAttempts();
 
-    if (this.showCardFace) {
-      // Card is already open — keep it, set attempts to 1 (1 used, 1 remaining)
-      this.attemptService.setAttempts(1);
-      this.updateAttempts();
-      // Button will show "Получить вторую карту", counter shows 1/2
-    } else {
+    if (!this.showCardFace) {
       // No card opened — load fresh card with back showing
       this.loadRandomCard(false);
       this.showCardFace = false;
       this.showPrediction = false;
-      // attemptsRemaining is already 2 from refreshPredictionAttempts
     }
+    // If card is already open, just keep it — counter now shows correct value
   }
 }

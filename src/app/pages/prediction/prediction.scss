@@ -73,8 +73,8 @@
 
 .card-wrapper {
   perspective: 1000px;
-  width: calc(55vh * 2 / 3);
-  height: 55vh;
+  width: calc(60vh * 2 / 3);
+  height: 60vh;
   max-width: 90vw;
   margin: 10px auto;
   cursor: pointer;
@@ -116,24 +116,39 @@
     }
 
     .face {
-      background: #222;
+      background: transparent;
       transform: rotateY(180deg);
-      border: 5px solid rgb(85, 85, 85);
+      border: none;
+      padding: 0;
+      justify-content: flex-start;
 
       .card-image {
-        width: 90%;
-        height: 70%;
+        width: 100%;
+        height: calc(100% - 48px);
         background-color: #444;
         background-size: cover;
         background-position: center;
-        border-radius: 10px;
-        margin-bottom: 20px;
+        border-radius: 20px 20px 0 0;
+        margin-bottom: 0;
       }
 
-      .card-name {
-        font-size: 1.8rem;
-        color: #edeCf9;
-        font-weight: bold;
+      .card-name-bar {
+        width: 100%;
+        height: 48px;
+        background: rgba(242, 242, 247, 0.94);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0 0 20px 20px;
+
+        .card-name {
+          font-family: 'EBGaramond', serif;
+          font-size: 1.4rem;
+          color: #3C3C43;
+          font-weight: 600;
+        }
       }
     }
 
@@ -242,8 +257,8 @@
   }
 }
 
-// Enlarged Card Overlay (same pattern as collection page)
-.enlarged-card-overlay {
+// Enlarged Prediction Overlay
+.enlarged-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -256,93 +271,54 @@
   z-index: 1000;
   cursor: pointer;
 
-  .enlarged-card-container {
+  .enlarged-content {
     cursor: default;
+    width: 85vw;
+    max-width: 400px;
+    max-height: 70vh;
+    padding: 40px 24px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-    .enlarged-card {
-      perspective: 1000px;
-      width: 400px;
-      height: 600px;
-      position: relative;
+    .close-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      font-size: 16px;
+      color: #EDECF9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      transition: transform 0.3s;
+      transition: background 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+      line-height: 1;
 
-      &:hover {
-        transform: scale(1.02);
+      &:active {
+        background: rgba(255, 255, 255, 0.3);
       }
+    }
 
-      &.flipped {
-        .enlarged-card-face {
-          transform: rotateY(180deg);
-        }
+    .enlarged-prediction-text {
+      width: 100%;
+      overflow-y: auto;
+      text-align: center;
 
-        .enlarged-card-back {
-          transform: rotateY(0deg);
-        }
-      }
-
-      .enlarged-card-face,
-      .enlarged-card-back {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        backface-visibility: hidden;
-        border-radius: 25px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.8s;
-        transform-style: preserve-3d;
-        border: 5px solid;
-      }
-
-      .enlarged-card-face {
-        background: #222;
-        border: 5px solid rgb(85, 85, 85);
-        padding: 0;
-        overflow: hidden;
-
-        .enlarged-card-image {
-          width: 100%;
-          height: 100%;
-          background-color: #444;
-          background-size: cover;
-          background-position: center;
-          border-radius: 0;
-        }
-      }
-
-      .enlarged-card-back {
-        background: #1A0A50;
-        border: 5px solid rgb(85, 85, 85);
-        transform: rotateY(180deg);
-        padding: 40px;
-        text-align: left;
-        overflow-y: auto;
-        justify-content: flex-start;
-
-        .enlarged-card-info {
-          width: 100%;
-
-          h3 {
-            color: #ffcc00;
-            margin-top: 25px;
-            font-size: 2rem;
-            text-align: center;
-
-            &:first-child {
-              margin-top: 0;
-            }
-          }
-
-          p {
-            font-size: 1.4rem;
-            line-height: 1.6;
-            color: #EDECF9;
-            text-align: center;
-          }
-        }
+      p {
+        font-family: 'EBGaramond', serif;
+        font-size: 1.6rem;
+        line-height: 1.6;
+        color: #EDECF9;
+        margin: 0;
       }
     }
   }
@@ -423,8 +399,8 @@
   }
 
   .card-wrapper {
-    width: calc(55vh * 2 / 3);
-    height: 55vh;
+    width: calc(60vh * 2 / 3);
+    height: 60vh;
     max-width: 90vw;
     margin: 8px auto;
   }
@@ -485,8 +461,8 @@
   }
 
   .card-wrapper {
-    width: calc(55vh * 2 / 3);
-    height: 55vh;
+    width: calc(60vh * 2 / 3);
+    height: 60vh;
     max-width: 90vw;
     margin: 6px auto;
   }
@@ -544,8 +520,8 @@
   }
 
   .card-wrapper {
-    width: calc(55vh * 2 / 3);
-    height: 55vh;
+    width: calc(60vh * 2 / 3);
+    height: 60vh;
     max-width: 90vw;
     margin: 4px auto;
   }
@@ -648,99 +624,24 @@
   }
 }
 
-// Enlarged Card Overlay responsive
-@media (max-width: 768px) {
-  .enlarged-card-overlay {
-    .enlarged-card-container {
-      .enlarged-card {
-        width: 350px;
-        height: 525px;
-
-        .enlarged-card-face {
-          .enlarged-card-image {
-            width: 100%;
-            height: 100%;
-          }
-        }
-
-        .enlarged-card-back {
-          padding: 30px;
-
-          .enlarged-card-info {
-            h3 {
-              font-size: 1.8rem;
-            }
-
-            p {
-              font-size: 1.2rem;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
+// Enlarged Overlay responsive
 @media (max-width: 480px) {
-  .enlarged-card-overlay {
-    .enlarged-card-container {
-      .enlarged-card {
-        width: 300px;
-        height: 450px;
+  .enlarged-overlay .enlarged-content {
+    width: 90vw;
+    padding: 32px 20px;
 
-        .enlarged-card-face {
-          .enlarged-card-image {
-            width: 100%;
-            height: 100%;
-          }
-        }
-
-        .enlarged-card-back {
-          padding: 25px;
-
-          .enlarged-card-info {
-            h3 {
-              font-size: 1.6rem;
-            }
-
-            p {
-              font-size: 1.1rem;
-            }
-          }
-        }
-      }
+    .enlarged-prediction-text p {
+      font-size: 1.4rem;
     }
   }
 }
 
 @media (max-width: 360px) {
-  .enlarged-card-overlay {
-    .enlarged-card-container {
-      .enlarged-card {
-        width: 250px;
-        height: 375px;
+  .enlarged-overlay .enlarged-content {
+    padding: 28px 16px;
 
-        .enlarged-card-face {
-          .enlarged-card-image {
-            width: 100%;
-            height: 100%;
-          }
-        }
-
-        .enlarged-card-back {
-          padding: 20px;
-
-          .enlarged-card-info {
-            h3 {
-              font-size: 1.4rem;
-            }
-
-            p {
-              font-size: 1rem;
-            }
-          }
-        }
-      }
+    .enlarged-prediction-text p {
+      font-size: 1.2rem;
     }
   }
 }

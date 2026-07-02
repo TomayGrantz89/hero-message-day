@@ -20,9 +20,8 @@ export class Prediction implements OnInit, OnDestroy {
   private timerInterval: any;
   private previousPredictionId: number | null = null; // Track previous prediction ID to ensure different predictions
 
-  // Enlarged card overlay
+  // Enlarged prediction overlay
   showEnlarged = false;
-  enlargedSide: 'face' | 'back' = 'face';
 
   // Premium status
   isPremium = false;
@@ -157,7 +156,6 @@ export class Prediction implements OnInit, OnDestroy {
       // When prediction is already showing, open enlarged overlay instead of flipping back
       if (this.card) {
         this.showEnlarged = true;
-        this.enlargedSide = 'face';
       }
     }
   }
@@ -254,13 +252,12 @@ export class Prediction implements OnInit, OnDestroy {
     this.showPrediction = false;
   }
 
-  // Enlarged card overlay methods
+  // Enlarged overlay methods
   openEnlarged(event: MouseEvent): void {
     event.stopPropagation();
     if (this.card) {
       this.showEnlarged = true;
-      this.enlargedSide = 'face';
-      // Mark prediction as received when user opens enlarged view (sees prediction on back)
+      // Mark prediction as received when user opens enlarged view
       if (this.prediction && !this.attemptService.wasPredictionReceivedToday()) {
         this.attemptService.markPredictionReceived(this.card, this.prediction.text, this.prediction.id);
       }
@@ -271,10 +268,5 @@ export class Prediction implements OnInit, OnDestroy {
     this.showEnlarged = false;
     this.showCardFace = true;
     this.showPrediction = false;
-    this.enlargedSide = 'face';
-  }
-
-  flipEnlarged(): void {
-    this.enlargedSide = this.enlargedSide === 'face' ? 'back' : 'face';
   }
 }

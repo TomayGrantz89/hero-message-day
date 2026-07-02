@@ -1,6 +1,6 @@
 <div class="prediction-container">
   <main class="main">
-    <p class="subtitle">{{ showPrediction ? 'Нажмите на карту, чтобы увеличить и перевернуть её' : 'Нажмите на карту, чтобы открыть её' }}</p>
+    <p class="subtitle">{{ showPrediction ? 'Нажмите на карту, чтобы увеличить предсказание' : 'Нажмите на карту, чтобы открыть её' }}</p>
 
     <div class="card-wrapper" (click)="flipCard()">
       <div class="card" [class.flipped]="showCardFace || showPrediction">
@@ -11,7 +11,9 @@
         <!-- Face side (card image) -->
         <div class="side face" *ngIf="showCardFace && !showPrediction" (click)="openEnlarged($event)">
           <div class="card-image" [style.backgroundImage]="'url(' + card?.imageUrl + ')'"></div>
-          <div class="card-name">{{ card?.name }}</div>
+          <div class="card-name-bar">
+            <span class="card-name">{{ card?.name }}</span>
+          </div>
         </div>
 
         <!-- Prediction side -->
@@ -40,19 +42,15 @@
     </p>
   </main>
 
-  <!-- Enlarged Card Overlay -->
-  <div class="enlarged-card-overlay" *ngIf="showEnlarged" (click)="closeEnlarged()">
-    <div class="enlarged-card-container" (click)="$event.stopPropagation()">
-      <div class="enlarged-card" (click)="flipEnlarged()" [class.flipped]="enlargedSide === 'back'">
-        <div class="enlarged-card-face">
-          <div class="enlarged-card-image" [style.backgroundImage]="'url(' + card?.imageUrl + ')'"></div>
-        </div>
-        <div class="enlarged-card-back">
-          <div class="enlarged-card-info">
-            <h3>Предсказание</h3>
-            <p>{{ prediction?.text }}</p>
-          </div>
-        </div>
+  <!-- Enlarged Prediction Overlay -->
+  <div class="enlarged-overlay" *ngIf="showEnlarged" (click)="closeEnlarged()">
+    <div class="enlarged-content" (click)="$event.stopPropagation()">
+      <!-- Close button (iOS style) -->
+      <button class="close-button" (click)="closeEnlarged()">✕</button>
+
+      <!-- Prediction text -->
+      <div class="enlarged-prediction-text">
+        <p>{{ prediction?.text }}</p>
       </div>
     </div>
   </div>

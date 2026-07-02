@@ -136,6 +136,12 @@
         box-shadow: none !important;
       }
     }
+
+    .card-item--placeholder {
+      visibility: hidden;
+      pointer-events: none;
+      aspect-ratio: 2/3;
+    }
   }
 }
 

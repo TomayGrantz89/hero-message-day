@@ -5,8 +5,9 @@ import { Attempt } from '../../services/attempt';
 import { Premium } from '../../services/premium';
 
 interface CollectionCard {
-  card: Card;
+  card: Card | null;
   owned: boolean;
+  isPlaceholder?: boolean;
 }
 
 @Component({
@@ -68,7 +69,7 @@ export class Collection implements OnInit {
       if (isLandscape) {
         this.cardsPerSwipe = 8; // 4 columns × 2 rows
       } else {
-        this.cardsPerSwipe = 6; // 3 columns × 2 rows
+        this.cardsPerSwipe = 9; // 3 columns × 3 rows
       }
     } else {
       // Desktop — not used for swipe, but set a default
@@ -93,6 +94,16 @@ export class Collection implements OnInit {
     for (let i = 0; i < this.collectionCards.length; i += this.cardsPerSwipe) {
       this.swipePages.push(this.collectionCards.slice(i, i + this.cardsPerSwipe));
     }
+
+    // Pad the last page with invisible placeholders to maintain grid spacing
+    const lastPage = this.swipePages[this.swipePages.length - 1];
+    if (lastPage && lastPage.length < this.cardsPerSwipe) {
+      const placeholdersNeeded = this.cardsPerSwipe - lastPage.length;
+      for (let p = 0; p < placeholdersNeeded; p++) {
+        lastPage.push({ card: null, owned: false, isPlaceholder: true });
+      }
+    }
+
     // Reset to first page if current is out of bounds
     if (this.currentSwipePage >= this.swipePages.length && this.swipePages.length > 0) {
       this.currentSwipePage = this.swipePages.length - 1;

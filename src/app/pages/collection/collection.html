@@ -12,10 +12,15 @@
          (touchend)="onTouchEnd($event)">
       <div class="swipe-track" [style.transform]="'translateX(' + (-currentSwipePage * 100) + '%)'">
         <div class="swipe-page" *ngFor="let page of swipePages">
-          <div class="card-item" [class.card-item--locked]="!item.owned" [class.card-item--owned]="item.owned"
-            *ngFor="let item of page" (click)="selectCard(item)">
-            <div class="card-image" *ngIf="item.owned" [style.backgroundImage]="'url(' + item.card.imageUrl + ')'"></div>
-          </div>
+          <ng-container *ngFor="let item of page">
+            <!-- Placeholder (invisible, maintains grid spacing) -->
+            <div class="card-item card-item--placeholder" *ngIf="item.isPlaceholder"></div>
+            <!-- Real card -->
+            <div class="card-item" [class.card-item--locked]="!item.owned" [class.card-item--owned]="item.owned"
+              *ngIf="!item.isPlaceholder" (click)="selectCard(item)">
+              <div class="card-image" *ngIf="item.owned && item.card" [style.backgroundImage]="'url(' + item.card.imageUrl + ')'"></div>
+            </div>
+          </ng-container>
         </div>
       </div>
     </div>
@@ -25,7 +30,7 @@
       <div class="grid">
         <div class="card-item" [class.card-item--locked]="!item.owned" [class.card-item--owned]="item.owned"
           *ngFor="let item of collectionCards" (click)="selectCard(item)">
-          <div class="card-image" *ngIf="item.owned" [style.backgroundImage]="'url(' + item.card.imageUrl + ')'"></div>
+          <div class="card-image" *ngIf="item.owned && item.card" [style.backgroundImage]="'url(' + item.card.imageUrl + ')'"></div>
         </div>
       </div>
     </div>

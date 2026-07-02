@@ -1,27 +1,31 @@
 <div class="collection-container">
   <main class="main">
-    <div class="grid" *ngIf="!showDetail">
-      <div class="card-item" [class.card-item--locked]="!item.owned" [class.card-item--owned]="item.owned"
-        *ngFor="let item of paginatedCards" (click)="selectCard(item)">
-        <div class="card-image" *ngIf="item.owned" [style.backgroundImage]="'url(' + item.card.imageUrl + ')'"></div>
+    <!-- Swipe indicator (mobile) -->
+    <div class="swipe-indicator" *ngIf="!showDetail && swipePages.length > 0">
+      {{ currentRangeStart }}-{{ currentRangeEnd }} из {{ totalCardsCount }}
+    </div>
+
+    <!-- Mobile Swipe Carousel -->
+    <div class="swipe-container" *ngIf="!showDetail"
+         (touchstart)="onTouchStart($event)"
+         (touchmove)="onTouchMove($event)"
+         (touchend)="onTouchEnd($event)">
+      <div class="swipe-track" [style.transform]="'translateX(' + (-currentSwipePage * 100) + '%)'">
+        <div class="swipe-page" *ngFor="let page of swipePages">
+          <div class="card-item" [class.card-item--locked]="!item.owned" [class.card-item--owned]="item.owned"
+            *ngFor="let item of page" (click)="selectCard(item)">
+            <div class="card-image" *ngIf="item.owned" [style.backgroundImage]="'url(' + item.card.imageUrl + ')'"></div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Pagination Controls -->
-    <div class="pagination-container" *ngIf="totalPages > 1 && !showDetail">
-      <div class="pagination">
-        <div class="page-numbers">
-          <button *ngFor="let page of pageNumbers" class="page-btn" [class.active]="page === currentPage"
-            (click)="goToPage(page)">
-            {{ page }}
-          </button>
-
-          <span class="ellipsis" *ngIf="totalPages > pageNumbers[pageNumbers.length - 1] + 1">...</span>
-
-          <button *ngIf="totalPages > pageNumbers[pageNumbers.length - 1]" class="page-btn"
-            [class.active]="totalPages === currentPage" (click)="goToPage(totalPages)">
-            {{ totalPages }}
-          </button>
+    <!-- Desktop Grid (unchanged) -->
+    <div class="desktop-grid" *ngIf="!showDetail">
+      <div class="grid">
+        <div class="card-item" [class.card-item--locked]="!item.owned" [class.card-item--owned]="item.owned"
+          *ngFor="let item of collectionCards" (click)="selectCard(item)">
+          <div class="card-image" *ngIf="item.owned" [style.backgroundImage]="'url(' + item.card.imageUrl + ')'"></div>
         </div>
       </div>
     </div>

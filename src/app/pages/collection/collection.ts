@@ -21,16 +21,19 @@ export class Collection implements OnInit {
   showDetail = false;
   detailSide: 'face' | 'back' = 'face';
 
-  // Pagination properties
-  currentPage = 1;
-  itemsPerPage = 12; // Default for desktop (will be updated by calculateItemsPerPage)
-  totalPages = 1;
-  paginatedCards: CollectionCard[] = [];
-  pageNumbers: number[] = [];
-
   // Premium status
   isPremium = false;
   totalCards = 0;
+
+  // Swipe/carousel properties
+  currentSwipePage = 0;
+  cardsPerSwipe = 6; // Default for mobile portrait (3 columns × 2 rows)
+  swipePages: CollectionCard[][] = [];
+
+  // Touch tracking
+  private touchStartX = 0;
+  private touchEndX = 0;
+  private readonly SWIPE_THRESHOLD = 50;
 
   constructor(
     private cardData: CardData,
@@ -39,7 +42,7 @@ export class Collection implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.calculateItemsPerPage();
+    this.calculateCardsPerSwipe();
     this.loadCollection();
     this.updatePremiumStatus();
   }
@@ -47,36 +50,29 @@ export class Collection implements OnInit {
   @HostListener('window:resize')
   @HostListener('window:orientationchange')
   onResize(): void {
-    const oldItemsPerPage = this.itemsPerPage;
-    this.calculateItemsPerPage();
-
-    // Recalculate current page if items per page changed
-    if (oldItemsPerPage !== this.itemsPerPage) {
-      const firstItemIndex = (this.currentPage - 1) * oldItemsPerPage;
-      this.currentPage = Math.floor(firstItemIndex / this.itemsPerPage) + 1;
-      this.updatePagination();
+    this.calculateCardsPerSwipe();
+    this.buildSwipePages();
+    // Ensure current page is still valid
+    if (this.currentSwipePage >= this.swipePages.length && this.swipePages.length > 0) {
+      this.currentSwipePage = this.swipePages.length - 1;
     }
   }
 
-  private calculateItemsPerPage(): void {
+  private calculateCardsPerSwipe(): void {
     const width = window.innerWidth;
     const height = window.innerHeight;
     const isLandscape = width > height;
     const isMobile = width < 768;
 
     if (isMobile) {
-      // Mobile devices
       if (isLandscape) {
-        // Landscape orientation on mobile - more columns
-        this.itemsPerPage = 8; // 4 columns × 2 rows
+        this.cardsPerSwipe = 8; // 4 columns × 2 rows
       } else {
-        // Portrait orientation on mobile
-        this.itemsPerPage = 6; // 3 columns × 2 rows
+        this.cardsPerSwipe = 6; // 3 columns × 2 rows
       }
-    } else if (width < 1024) { // Tablet
-      this.itemsPerPage = 9;
-    } else { // Desktop
-      this.itemsPerPage = 14; // 14 cards per page (7 columns × 2 rows) for computer version
+    } else {
+      // Desktop — not used for swipe, but set a default
+      this.cardsPerSwipe = 14;
     }
   }
 
@@ -89,85 +85,63 @@ export class Collection implements OnInit {
       owned: collectedIds.includes(card.id)
     }));
 
-    this.updatePagination();
+    this.buildSwipePages();
+  }
+
+  private buildSwipePages(): void {
+    this.swipePages = [];
+    for (let i = 0; i < this.collectionCards.length; i += this.cardsPerSwipe) {
+      this.swipePages.push(this.collectionCards.slice(i, i + this.cardsPerSwipe));
+    }
+    // Reset to first page if current is out of bounds
+    if (this.currentSwipePage >= this.swipePages.length && this.swipePages.length > 0) {
+      this.currentSwipePage = this.swipePages.length - 1;
+    } else if (this.currentSwipePage < 0) {
+      this.currentSwipePage = 0;
+    }
   }
 
   private updatePremiumStatus(): void {
     this.isPremium = this.premium.isPremium();
 
     // For non-premium users, accessible cards are limited to 14
-    // For premium users, total cards is 50 (as defined in card-data.ts)
+    // For premium users, total cards is 64 (as defined in card-data.ts)
     this.totalCards = this.isPremium ? 64 : 14;
   }
 
-  private updatePagination(): void {
-    // Calculate total pages
-    this.totalPages = Math.ceil(this.collectionCards.length / this.itemsPerPage);
-
-    // Ensure current page is valid
-    if (this.currentPage > this.totalPages && this.totalPages > 0) {
-      this.currentPage = this.totalPages;
-    } else if (this.currentPage < 1) {
-      this.currentPage = 1;
-    }
-
-    // Calculate paginated cards
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedCards = this.collectionCards.slice(startIndex, endIndex);
-
-    // Generate page numbers for pagination controls
-    this.generatePageNumbers();
+  // Swipe handlers
+  onTouchStart(event: TouchEvent): void {
+    this.touchStartX = event.touches[0].clientX;
   }
 
-  private generatePageNumbers(): void {
-    const maxVisiblePages = 5;
-    this.pageNumbers = [];
+  onTouchMove(event: TouchEvent): void {
+    this.touchEndX = event.touches[0].clientX;
+  }
 
-    if (this.totalPages <= maxVisiblePages) {
-      // Show all pages
-      for (let i = 1; i <= this.totalPages; i++) {
-        this.pageNumbers.push(i);
-      }
-    } else {
-      // Show limited pages with ellipsis
-      const half = Math.floor(maxVisiblePages / 2);
-      let start = this.currentPage - half;
-      let end = this.currentPage + half;
-
-      if (start < 1) {
-        start = 1;
-        end = maxVisiblePages;
-      }
-
-      if (end > this.totalPages) {
-        end = this.totalPages;
-        start = end - maxVisiblePages + 1;
-      }
-
-      for (let i = start; i <= end; i++) {
-        this.pageNumbers.push(i);
+  onTouchEnd(event: TouchEvent): void {
+    const diff = this.touchStartX - this.touchEndX;
+    if (Math.abs(diff) > this.SWIPE_THRESHOLD) {
+      if (diff > 0 && this.currentSwipePage < this.swipePages.length - 1) {
+        this.currentSwipePage++; // Swipe left — next page
+      } else if (diff < 0 && this.currentSwipePage > 0) {
+        this.currentSwipePage--; // Swipe right — previous page
       }
     }
   }
 
-  goToPage(page: number): void {
-    if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
-      this.currentPage = page;
-      this.updatePagination();
-    }
+  // Indicator getters
+  get currentRangeStart(): number {
+    if (this.collectionCards.length === 0) return 0;
+    return this.currentSwipePage * this.cardsPerSwipe + 1;
   }
 
-  nextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.goToPage(this.currentPage + 1);
-    }
+  get currentRangeEnd(): number {
+    const end = (this.currentSwipePage + 1) * this.cardsPerSwipe;
+    return Math.min(end, this.collectionCards.length);
   }
 
-  previousPage(): void {
-    if (this.currentPage > 1) {
-      this.goToPage(this.currentPage - 1);
-    }
+  get totalCardsCount(): number {
+    return this.collectionCards.length;
   }
 
   selectCard(item: CollectionCard): void {

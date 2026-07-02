@@ -46,10 +46,110 @@
   flex: 1;
 }
 
+// ============================================
+// Swipe Indicator (mobile)
+// ============================================
+.swipe-indicator {
+  display: none; // Hidden by default, shown on mobile
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(60, 60, 67, 0.6);
+  padding: 8px 16px;
+  margin-bottom: 4px;
+  user-select: none;
+}
+
+// ============================================
+// Mobile Swipe Carousel
+// ============================================
+.swipe-container {
+  display: none; // Hidden by default, shown on mobile
+  overflow: hidden;
+  width: 100%;
+  touch-action: pan-y; // Allow vertical scroll, capture horizontal swipes
+  user-select: none;
+
+  .swipe-track {
+    display: flex;
+    transition: transform 0.3s ease;
+    will-change: transform;
+  }
+
+  .swipe-page {
+    min-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 8px;
+    box-sizing: border-box;
+
+    .card-item {
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0;
+      aspect-ratio: 2/3;
+      border: 1px solid #c8c0e8;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .card-image {
+        width: 100%;
+        height: 100%;
+        background-color: #e8e4f8;
+        background-size: cover;
+        background-position: center;
+        border-radius: 6px;
+      }
+    }
+
+    .card-item--owned {
+      border: 2px solid #0D0528;
+      box-shadow: 0 0 6px rgba(13, 5, 40, 0.35);
+    }
+
+    .card-item--locked {
+      cursor: not-allowed;
+      position: relative;
+      background: #0D0528;
+      background-image: url('/assets/back/back.png');
+      background-size: cover;
+      background-position: center;
+      border: 1px solid #2a1a5a;
+      padding: 0;
+
+      .card-image {
+        display: none;
+      }
+
+      &:hover {
+        transform: none !important;
+        box-shadow: none !important;
+      }
+    }
+  }
+}
+
+// ============================================
+// Desktop Grid (unchanged)
+// ============================================
+.desktop-grid {
+  display: none; // Hidden by default, shown on desktop
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 20px; // увеличенные отступы между картами
+  gap: 20px;
   padding: 16px;
   justify-content: space-between;
   grid-auto-flow: dense;
@@ -63,9 +163,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0; // Remove padding so image fills entire card
-    aspect-ratio: 2/3; // пропорции карт 2/3
-    border: 1px solid #c8c0e8; // Consistent border for all cards
+    padding: 0;
+    aspect-ratio: 2/3;
+    border: 1px solid #c8c0e8;
 
     &:hover {
       transform: translateY(-10px);
@@ -82,7 +182,7 @@
     }
 
     .card-name {
-      display: none; // Name is no longer shown
+      display: none;
     }
   }
 
@@ -99,10 +199,10 @@
     background-size: cover;
     background-position: center;
     border: 1px solid #2a1a5a;
-    padding: 0; // Remove padding so image covers entire card
+    padding: 0;
 
     .card-image {
-      display: none; // Hide the image div, use card background instead
+      display: none;
     }
 
     .card-name {
@@ -431,7 +531,9 @@
   }
 }
 
-// Desktop optimization for 14 cards per page (7 columns × 2 rows)
+// ============================================
+// Desktop optimization (unchanged)
+// ============================================
 @media (min-width: 1024px) {
   .grid {
     grid-template-columns: repeat(7, minmax(120px, 1fr));
@@ -448,8 +550,51 @@
   }
 }
 
-// Responsive for fixed elements
+// ============================================
+// Mobile styles (< 768px)
+// ============================================
 @media (max-width: 768px) {
+  .collection-container {
+    padding: 15px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 55px);
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+    margin-bottom: 20px;
+
+    h1 {
+      font-size: 2rem;
+      width: 100%;
+      text-align: center;
+    }
+
+    .stats {
+      width: 100%;
+      text-align: center;
+      padding: 10px 20px;
+      font-size: 1.1rem;
+    }
+  }
+
+  // Show swipe indicator on mobile
+  .swipe-indicator {
+    display: block;
+  }
+
+  // Show swipe carousel on mobile
+  .swipe-container {
+    display: block;
+  }
+
+  // Hide desktop grid on mobile
+  .desktop-grid {
+    display: none;
+  }
+
   .fixed-home-link {
     top: 10px;
     left: 10px;
@@ -479,50 +624,6 @@
     .premium-star {
       width: 14px;
       height: 14px;
-    }
-  }
-}
-
-// Responsive
-@media (max-width: 768px) {
-  .collection-container {
-    padding: 15px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 55px);
-    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
-  }
-
-  .header {
-    flex-direction: column;
-    gap: 12px;
-    padding: 14px;
-    margin-bottom: 20px;
-
-    h1 {
-      font-size: 2rem;
-      width: 100%;
-      text-align: center;
-    }
-
-    .stats {
-      width: 100%;
-      text-align: center;
-      padding: 10px 20px;
-      font-size: 1.1rem;
-    }
-
-  }
-
-  .grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 16px;
-    padding: 12px;
-  }
-
-  .card-item {
-    padding: 0;
-
-    .card-name {
-      display: none;
     }
   }
 
@@ -619,7 +720,9 @@
   }
 }
 
-// Small screens
+// ============================================
+// Small screens (< 480px)
+// ============================================
 @media (max-width: 480px) {
   .collection-container {
     padding: 10px;
@@ -639,22 +742,11 @@
       font-size: 1rem;
       padding: 8px 16px;
     }
-
   }
 
-  .grid {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 12px;
-    padding: 10px;
-  }
-
-  .card-item {
-    padding: 0;
-    border-radius: 8px;
-
-    .card-name {
-      display: none;
-    }
+  .swipe-page {
+    gap: 8px;
+    padding: 6px;
   }
 
   .detail-view {
@@ -687,7 +779,6 @@
     }
 
     .detail-controls {
-
       .btn-flip,
       .btn-close {
         padding: 12px 18px;
@@ -738,113 +829,122 @@
   }
 }
 
-// Pagination Styles
-.pagination-container {
-  margin: 30px 0;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
+// ============================================
+// Landscape orientation for mobile
+// ============================================
+@media (max-width: 768px) and (orientation: landscape) {
+  .collection-container {
+    padding: 10px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
+  }
 
-  .pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .header {
+    flex-direction: row;
     gap: 10px;
-    flex-wrap: wrap;
+    padding: 12px 15px;
+    margin-bottom: 15px;
 
-    .pagination-btn {
-      background: #0D0528;
-      color: #EDECF9;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.3s;
-      min-height: 44px; // Better touch target for mobile
-
-      &:hover:not(.disabled) {
-        background: #1a0a4a;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(13, 5, 40, 0.4);
-      }
-
-      &.disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        background: #555;
-      }
-
-      .pagination-icon {
-        font-size: 1.2rem;
-        font-weight: bold;
-      }
-
-      .pagination-text {
-        font-size: 1rem;
-      }
-
-      &.prev-next {
-        min-width: 100px;
-      }
+    h1 {
+      font-size: 1.8rem;
+      width: auto;
     }
 
-    .page-numbers {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      flex-wrap: wrap;
+    .stats {
+      width: auto;
+      font-size: 1rem;
+      padding: 8px 16px;
+    }
+  }
 
-      .page-btn {
-        background: #0D0528;
-        color: #EDECF9;
-        border: 1px solid #2a1a5a;
-        width: 44px;
-        height: 44px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s;
+  .swipe-page {
+    grid-template-columns: repeat(4, 1fr); // 4 columns in landscape
+    gap: 8px;
+    padding: 6px;
+  }
 
-        &:hover:not(.active) {
-          background: #1a0a4a;
-          border-color: #0D0528;
-          transform: translateY(-2px);
-        }
+  .detail-view {
+    padding: 15px;
+    margin: 10px auto;
 
-        &.active {
-          background: #0D0528;
-          color: #EDECF9;
-          border-color: #0D0528;
-          box-shadow: 0 0 15px rgba(13, 5, 40, 0.4);
-          transform: scale(1.1);
-        }
-      }
+    .detail-title {
+      font-size: 1.8rem;
+    }
 
-      .ellipsis {
-        color: #888;
-        padding: 0 10px;
-        font-size: 1.2rem;
-        user-select: none;
+    .detail-card {
+      width: 250px;
+      height: 375px;
+    }
+
+    .detail-controls {
+      flex-direction: row;
+      gap: 10px;
+
+      .btn-flip,
+      .btn-close {
+        width: auto;
+        max-width: 200px;
+        padding: 12px 18px;
       }
     }
   }
 
-  .pagination-info {
-    color: #666;
-    font-size: 0.9rem;
-    text-align: center;
-    margin-top: 5px;
+  .enlarged-card-overlay {
+    .enlarged-card-container {
+      .enlarged-card {
+        width: 300px;
+        height: 450px;
+      }
+    }
+  }
+}
+
+// Landscape for small screens
+@media (max-width: 480px) and (orientation: landscape) {
+  .swipe-page {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    padding: 4px;
+  }
+
+  .detail-view {
+    .detail-card {
+      width: 220px;
+      height: 330px;
+    }
+  }
+}
+
+// Prevent horizontal scrolling on all orientations
+@media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  .collection-container {
+    max-width: 100vw;
+  }
+}
+
+// ============================================
+// Desktop styles (> 768px)
+// ============================================
+@media (min-width: 769px) {
+  // Show desktop grid on desktop
+  .desktop-grid {
+    display: block;
+  }
+
+  // Hide swipe carousel on desktop
+  .swipe-container {
+    display: none;
+  }
+
+  // Hide swipe indicator on desktop
+  .swipe-indicator {
+    display: none;
   }
 }
 
@@ -856,77 +956,19 @@
   align-items: flex-end;
 }
 
-// Responsive pagination
+// Responsive for header stats
 @media (max-width: 768px) {
-  .pagination-container {
-    padding: 15px;
-    margin: 20px 0;
-
-    .pagination {
-      gap: 8px;
-
-      .pagination-btn {
-        padding: 8px 15px;
-        min-height: 40px;
-
-        &.prev-next {
-          min-width: 80px;
-
-          .pagination-text {
-            display: none; // Hide text on mobile, show only icons
-          }
-        }
-      }
-
-      .page-numbers {
-        .page-btn {
-          width: 36px;
-          height: 36px;
-          font-size: 0.9rem;
-        }
-      }
-    }
-  }
-
   .header .stats {
     align-items: center;
     text-align: center;
   }
 }
 
-@media (max-width: 480px) {
-  .pagination-container {
-    .pagination {
-      .page-numbers {
-        gap: 3px;
-
-        .page-btn {
-          width: 32px;
-          height: 32px;
-          font-size: 0.85rem;
-        }
-
-        .ellipsis {
-          padding: 0 5px;
-        }
-      }
-    }
-  }
-}
-
 // Very small screens
 @media (max-width: 360px) {
-  .grid {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 10px;
-  }
-
-  .card-item {
-    padding: 6px;
-
-    .card-name {
-      font-size: 0.8rem;
-    }
+  .swipe-page {
+    gap: 6px;
+    padding: 4px;
   }
 
   .detail-view {
@@ -957,128 +999,6 @@
       .enlarged-card {
         width: 250px;
         height: 375px;
-
-        .enlarged-card-face {
-          .enlarged-card-image {
-            width: 100%;
-            height: 100%;
-          }
-        }
-
-        // Landscape orientation for mobile devices
-        @media (max-width: 768px) and (orientation: landscape) {
-          .collection-container {
-            padding: 10px;
-            padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
-            padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
-          }
-
-          .header {
-            flex-direction: row;
-            gap: 10px;
-            padding: 12px 15px;
-            margin-bottom: 15px;
-
-            h1 {
-              font-size: 1.8rem;
-              width: auto;
-            }
-
-            .stats {
-              width: auto;
-              font-size: 1rem;
-              padding: 8px 16px;
-            }
-
-          }
-
-          .grid {
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 12px;
-            padding: 10px;
-          }
-
-          .card-item {
-            padding: 0;
-            aspect-ratio: 3/4;
-
-            .card-name {
-              display: none;
-            }
-          }
-
-          .detail-view {
-            padding: 15px;
-            margin: 10px auto;
-
-            .detail-title {
-              font-size: 1.8rem;
-            }
-
-            .detail-card {
-              width: 250px;
-              height: 375px;
-            }
-
-            .detail-controls {
-              flex-direction: row;
-              gap: 10px;
-
-              .btn-flip,
-              .btn-close {
-                width: auto;
-                max-width: 200px;
-                padding: 12px 18px;
-              }
-            }
-          }
-
-          .enlarged-card-overlay {
-            .enlarged-card-container {
-              .enlarged-card {
-                width: 300px;
-                height: 450px;
-              }
-            }
-          }
-        }
-
-        // Landscape orientation for small screens
-        @media (max-width: 480px) and (orientation: landscape) {
-          .grid {
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            gap: 10px;
-          }
-
-          .card-item {
-            padding: 0;
-
-            .card-name {
-              display: none;
-            }
-          }
-
-          .detail-view {
-            .detail-card {
-              width: 220px;
-              height: 330px;
-            }
-          }
-        }
-
-        // Prevent horizontal scrolling on all orientations
-        @media (max-width: 768px) {
-
-          html,
-          body {
-            overflow-x: hidden;
-            max-width: 100vw;
-          }
-
-          .collection-container {
-            max-width: 100vw;
-          }
-        }
 
         .enlarged-card-back {
           padding: 20px;

@@ -1,24 +1,19 @@
 <div class="question-container">
+  <div class="instruction-banner">
+    <span class="instruction-text">{{ bannerText }}</span>
+  </div>
+
   <div class="question-content">
-
-    <p class="instruction">Задайте вопрос, на который можно ответить «Да» или «Нет», и нажмите на волшебный шар.</p>
-
-    <div class="card-area">
-      <div class="magic-image-wrapper" (click)="askQuestion()" [class.disabled]="!hasAttempt">
-        <img src="/assets/ui/magic.png" alt="Задать вопрос" class="magic-image" />
-      </div>
+    <!-- Left: Ask button -->
+    <div class="button-section">
+      <button class="ask-button" (click)="askQuestion()" [disabled]="!hasAttempt">
+        <span class="ask-button-label">Спросить</span>
+      </button>
     </div>
 
-    <div class="beautiful-answer" *ngIf="currentAnswer">
-      <div class="beautiful-answer-title">Ответ:</div>
-      <div class="beautiful-answer-text">{{ currentAnswer }}</div>
-    </div>
-
-    <div class="attempts-info">
-      <div class="info-box">
-        <span class="info-text">Вопросов на сегодня: <strong>{{ remainingQuestions }} / {{ maxQuestions }}</strong></span>
-        <span class="info-detail" *ngIf="!isPremium">Премиум пользователь получает 5 вопросов в день.</span>
-      </div>
+    <!-- Right: Character image -->
+    <div class="character-section">
+      <img src="assets/ui/cold.png" alt="Персонаж" class="character-image" />
     </div>
   </div>
 </div>

@@ -36,6 +36,9 @@ export class Question implements OnInit {
   maxQuestions: number = 0;
   hasAttempt: boolean = false;
 
+  /** Default banner text, replaced after asking */
+  bannerText: string = 'Сформулируй свой вопрос, на который можно ответить «Да» или «Нет», и нажми на кнопку';
+
   constructor(
     private attempt: Attempt,
     private premium: Premium
@@ -79,6 +82,9 @@ export class Question implements OnInit {
     this.currentAnswer = this.getRandomAnswer();
     this.showAnswer = false;
 
+    // Update banner text immediately with the answer
+    this.bannerText = `Ответ оракула: ${this.currentAnswer}`;
+
     // Запускаем анимацию через небольшую задержку
     setTimeout(() => {
       this.showAnswer = true;
@@ -99,5 +105,6 @@ export class Question implements OnInit {
   resetQuestion(): void {
     this.showAnswer = false;
     this.currentAnswer = '';
+    this.bannerText = 'Сформулируй свой вопрос, на который можно ответить «Да» или «Нет», и нажми на кнопку';
   }
 }

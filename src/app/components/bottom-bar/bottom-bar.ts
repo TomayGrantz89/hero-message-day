@@ -56,7 +56,7 @@ export class BottomBarComponent implements OnInit, OnDestroy {
   private initNavItems(): void {
     this.navItems = [
       {
-        link: '/',
+        link: '/prediction',
         icon: 'assets/ui/icon-card.svg',
         label: 'Карта дня',
         isActive: false,
@@ -89,11 +89,7 @@ export class BottomBarComponent implements OnInit, OnDestroy {
         item.isActive = false; // Shop never active as route
         return;
       }
-      if (item.link === '/') {
-        item.isActive = url === '/' || url === '';
-      } else {
-        item.isActive = url.startsWith(item.link);
-      }
+      item.isActive = url.startsWith(item.link);
     });
   }
 

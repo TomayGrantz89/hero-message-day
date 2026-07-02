@@ -173,7 +173,7 @@ export class Prediction implements OnInit, OnDestroy {
    */
   get showButton(): boolean {
     // Show button when:
-    // 1. Card is not yet opened (back side up) — "Открыть карту"
+    // 1. Card is not yet opened (back side up) — "Открыть карту" or "Купить премиум"
     // 2. Card is opened AND user is premium AND has remaining attempts — "Получить вторую карту"
     if (!this.showCardFace && !this.showPrediction) {
       return true;
@@ -189,6 +189,10 @@ export class Prediction implements OnInit, OnDestroy {
    */
   get buttonText(): string {
     if (!this.showCardFace && !this.showPrediction) {
+      // Free user with no attempts — offer premium purchase
+      if (!this.isPremium && this.attemptsRemaining <= 0) {
+        return 'Купить премиум';
+      }
       return 'Открыть карту';
     }
     if ((this.showCardFace || this.showPrediction) && this.isPremium && this.attemptsRemaining > 0) {
@@ -202,6 +206,11 @@ export class Prediction implements OnInit, OnDestroy {
    */
   onActionButtonClick(): void {
     if (!this.showCardFace && !this.showPrediction) {
+      // Free user with no attempts — offer premium purchase
+      if (!this.isPremium && this.attemptsRemaining <= 0) {
+        this.purchasePremium();
+        return;
+      }
       // Card not opened — flip it (uses an attempt)
       this.flipCard();
     } else if ((this.showCardFace || this.showPrediction) && this.isPremium && this.attemptsRemaining > 0) {

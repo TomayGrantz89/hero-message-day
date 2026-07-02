@@ -54,6 +54,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  justify-content: center;
 
   h1 {
     font-size: 2.8rem;
@@ -65,7 +66,7 @@
   .subtitle {
     font-size: 1.2rem;
     color: #666;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 }
 
@@ -73,7 +74,7 @@
   perspective: 1000px;
   width: 300px;
   height: 450px;
-  margin: 30px auto;
+  margin: 10px auto;
   cursor: pointer;
 
   .card {
@@ -179,7 +180,7 @@
 
 /* New button section - replaces old .controls */
 .button-section {
-  margin-top: 40px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -415,18 +416,18 @@
 
     .subtitle {
       font-size: 1.1rem;
-      margin-bottom: 30px;
+      margin-bottom: 16px;
     }
   }
 
   .card-wrapper {
     width: 250px;
     height: 375px;
-    margin: 20px auto;
+    margin: 8px auto;
   }
 
   .button-section {
-    margin-top: 30px;
+    margin-top: 16px;
     max-width: 280px;
 
     .btn-action {
@@ -476,13 +477,14 @@
 
     .subtitle {
       font-size: 1rem;
-      margin-bottom: 25px;
+      margin-bottom: 14px;
     }
   }
 
   .card-wrapper {
     width: 220px;
     height: 330px;
+    margin: 6px auto;
   }
 
   .card .side {
@@ -508,7 +510,7 @@
   }
 
   .button-section {
-    margin-top: 25px;
+    margin-top: 14px;
     max-width: 260px;
 
     .btn-action {
@@ -540,6 +542,7 @@
   .card-wrapper {
     width: 200px;
     height: 300px;
+    margin: 4px auto;
   }
 
   .card .side {
@@ -593,17 +596,18 @@
   .main {
     .subtitle {
       font-size: 1rem;
-      margin-bottom: 25px;
+      margin-bottom: 14px;
     }
   }
 
   .card-wrapper {
     width: 250px;
     height: 375px;
+    margin: 6px auto;
   }
 
   .button-section {
-    margin-top: 25px;
+    margin-top: 14px;
   }
 }
 

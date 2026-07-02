@@ -3,7 +3,13 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 64px;
+  padding-top: env(safe-area-inset-top, 0px);
+
+  /* 2. Высоту делаем через min-height, чтобы она складывалась из отступа телефона + высоты контента */
+  min-height: calc(env(safe-area-inset-top, 0px) + 64px);
+  padding-left: 14px;
+  padding-right: 14px;
+  padding-bottom: 0;
   background: rgba(214, 232, 248, 0.85);
   display: flex;
   align-items: center;

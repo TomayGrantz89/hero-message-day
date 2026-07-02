@@ -8,29 +8,43 @@
 
 @font-face {
   font-family: 'EBGaramond';
-  src: url('/assets/fonts/EBGaramond-VariableFont_wght_0.ttf') format('truetype-variations');
+  src: url('/fonts/EBGaramond-VariableFont_wght_0.ttf') format('truetype');
   font-weight: 100 900;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'EBGaramond';
-  src: url('/assets/fonts/EBGaramond-Italic-VariableFont_wght_0.ttf') format('truetype-variations');
+  src: url('/fonts/EBGaramond-Italic-VariableFont_wght_0.ttf') format('truetype');
   font-weight: 100 900;
   font-style: italic;
 }
+
+.header {
+  /* Переменная safe-area-inset-top автоматически подставит высоту статус-бара конкретного телефона */
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
 
 /* Global responsive base styles */
 * {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
+  /* Prevent horizontal scroll on mobile */
 }
+
+body {
+  /* Bottom system navigation/home bar */
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
 
 body {
   // font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -44,7 +58,8 @@ body {
 button,
 a.btn,
 [role="button"] {
-  min-height: 44px; /* Minimum touch target size */
+  min-height: 44px;
+  /* Minimum touch target size */
   min-width: 44px;
 }
 
@@ -78,15 +93,21 @@ a.btn,
 }
 
 /* Prevent text overflow on small screens */
-p, span, div {
+p,
+span,
+div {
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
 /* Improve scrolling on mobile */
 @media (max-width: 768px) {
-  .modal, .detail-view, .card {
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+
+  .modal,
+  .detail-view,
+  .card {
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scrolling on iOS */
   }
 }
 
@@ -111,7 +132,9 @@ p, span, div {
 
 /* Prevent horizontal scrolling on mobile */
 @media (max-width: 768px) {
-  html, body {
+
+  html,
+  body {
     overflow-x: hidden;
     width: 100%;
     position: relative;

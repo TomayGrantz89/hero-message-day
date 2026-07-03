@@ -10,6 +10,9 @@ const config: CapacitorConfig = {
   plugins: {
     StatusBar: {
       overlaysWebView: true
+    },
+    ScreenOrientation: {
+      orientation: "portrait"
     }
   }
 };

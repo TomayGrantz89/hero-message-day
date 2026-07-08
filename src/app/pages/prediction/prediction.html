@@ -1,6 +1,6 @@
 <div class="prediction-container">
   <main class="main">
-    <p class="subtitle">{{ !showCardFace ? 'Нажмите на карту, чтобы открыть её' : (showPrediction ? 'Нажмите на карту, чтобы увидеть изображение' : 'Нажмите на карту, чтобы узнать предсказание') }}</p>
+    <p class="subtitle">{{'Откройте карту и узнайте предсказание на сегодня'}}</p>
 
     <div class="card-wrapper" (click)="flipCard()">
       <div class="card" [class.show-face]="showCardFace">

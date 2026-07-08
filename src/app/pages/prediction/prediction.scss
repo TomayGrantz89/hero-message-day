@@ -4,12 +4,15 @@
   color: #333;
   background: transparent;
   font-family: 'EBGaramond', serif;
-  padding: 20px;
+  padding: 15px;
   padding-top: calc(env(safe-area-inset-top, 0px) + 60px);
   padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 20px);
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow: hidden;
+  height: 100vh;
+  max-height: 100vh;
 }
 
 .header {
@@ -73,10 +76,10 @@
 }
 
 .card-wrapper {
-  width: calc(60vh * 2 / 3);
-  height: 60vh;
-  max-width: 90vw;
-  margin: 10px auto;
+  width: calc(45vh * 2 / 3);
+  height: 45vh;
+  max-width: 85vw;
+  margin: 5px auto;
   cursor: pointer;
 
   .card {
@@ -84,7 +87,7 @@
     height: 100%;
     position: relative;
     border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    // box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
     box-sizing: border-box;
 
     .side {
@@ -229,7 +232,7 @@
   justify-content: flex-start;
 
   .btn-action {
-    background: #FFFFFF;
+    background: #D6E8F8;
     color: #007AFF;
     border: none;
     border-radius: 14px;
@@ -267,7 +270,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 14px;
     padding: 8px 32px;
     box-sizing: border-box;

@@ -38,6 +38,9 @@ body {
   width: 100%;
   overflow-x: hidden;
   /* Prevent horizontal scroll on mobile */
+  height: 100lvh;
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 body {
@@ -51,7 +54,7 @@ body {
   font-family: 'EBGaramond', serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background:  linear-gradient(180deg, #F0F6FE 0%, #BCD7F8 100%);
+  background: linear-gradient(180deg, #F0F6FE 0%, #BCD7F8 100%);
 }
 
 /* Improve tap targets on mobile */

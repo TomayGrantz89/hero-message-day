@@ -14,34 +14,6 @@
   position: relative;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  padding: 16px 20px;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 15px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-
-  h1 {
-    font-size: 2.5rem;
-    color: #0a1e3d;
-    margin: 0;
-    text-align: center;
-  }
-
-  .stats {
-    background: #BCD7F8;
-    padding: 12px 24px;
-    border-radius: 10px;
-    font-size: 1.2rem;
-    border: 1px solid #a0b8d6;
-    color: #5a6a7a;
-  }
-}
-
 .main {
   flex: 1;
 }
@@ -67,7 +39,7 @@
   display: none; // Hidden by default, shown on mobile
   overflow: hidden;
   width: 100%;
-  touch-action: pan-y; // Allow vertical scroll, capture horizontal swipes
+  touch-action: pan-y;
   user-select: none;
 
   .swipe-track {
@@ -96,6 +68,7 @@
       padding: 0;
       aspect-ratio: 2/3;
       border: 1px solid #c8c0e8;
+      position: relative;
 
       &:hover {
         transform: translateY(-5px);
@@ -117,18 +90,50 @@
       box-shadow: 0 0 6px rgba(13, 5, 40, 0.35);
     }
 
-    .card-item--locked {
-      cursor: not-allowed;
+    .card-item--available {
+      cursor: pointer;
+      border: 1px solid #555;
       position: relative;
-      background: #0D0528;
-      background-image: url('/assets/back/back.png');
-      background-size: cover;
-      background-position: center;
-      border: 1px solid #2a1a5a;
-      padding: 0;
+      overflow: hidden;
+      background: #1a1a1a;
 
-      .card-image {
-        display: none;
+      .card-back {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .card-back-image {
+          width: 100%;
+          height: 100%;
+          background: #1a1a1a;
+          background-image: url('/assets/back/back.png');
+          background-size: cover;
+          background-position: center;
+          border-radius: 6px;
+        }
+      }
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+    }
+
+    .card-item--locked {
+      cursor: default;
+      position: relative;
+      border: 1px solid #3a3a3c;
+      overflow: hidden;
+      background: #2a2a2e;
+
+      .card-image--blurred {
+        filter: blur(12px) brightness(0.35) saturate(0.3);
+        -webkit-filter: blur(12px) brightness(0.35) saturate(0.3);
+        transform: scale(1.1);
+        background-color: #2a2a2e;
+        opacity: 0.6;
       }
 
       &:hover {
@@ -146,7 +151,68 @@
 }
 
 // ============================================
-// Desktop Grid (unchanged)
+// Lock Overlay (Apple-style)
+// ============================================
+.lock-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 8px;
+  z-index: 2;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  .lock-icon {
+    width: 16px;
+    height: 16px;
+    color: rgba(255, 255, 255, 0.75);
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+
+    &:active {
+      opacity: 1;
+    }
+  }
+}
+
+// ============================================
+// Premium Message
+// ============================================
+.premium-message {
+  text-align: center;
+  padding: 16px 20px;
+  margin-top: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(60, 60, 67, 0.75);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 12px;
+  animation: fadeInUp 0.3s ease;
+  user-select: none;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ============================================
+// Desktop Grid
 // ============================================
 .desktop-grid {
   display: none; // Hidden by default, shown on desktop
@@ -173,6 +239,7 @@
     padding: 0;
     aspect-ratio: 2/3;
     border: 1px solid #c8c0e8;
+    position: relative;
 
     &:hover {
       transform: translateY(-10px);
@@ -187,10 +254,6 @@
       background-position: center;
       border-radius: 8px;
     }
-
-    .card-name {
-      display: none;
-    }
   }
 
   .card-item--owned {
@@ -198,22 +261,50 @@
     box-shadow: 0 0 8px rgba(13, 5, 40, 0.4);
   }
 
-  .card-item--locked {
-    cursor: not-allowed;
+  .card-item--available {
+    cursor: pointer;
+    border: 1px solid #555;
     position: relative;
-    background: #0D0528;
-    background-image: url('/assets/back/back.png');
-    background-size: cover;
-    background-position: center;
-    border: 1px solid #2a1a5a;
-    padding: 0;
+    overflow: hidden;
+    background: #1a1a1a;
 
-    .card-image {
-      display: none;
+    .card-back {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .card-back-image {
+        width: 100%;
+        height: 100%;
+        background: #1a1a1a;
+        background-image: url('/assets/back/back.png');
+        background-size: cover;
+        background-position: center;
+        border-radius: 8px;
+      }
     }
 
-    .card-name {
-      display: none;
+    &:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .card-item--locked {
+    cursor: default;
+    position: relative;
+    border: 1px solid #3a3a3c;
+    overflow: hidden;
+    background: #2a2a2e;
+
+    .card-image--blurred {
+      filter: blur(12px) brightness(0.35) saturate(0.3);
+      -webkit-filter: blur(12px) brightness(0.35) saturate(0.3);
+      transform: scale(1.1);
+      background-color: #2a2a2e;
+      opacity: 0.6;
     }
 
     &:hover {
@@ -223,153 +314,9 @@
   }
 }
 
-.detail-view {
-  background: rgba(0, 0, 0, 0.7);
-  border-radius: 20px;
-  padding: 30px;
-  margin: 20px auto;
-  max-width: 800px;
-  position: relative;
-  border: 3px solid rgb(85, 85, 85);
-
-  .close-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: #0D0528;
-    color: #EDECF9;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: background 0.3s;
-
-    &:hover {
-      background: #1a0a4a;
-    }
-  }
-
-  .detail-title {
-    text-align: center;
-    color: #ffcc00;
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-  }
-
-  .detail-card {
-    perspective: 1000px;
-    width: 300px;
-    height: 450px;
-    margin: 0 auto 40px;
-    cursor: pointer;
-
-    .detail-side {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      backface-visibility: hidden;
-      border-radius: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
-      border: 5px solid;
-
-      &.face {
-        background: #222;
-        border: 5px solid rgb(85, 85, 85);
-
-        .detail-image {
-          width: 90%;
-          height: 70%;
-          background-color: #444;
-          background-size: cover;
-          background-position: center;
-          border-radius: 10px;
-          margin-bottom: 20px;
-        }
-      }
-
-      &.back {
-        background: #0D0528;
-        border: 5px solid rgb(85, 85, 85);
-        transform: rotateY(180deg);
-        padding: 30px;
-        text-align: left;
-
-        .detail-info {
-          h3 {
-            color: #ffcc00;
-            margin-top: 20px;
-            font-size: 1.8rem;
-          }
-
-          p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            color: #EDECF9;
-          }
-
-          .hint {
-            font-size: 0.9rem;
-            color: #EDECF9;
-            font-style: italic;
-            text-align: center;
-            margin-top: 30px;
-          }
-        }
-      }
-    }
-
-    &:hover .face {
-      transform: rotateY(-10deg);
-    }
-  }
-
-  .detail-controls {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-
-    .btn-flip,
-    .btn-close {
-      padding: 15px 30px;
-      border: none;
-      border-radius: 10px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .btn-flip {
-      background: #0D0528;
-      color: #EDECF9;
-
-      &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(13, 5, 40, 0.4);
-      }
-    }
-
-    .btn-close {
-      background: #0D0528;
-      color: #EDECF9;
-
-      &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(13, 5, 40, 0.4);
-      }
-    }
-  }
-}
-
+// ============================================
 // Enlarged Card Overlay
+// ============================================
 .enlarged-card-overlay {
   position: fixed;
   top: 0;
@@ -475,75 +422,20 @@
             line-height: 1.6;
             color: #EDECF9;
           }
-
-          .hint {
-            font-size: 1.1rem;
-            color: #EDECF9;
-            font-style: italic;
-            text-align: center;
-            margin-top: 30px;
-          }
         }
       }
     }
   }
 }
 
-.premium-benefits {
-  margin-top: 25px;
-  padding: 20px;
-  background: linear-gradient(135deg, #fff8e1, #fff3cd);
-  border: 2px solid #ffd700;
-  border-radius: 12px;
-  text-align: left;
-
-  .premium-title {
-    font-size: 1.3rem;
-    color: #b8860b;
-    margin: 0 0 12px 0;
-    font-weight: bold;
-  }
-
-  .premium-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-    li {
-      font-size: 1rem;
-      color: #5a4a1a;
-      padding: 6px 0;
-      padding-left: 24px;
-      position: relative;
-      line-height: 1.4;
-
-      &::before {
-        content: '✅';
-        position: absolute;
-        left: 0;
-        top: 6px;
-        font-size: 0.9rem;
-      }
-    }
-  }
-}
-
 // ============================================
-// Desktop optimization (unchanged)
+// Desktop optimization
 // ============================================
 @media (min-width: 1024px) {
   .grid {
     grid-template-columns: repeat(7, minmax(120px, 1fr));
     gap: 12px;
     padding: 12px;
-  }
-
-  .card-item {
-    padding: 0;
-
-    .card-name {
-      display: none;
-    }
   }
 }
 
@@ -555,26 +447,6 @@
     padding: 15px;
     padding-top: calc(env(safe-area-inset-top, 0px) + 55px);
     padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
-  }
-
-  .header {
-    flex-direction: column;
-    gap: 12px;
-    padding: 14px;
-    margin-bottom: 20px;
-
-    h1 {
-      font-size: 2rem;
-      width: 100%;
-      text-align: center;
-    }
-
-    .stats {
-      width: 100%;
-      text-align: center;
-      padding: 10px 20px;
-      font-size: 1.1rem;
-    }
   }
 
   // Show swipe indicator on mobile
@@ -592,86 +464,16 @@
     display: none;
   }
 
-  .fixed-home-link {
-    top: 10px;
-    left: 10px;
-
-    .home-icon {
-      width: 2rem;
-      height: 2rem;
-    }
-  }
-
-  .premium-btn {
-    top: 8px;
-    right: 8px;
-    padding: 6px 14px;
-
-    .premium-icon {
-      width: 14px;
-      height: 14px;
-    }
-  }
-
-  .premium-status {
-    top: 12px;
-    right: 12px;
-    font-size: 0.85rem;
-
-    .premium-star {
-      width: 14px;
-      height: 14px;
-    }
-  }
-
-  .detail-view {
-    padding: 20px;
-    margin: 15px auto;
-
-    .detail-title {
-      font-size: 2rem;
-      margin-bottom: 20px;
-    }
-
-    .detail-card {
-      width: 280px;
-      height: 420px;
-    }
-
-    .detail-controls {
-      flex-direction: column;
-      gap: 15px;
-      align-items: center;
-
-      .btn-flip,
-      .btn-close {
-        width: 100%;
-        max-width: 300px;
-        padding: 14px 20px;
-        font-size: 1.1rem;
-      }
-    }
-  }
-
   .enlarged-card-overlay {
     .enlarged-card-container {
       .enlarged-card {
         width: 350px;
         height: 525px;
 
-        .enlarged-card-face {
-          .enlarged-card-image {
-            width: 100%;
-            height: 100%;
-          }
-        }
-
         .enlarged-card-back {
           padding: 30px;
 
           .enlarged-card-info {
-            width: 100%;
-
             .card-name-title {
               font-size: 1.4rem;
             }
@@ -683,29 +485,8 @@
             p {
               font-size: 1.2rem;
             }
-
-            .hint {
-              font-size: 1rem;
-            }
           }
         }
-      }
-    }
-  }
-
-  .premium-benefits {
-    padding: 15px;
-    margin-top: 20px;
-
-    .premium-title {
-      font-size: 1.1rem;
-    }
-
-    .premium-list {
-      li {
-        font-size: 0.9rem;
-        padding: 5px 0;
-        padding-left: 22px;
       }
     }
   }
@@ -721,63 +502,9 @@
     padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 10px);
   }
 
-  .header {
-    padding: 12px;
-    gap: 10px;
-
-    h1 {
-      font-size: 1.8rem;
-    }
-
-    .stats {
-      font-size: 1rem;
-      padding: 8px 16px;
-    }
-  }
-
   .swipe-page {
     gap: 8px;
     padding: 6px;
-  }
-
-  .detail-view {
-    padding: 15px;
-
-    .detail-title {
-      font-size: 1.8rem;
-      margin-bottom: 15px;
-    }
-
-    .detail-card {
-      width: 250px;
-      height: 375px;
-    }
-
-    .detail-side.back {
-      padding: 20px;
-
-      .detail-info {
-        h3 {
-          font-size: 1.5rem;
-          margin-top: 15px;
-        }
-
-        p {
-          font-size: 1rem;
-          line-height: 1.5;
-        }
-      }
-    }
-
-    .detail-controls {
-
-      .btn-flip,
-      .btn-close {
-        padding: 12px 18px;
-        font-size: 1rem;
-        max-width: 280px;
-      }
-    }
   }
 
   .enlarged-card-overlay {
@@ -786,19 +513,10 @@
         width: 300px;
         height: 450px;
 
-        .enlarged-card-face {
-          .enlarged-card-image {
-            width: 100%;
-            height: 100%;
-          }
-        }
-
         .enlarged-card-back {
           padding: 25px;
 
           .enlarged-card-info {
-            width: 100%;
-
             .card-name-title {
               font-size: 1.3rem;
             }
@@ -809,10 +527,6 @@
 
             p {
               font-size: 1.1rem;
-            }
-
-            .hint {
-              font-size: 0.9rem;
             }
           }
         }
@@ -831,54 +545,10 @@
     padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
   }
 
-  .header {
-    flex-direction: row;
-    gap: 10px;
-    padding: 12px 15px;
-    margin-bottom: 15px;
-
-    h1 {
-      font-size: 1.8rem;
-      width: auto;
-    }
-
-    .stats {
-      width: auto;
-      font-size: 1rem;
-      padding: 8px 16px;
-    }
-  }
-
   .swipe-page {
     grid-template-columns: repeat(4, 1fr); // 4 columns in landscape
     gap: 8px;
     padding: 6px;
-  }
-
-  .detail-view {
-    padding: 15px;
-    margin: 10px auto;
-
-    .detail-title {
-      font-size: 1.8rem;
-    }
-
-    .detail-card {
-      width: 250px;
-      height: 375px;
-    }
-
-    .detail-controls {
-      flex-direction: row;
-      gap: 10px;
-
-      .btn-flip,
-      .btn-close {
-        width: auto;
-        max-width: 200px;
-        padding: 12px 18px;
-      }
-    }
   }
 
   .enlarged-card-overlay {
@@ -898,18 +568,10 @@
     gap: 6px;
     padding: 4px;
   }
-
-  .detail-view {
-    .detail-card {
-      width: 220px;
-      height: 330px;
-    }
-  }
 }
 
 // Prevent horizontal scrolling on all orientations
 @media (max-width: 768px) {
-
   html,
   body {
     overflow-x: hidden;
@@ -925,7 +587,6 @@
 // Desktop styles (> 768px)
 // ============================================
 @media (min-width: 769px) {
-
   // Show desktop grid on desktop
   .desktop-grid {
     display: block;
@@ -942,50 +603,11 @@
   }
 }
 
-// Page info in header
-.header .stats {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  align-items: flex-end;
-}
-
-// Responsive for header stats
-@media (max-width: 768px) {
-  .header .stats {
-    align-items: center;
-    text-align: center;
-  }
-}
-
 // Very small screens
 @media (max-width: 360px) {
   .swipe-page {
     gap: 6px;
     padding: 4px;
-  }
-
-  .detail-view {
-    padding: 12px;
-
-    .detail-card {
-      width: 220px;
-      height: 330px;
-    }
-
-    .detail-side.back {
-      padding: 15px;
-
-      .detail-info {
-        h3 {
-          font-size: 1.3rem;
-        }
-
-        p {
-          font-size: 0.9rem;
-        }
-      }
-    }
   }
 
   .enlarged-card-overlay {
@@ -998,8 +620,6 @@
           padding: 20px;
 
           .enlarged-card-info {
-            width: 100%;
-
             .card-name-title {
               font-size: 1.1rem;
             }
@@ -1010,10 +630,6 @@
 
             p {
               font-size: 1rem;
-            }
-
-            .hint {
-              font-size: 0.8rem;
             }
           }
         }

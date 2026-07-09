@@ -55,12 +55,7 @@ export class CardData {
   }
 
   getAllCards(): Card[] {
-    if (this.premium.isPremium()) {
-      return this.cards; // All 64 cards for premium users
-    } else {
-      // Only first 14 cards for non-premium users
-      return this.cards.slice(0, 14);
-    }
+    return this.cards; // Always return all cards; premium locking is handled visually in the collection component
   }
 
   getCard(id: number): Card | undefined {

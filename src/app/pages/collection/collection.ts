@@ -4,9 +4,12 @@ import { CardData, Card } from '../../services/card-data';
 import { Attempt } from '../../services/attempt';
 import { Premium } from '../../services/premium';
 
+type CardState = 'owned' | 'available' | 'locked';
+
 interface CollectionCard {
   card: Card | null;
   owned: boolean;
+  state: CardState;
   isPlaceholder?: boolean;
 }
 
@@ -24,7 +27,7 @@ export class Collection implements OnInit {
 
   // Premium status
   isPremium = false;
-  totalCards = 0;
+  showPremiumMessage = false;
 
   // Swipe/carousel properties
   currentSwipePage = 0;
@@ -44,8 +47,8 @@ export class Collection implements OnInit {
 
   ngOnInit(): void {
     this.calculateCardsPerSwipe();
-    this.loadCollection();
     this.updatePremiumStatus();
+    this.loadCollection();
   }
 
   @HostListener('window:resize')
@@ -80,11 +83,24 @@ export class Collection implements OnInit {
   private loadCollection(): void {
     const collectedIds = this.attemptService.getCollection();
     const allCards = this.cardData.getAllCards();
+    const isPremium = this.isPremium;
 
-    this.collectionCards = allCards.map(card => ({
-      card,
-      owned: collectedIds.includes(card.id)
-    }));
+    this.collectionCards = allCards.map(card => {
+      const owned = collectedIds.includes(card.id);
+      let state: CardState;
+
+      if (owned) {
+        state = 'owned';
+      } else if (isPremium) {
+        // Premium: all unowned cards show as card back (available)
+        state = 'available';
+      } else {
+        // Non-premium: cards 1-14 are available, 15-64 are locked
+        state = card.id <= 14 ? 'available' : 'locked';
+      }
+
+      return { card, owned, state };
+    });
 
     this.buildSwipePages();
   }
@@ -100,7 +116,7 @@ export class Collection implements OnInit {
     if (lastPage && lastPage.length < this.cardsPerSwipe) {
       const placeholdersNeeded = this.cardsPerSwipe - lastPage.length;
       for (let p = 0; p < placeholdersNeeded; p++) {
-        lastPage.push({ card: null, owned: false, isPlaceholder: true });
+        lastPage.push({ card: null, owned: false, state: 'locked', isPlaceholder: true });
       }
     }
 
@@ -114,10 +130,6 @@ export class Collection implements OnInit {
 
   private updatePremiumStatus(): void {
     this.isPremium = this.premium.isPremium();
-
-    // For non-premium users, accessible cards are limited to 14
-    // For premium users, total cards is 64 (as defined in card-data.ts)
-    this.totalCards = this.isPremium ? 64 : 14;
   }
 
   // Swipe handlers
@@ -156,12 +168,17 @@ export class Collection implements OnInit {
   }
 
   selectCard(item: CollectionCard): void {
-    if (!item.owned) {
-      return; // Do nothing for locked cards
+    if (item.state === 'locked') {
+      return; // Cannot open locked cards
     }
     this.selectedCard = item.card;
     this.showDetail = true;
     this.detailSide = 'face';
+  }
+
+  onLockClick(event: Event): void {
+    event.stopPropagation();
+    this.showPremiumMessage = true;
   }
 
   closeDetail(): void {
@@ -180,9 +197,11 @@ export class Collection implements OnInit {
   purchasePremium(): void {
     this.premium.activatePremium();
     this.isPremium = true;
-    this.totalCards = 64;
+    this.showPremiumMessage = false;
     // Grant premium prediction and question attempts
     this.attemptService.refreshPredictionAttempts();
     this.attemptService.refreshQuestionAttempts();
+    // Immediately refresh collection to show all cards as available (not locked)
+    this.loadCollection();
   }
 }

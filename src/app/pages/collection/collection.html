@@ -16,23 +16,74 @@
             <!-- Placeholder (invisible, maintains grid spacing) -->
             <div class="card-item card-item--placeholder" *ngIf="item.isPlaceholder"></div>
             <!-- Real card -->
-            <div class="card-item" [class.card-item--locked]="!item.owned" [class.card-item--owned]="item.owned"
-              *ngIf="!item.isPlaceholder" (click)="selectCard(item)">
-              <div class="card-image" *ngIf="item.owned && item.card" [style.backgroundImage]="'url(' + item.card.imageUrl + ')'"></div>
+            <div class="card-item"
+              [class.card-item--owned]="item.state === 'owned'"
+              [class.card-item--available]="item.state === 'available'"
+              [class.card-item--locked]="item.state === 'locked'"
+              *ngIf="!item.isPlaceholder"
+              (click)="selectCard(item)">
+              <!-- State 1: Owned — show card image face-up -->
+              <div class="card-image" *ngIf="item.state === 'owned'"
+                [style.backgroundImage]="'url(' + item.card!.imageUrl + ')'">
+              </div>
+              <!-- State 2: Available (not owned) — show card back -->
+              <div class="card-back" *ngIf="item.state === 'available'">
+                <div class="card-back-image"></div>
+              </div>
+              <!-- State 3: Locked — dark gray blurred + lock icon -->
+              <ng-container *ngIf="item.state === 'locked'">
+                <div class="card-image card-image--blurred"
+                  [style.backgroundImage]="'url(' + item.card!.imageUrl + ')'">
+                </div>
+                <div class="lock-overlay" (click)="onLockClick($event)">
+                  <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                </div>
+              </ng-container>
             </div>
           </ng-container>
         </div>
       </div>
     </div>
 
-    <!-- Desktop Grid (unchanged) -->
+    <!-- Desktop Grid -->
     <div class="desktop-grid" *ngIf="!showDetail">
       <div class="grid">
-        <div class="card-item" [class.card-item--locked]="!item.owned" [class.card-item--owned]="item.owned"
-          *ngFor="let item of collectionCards" (click)="selectCard(item)">
-          <div class="card-image" *ngIf="item.owned && item.card" [style.backgroundImage]="'url(' + item.card.imageUrl + ')'"></div>
+        <div class="card-item"
+          [class.card-item--owned]="item.state === 'owned'"
+          [class.card-item--available]="item.state === 'available'"
+          [class.card-item--locked]="item.state === 'locked'"
+          *ngFor="let item of collectionCards"
+          (click)="selectCard(item)">
+          <!-- State 1: Owned — show card image face-up -->
+          <div class="card-image" *ngIf="item.state === 'owned'"
+            [style.backgroundImage]="'url(' + item.card!.imageUrl + ')'">
+          </div>
+          <!-- State 2: Available (not owned) — show card back -->
+          <div class="card-back" *ngIf="item.state === 'available'">
+            <div class="card-back-image"></div>
+          </div>
+          <!-- State 3: Locked — dark gray blurred + lock icon -->
+          <ng-container *ngIf="item.state === 'locked'">
+            <div class="card-image card-image--blurred"
+              [style.backgroundImage]="'url(' + item.card!.imageUrl + ')'">
+            </div>
+            <div class="lock-overlay" (click)="onLockClick($event)">
+              <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </div>
+          </ng-container>
         </div>
       </div>
+    </div>
+
+    <!-- Premium message (shown after lock icon click, only for non-premium users) -->
+    <div class="premium-message" *ngIf="showPremiumMessage && !isPremium">
+      Пользователям премиума доступны все карты
     </div>
 
     <!-- Detail View - Enlarged Card -->

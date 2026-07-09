@@ -1,5 +1,6 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { CardData, Card } from '../../services/card-data';
 import { Attempt } from '../../services/attempt';
 import { Premium } from '../../services/premium';
@@ -19,7 +20,7 @@ interface CollectionCard {
   templateUrl: './collection.html',
   styleUrl: './collection.scss',
 })
-export class Collection implements OnInit {
+export class Collection implements OnInit, OnDestroy {
   collectionCards: CollectionCard[] = [];
   selectedCard: Card | null = null;
   showDetail = false;
@@ -39,6 +40,9 @@ export class Collection implements OnInit {
   private touchEndX = 0;
   private readonly SWIPE_THRESHOLD = 50;
 
+  // Premium status subscription
+  private premiumSubscription: Subscription | null = null;
+
   constructor(
     private cardData: CardData,
     private attemptService: Attempt,
@@ -49,6 +53,25 @@ export class Collection implements OnInit {
     this.calculateCardsPerSwipe();
     this.updatePremiumStatus();
     this.loadCollection();
+
+    // Subscribe to premium status changes (e.g., purchased from bottom-bar shop)
+    this.premiumSubscription = this.premium.premiumStatus$.subscribe(isPremium => {
+      const wasPremium = this.isPremium;
+      this.isPremium = isPremium;
+      this.showPremiumMessage = false;
+      if (isPremium && !wasPremium) {
+        // Premium was just activated from another page — refresh attempts
+        this.attemptService.refreshPredictionAttempts();
+        this.attemptService.refreshQuestionAttempts();
+      }
+      this.loadCollection();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.premiumSubscription) {
+      this.premiumSubscription.unsubscribe();
+    }
   }
 
   @HostListener('window:resize')
@@ -130,6 +153,7 @@ export class Collection implements OnInit {
 
   private updatePremiumStatus(): void {
     this.isPremium = this.premium.isPremium();
+    this.showPremiumMessage = false;
   }
 
   // Swipe handlers
@@ -168,8 +192,8 @@ export class Collection implements OnInit {
   }
 
   selectCard(item: CollectionCard): void {
-    if (item.state === 'locked') {
-      return; // Cannot open locked cards
+    if (item.state !== 'owned') {
+      return; // Only owned cards can be opened
     }
     this.selectedCard = item.card;
     this.showDetail = true;

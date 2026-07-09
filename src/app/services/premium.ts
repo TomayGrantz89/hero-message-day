@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +9,9 @@ export class Premium {
   private readonly PREMIUM_PURCHASE_DATE_KEY = 'cardGamePremiumPurchaseDate';
   private readonly QUESTION_ATTEMPTS_KEY = 'cardGameQuestionAttempts';
   private readonly QUESTION_LAST_RESET_KEY = 'cardGameQuestionLastReset';
+
+  private premiumStatusSource = new BehaviorSubject<boolean>(this.isPremium());
+  premiumStatus$: Observable<boolean> = this.premiumStatusSource.asObservable();
 
   constructor() {}
 
@@ -28,6 +32,7 @@ export class Premium {
     localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, '5');
     const today = new Date().toDateString();
     localStorage.setItem(this.QUESTION_LAST_RESET_KEY, today);
+    this.premiumStatusSource.next(true);
   }
 
   /**
@@ -36,6 +41,7 @@ export class Premium {
   deactivatePremium(): void {
     localStorage.removeItem(this.PREMIUM_KEY);
     localStorage.removeItem(this.PREMIUM_PURCHASE_DATE_KEY);
+    this.premiumStatusSource.next(false);
   }
 
   /**

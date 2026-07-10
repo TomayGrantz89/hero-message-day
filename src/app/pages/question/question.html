@@ -4,16 +4,18 @@
   </div>
 
   <div class="question-content">
-    <!-- Left: Ask button -->
+
+    <!-- Character image -->
+    <div class="character-section">
+      <img src="assets/ui/cold.png" alt="Персонаж" class="character-image" />
+    </div>
+
+    <!-- Ask button, left-aligned under the banner -->
     <div class="button-section">
       <button class="ask-button" (click)="askQuestion()" [disabled]="!hasAttempt">
         <span class="ask-button-label">Спросить</span>
       </button>
     </div>
 
-    <!-- Right: Character image -->
-    <div class="character-section">
-      <img src="assets/ui/cold.png" alt="Персонаж" class="character-image" />
-    </div>
   </div>
 </div>

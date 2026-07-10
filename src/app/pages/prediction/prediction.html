@@ -2,13 +2,10 @@
   <main class="main">
     <!-- <p class="subtitle">{{'Откройте карту и узнайте предсказание на сегодня'}}</p> -->
 
-    <!-- Unified action area — above the card -->
+    <!-- Unified action area — above the card, space reserved for timer -->
     <div class="action-area">
-      <button class="btn-action" *ngIf="showButton" (click)="onActionButtonClick()">
-        {{ buttonText }}
-      </button>
-
-      <div class="timer-block" *ngIf="!showButton">
+      <!-- Timer: shown after card is opened -->
+      <div class="timer-block" *ngIf="showTimer">
         <span class="timer-label">Следующая карта через:</span>
         <span class="timer-value">{{ timer }}</span>
       </div>

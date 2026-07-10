@@ -137,40 +137,11 @@ export class Prediction implements OnInit, OnDestroy {
   }
 
   /**
-   * Determines if the action button should be shown
-   * Button is shown when there are attempts remaining, regardless of card state
+   * Timer is shown after the card has been opened (flipped).
+   * If card was already opened today (restored from saved state), timer shows immediately.
    */
-  get showButton(): boolean {
-    return this.attemptsRemaining > 0;
-  }
-
-  /**
-   * Returns the button text based on current state
-   */
-  get buttonText(): string {
-    if (this.attemptsRemaining <= 0) {
-      return 'Купить премиум';
-    }
-    if (!this.showCardFace) {
-      return 'Открыть карту';
-    }
-    // Card is face up and no attempts remaining — show premium button
-    return 'Купить премиум';
-  }
-
-  /**
-   * Handles the action button click
-   */
-  onActionButtonClick(): void {
-    if (this.attemptsRemaining <= 0) {
-      this.purchasePremium();
-      return;
-    }
-    if (!this.showCardFace) {
-      // Card back is showing — flip to open it
-      this.flipCard();
-    }
-    // If card is already face up and attempts > 0, do nothing (shouldn't happen with 1 attempt)
+  get showTimer(): boolean {
+    return this.showCardFace;
   }
 
   purchasePremium(): void {

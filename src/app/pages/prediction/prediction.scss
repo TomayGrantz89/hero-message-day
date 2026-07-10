@@ -219,47 +219,16 @@
 /* Unified action area — fixed height container, no layout shift */
 .action-area {
   margin-top: 0;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   max-width: 320px;
-  min-height: 140px;
+  min-height: 72px;
   justify-content: flex-start;
 
-  .btn-action {
-    background: #D6E8F8;
-    color: #007AFF;
-    border: none;
-    border-radius: 14px;
-    padding: 16px 32px;
-    font-size: 1.3rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: all 0.2s ease;
-    width: 100%;
-    text-align: center;
-    letter-spacing: 0.3px;
-    min-height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-    }
-
-    &:active {
-      transform: translateY(0);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-    }
-  }
-
-  /* Timer block — same height as button, centered content */
+  /* Timer block — centered content */
   .timer-block {
     width: 100%;
     min-height: 56px;
@@ -382,15 +351,9 @@
 
   .action-area {
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 30px;
     max-width: 280px;
-    min-height: 130px;
-
-    .btn-action {
-      padding: 14px 28px;
-      font-size: 1.2rem;
-      min-height: 52px;
-    }
+    min-height: 64px;
 
     .timer-block {
       min-height: 52px;
@@ -468,16 +431,9 @@
 
   .action-area {
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 3ch;
     max-width: 260px;
-    min-height: 120px;
-
-    .btn-action {
-      padding: 14px 24px;
-      font-size: 1.2rem;
-      min-height: 50px;
-      border-radius: 12px;
-    }
+    min-height: 62px;
 
     .timer-block {
       min-height: 50px;
@@ -523,11 +479,7 @@
   }
 
   .action-area {
-    .btn-action {
-      padding: 12px 20px;
-      font-size: 1rem;
-      min-height: 46px;
-    }
+    min-height: 54px;
 
     .timer-block {
       min-height: 46px;
@@ -579,7 +531,8 @@
 
   .action-area {
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 30px;
+    min-height: 72px;
   }
 }
 

@@ -57,10 +57,11 @@
     right: 0;
     top: 0;
     bottom: 0;
-    width: 100%;
+    width: auto;
     height: 100%;
     pointer-events: none;
     overflow: hidden;
+    z-index: 1;
   }
 
   .character-image {
@@ -68,13 +69,13 @@
     width: auto;
     height: 80%;
     position: absolute;
-    bottom: 56px;
-    left: 0;
-    right: auto;
-    object-fit: cover;
-    object-position: 48% bottom;
+    bottom: 0;
+    left: auto;
+    right: 0;
+    object-fit: contain;
+    object-position: right bottom;
+    transform: translateX(25%);
     pointer-events: auto;
-    transform: none;
     // transform: translateX(-50%);
     // transform: translate(25%, 16%);
   }

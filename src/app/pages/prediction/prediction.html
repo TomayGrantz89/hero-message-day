@@ -1,6 +1,18 @@
 <div class="prediction-container">
   <main class="main">
-    <p class="subtitle">{{'Откройте карту и узнайте предсказание на сегодня'}}</p>
+    <!-- <p class="subtitle">{{'Откройте карту и узнайте предсказание на сегодня'}}</p> -->
+
+    <!-- Unified action area — above the card -->
+    <div class="action-area">
+      <button class="btn-action" *ngIf="showButton" (click)="onActionButtonClick()">
+        {{ buttonText }}
+      </button>
+
+      <div class="timer-block" *ngIf="!showButton">
+        <span class="timer-label">Следующая карта через:</span>
+        <span class="timer-value">{{ timer }}</span>
+      </div>
+    </div>
 
     <div class="card-wrapper" (click)="flipCard()">
       <div class="card" [class.show-face]="showCardFace">
@@ -24,26 +36,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Unified action area — fixed height, no layout shift -->
-    <div class="action-area">
-      <!-- Button (shown when attempts > 0) -->
-      <button class="btn-action" *ngIf="showButton" (click)="onActionButtonClick()">
-        {{ buttonText }}
-      </button>
-
-      <!-- Timer (shown when attempts <= 0) -->
-      <div class="timer-block" *ngIf="!showButton">
-        <span class="timer-label">Следующая карта через:</span>
-        <span class="timer-value">{{ timer }}</span>
-      </div>
-
-      <!-- Attempts counter (always visible) -->
-      <div class="attempts-counter">
-        Осталось попыток: <span class="attempt-count">{{ attemptsRemaining }}</span> / 1
-      </div>
-
     </div>
   </main>
 </div>

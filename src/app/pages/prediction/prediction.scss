@@ -20,7 +20,7 @@
   padding: 16px 20px;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 15px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   flex-wrap: wrap;
 
   h1 {
@@ -54,8 +54,8 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  justify-content: center;
-  padding-top: 8px;
+  justify-content: flex-start;
+  // padding-top: 8px;
   min-height: calc(100vh - 160px);
 
   h1 {
@@ -76,7 +76,6 @@
   width: calc(60vh * 2 / 3);
   height: 60vh;
   max-width: 90vw;
-  margin: 10px auto;
   cursor: pointer;
 
   .card {
@@ -219,7 +218,8 @@
 
 /* Unified action area — fixed height container, no layout shift */
 .action-area {
-  margin-top: 20px;
+  margin-top: 0;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -378,11 +378,11 @@
     width: calc(60vh * 2 / 3);
     height: 60vh;
     max-width: 90vw;
-    margin: 8px auto;
   }
 
   .action-area {
-    margin-top: 16px;
+    margin-top: 0;
+    margin-bottom: 0;
     max-width: 280px;
     min-height: 130px;
 
@@ -449,7 +449,6 @@
     width: calc(60vh * 2 / 3);
     height: 60vh;
     max-width: 90vw;
-    margin: 6px auto;
   }
 
   .card .side {
@@ -468,7 +467,8 @@
   }
 
   .action-area {
-    margin-top: 14px;
+    margin-top: 0;
+    margin-bottom: 0;
     max-width: 260px;
     min-height: 120px;
 
@@ -510,7 +510,6 @@
     width: calc(60vh * 2 / 3);
     height: 60vh;
     max-width: 90vw;
-    margin: 4px auto;
   }
 
   .card .side {
@@ -576,11 +575,11 @@
     width: calc(65vh * 2 / 3);
     height: 65vh;
     max-width: 50vw;
-    margin: 6px auto;
   }
 
   .action-area {
-    margin-top: 14px;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 }
 

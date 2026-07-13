@@ -8,6 +8,7 @@
   display: flex;
   align-items: flex-end;
   padding-left: 16px;
+  padding-right: 16px;
   padding-bottom: 8px;
   z-index: 1000;
   box-sizing: border-box;
@@ -57,4 +58,16 @@
   .top-bar-title {
     font-size: 15px;
   }
+}
+
+.collection-indicator {
+  position: absolute;
+  top: env(safe-area-inset-top, 0px);
+  right: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(60, 60, 67, 0.6);
+  user-select: none;
+  line-height: calc(env(safe-area-inset-top, 0px) + 44px);
 }

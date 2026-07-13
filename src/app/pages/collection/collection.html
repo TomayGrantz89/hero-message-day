@@ -1,10 +1,5 @@
 <div class="collection-container">
   <main class="main">
-    <!-- Swipe indicator (mobile) -->
-    <div class="swipe-indicator" *ngIf="!showDetail && swipePages.length > 0">
-      {{ currentRangeStart }}-{{ currentRangeEnd }} из {{ totalCardsCount }}
-    </div>
-
     <!-- Mobile Swipe Carousel -->
     <div class="swipe-container" *ngIf="!showDetail"
          (touchstart)="onTouchStart($event)"

@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { CardData, Card } from '../../services/card-data';
 import { Attempt } from '../../services/attempt';
 import { Premium } from '../../services/premium';
+import { CollectionIndicator } from '../../services/collection-indicator';
 
 type CardState = 'owned' | 'available' | 'locked';
 
@@ -46,13 +47,15 @@ export class Collection implements OnInit, OnDestroy {
   constructor(
     private cardData: CardData,
     private attemptService: Attempt,
-    private premium: Premium
+    private premium: Premium,
+    private collectionIndicator: CollectionIndicator
   ) {}
 
   ngOnInit(): void {
     this.calculateCardsPerSwipe();
     this.updatePremiumStatus();
     this.loadCollection();
+    this.updateIndicator();
 
     // Subscribe to premium status changes (e.g., purchased from bottom-bar shop)
     this.premiumSubscription = this.premium.premiumStatus$.subscribe(isPremium => {
@@ -83,6 +86,7 @@ export class Collection implements OnInit, OnDestroy {
     if (this.currentSwipePage >= this.swipePages.length && this.swipePages.length > 0) {
       this.currentSwipePage = this.swipePages.length - 1;
     }
+    this.updateIndicator();
   }
 
   private calculateCardsPerSwipe(): void {
@@ -174,6 +178,7 @@ export class Collection implements OnInit, OnDestroy {
         this.currentSwipePage--; // Swipe right — previous page
       }
     }
+    this.updateIndicator();
   }
 
   // Indicator getters
@@ -189,6 +194,15 @@ export class Collection implements OnInit, OnDestroy {
 
   get totalCardsCount(): number {
     return this.collectionCards.length;
+  }
+
+  private updateIndicator(): void {
+    if (this.collectionCards.length === 0) {
+      this.collectionIndicator.setIndicatorText('');
+      return;
+    }
+    const text = `${this.currentRangeStart}-${this.currentRangeEnd} из ${this.totalCardsCount}`;
+    this.collectionIndicator.setIndicatorText(text);
   }
 
   selectCard(item: CollectionCard): void {

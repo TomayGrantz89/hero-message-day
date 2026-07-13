@@ -7,7 +7,7 @@
   color: #333;
   font-family: 'EBGaramond', serif;
   padding: 20px;
-  padding-top: calc(env(safe-area-inset-top, 0px) + 60px);
+  padding-top: calc(env(safe-area-inset-top, 0px) + 44px + 5px);
   padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 20px);
   display: flex;
   flex-direction: column;
@@ -16,20 +16,6 @@
 
 .main {
   flex: 1;
-}
-
-// ============================================
-// Swipe Indicator (mobile)
-// ============================================
-.swipe-indicator {
-  display: none; // Hidden by default, shown on mobile
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(60, 60, 67, 0.6);
-  padding: 8px 16px;
-  margin-bottom: 4px;
-  user-select: none;
 }
 
 // ============================================
@@ -445,13 +431,8 @@
 @media (max-width: 768px) {
   .collection-container {
     padding: 15px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 55px);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 40px + 5px);
     padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
-  }
-
-  // Show swipe indicator on mobile
-  .swipe-indicator {
-    display: block;
   }
 
   // Show swipe carousel on mobile
@@ -498,7 +479,7 @@
 @media (max-width: 480px) {
   .collection-container {
     padding: 10px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 36px + 5px);
     padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 10px);
   }
 
@@ -541,7 +522,7 @@
 @media (max-width: 768px) and (orientation: landscape) {
   .collection-container {
     padding: 10px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 40px + 5px);
     padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
   }
 
@@ -594,11 +575,6 @@
 
   // Hide swipe carousel on desktop
   .swipe-container {
-    display: none;
-  }
-
-  // Hide swipe indicator on desktop
-  .swipe-indicator {
     display: none;
   }
 }

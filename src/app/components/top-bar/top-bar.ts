@@ -15,6 +15,7 @@ import { CollectionIndicator } from '../../services/collection-indicator';
 export class TopBarComponent implements OnInit, OnDestroy {
   showIndicator = false;
   indicatorText = '';
+  currentTitle = 'Карта дня';
 
   private routerSubscription: Subscription | null = null;
   private indicatorSubscription: Subscription | null = null;
@@ -25,15 +26,15 @@ export class TopBarComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // Detect route changes to show/hide the indicator
+    // Update title and indicator on route change
     this.routerSubscription = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
-        this.showIndicator = this.router.url.startsWith('/collection');
+        this.updateForRoute(this.router.url);
       });
 
     // Initial check
-    this.showIndicator = this.router.url.startsWith('/collection');
+    this.updateForRoute(this.router.url);
 
     // Subscribe to indicator text updates
     this.indicatorSubscription = this.collectionIndicator.indicator$.subscribe(text => {
@@ -47,6 +48,22 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
     if (this.indicatorSubscription) {
       this.indicatorSubscription.unsubscribe();
+    }
+  }
+
+  private updateForRoute(url: string): void {
+    if (url.startsWith('/welcome')) {
+      this.currentTitle = 'Добро пожаловать';
+      this.showIndicator = false;
+    } else if (url.startsWith('/collection')) {
+      this.currentTitle = 'Коллекция';
+      this.showIndicator = true;
+    } else if (url.startsWith('/question')) {
+      this.currentTitle = 'Оракул';
+      this.showIndicator = false;
+    } else {
+      this.currentTitle = 'Карта дня';
+      this.showIndicator = false;
     }
   }
 }

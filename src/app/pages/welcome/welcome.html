@@ -1,0 +1,56 @@
+<div class="welcome-container">
+  <!-- Decorative element -->
+  <div class="welcome-decoration">
+    <img src="assets/ui/gate.png" alt="" class="welcome-gate" />
+  </div>
+
+  <!-- Title -->
+  <h1 class="welcome-title">Добро пожаловать!</h1>
+
+  <!-- Info card with disclaimer -->
+  <div class="disclaimer-card">
+    <p class="disclaimer-text">
+      Наше приложение создано для развлечения и игры. Все ответы (Да/Нет)
+      генерируются случайным образом. Они не являются финансовыми, юридическими
+      или медицинскими советами. Приложение не несет ответственности за ваши
+      жизненные решения.
+    </p>
+  </div>
+
+  <!-- Checkbox row -->
+  <label class="checkbox-row">
+    <span class="checkbox-custom">
+      <input
+        type="checkbox"
+        class="checkbox-native"
+        (change)="onCheckboxChange($event)"
+        [checked]="isChecked"
+      />
+      <span class="checkbox-visual" [class.checkbox-checked]="isChecked">
+        <svg *ngIf="isChecked" class="checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      </span>
+    </span>
+    <span class="checkbox-label">
+      Я заявляю, что мне исполнилось 18 лет, я согласен с
+      <a class="terms-link" (click)="openTerms($event)">Пользовательским соглашением</a>
+      и понимаю развлекательный характер приложения.
+    </span>
+  </label>
+
+  <!-- Enter button -->
+  <button
+    class="enter-button"
+    [disabled]="!isChecked"
+    (click)="enterApp()"
+  >
+    Войти в приложение
+  </button>
+</div>
+
+<!-- Terms Modal -->
+<app-terms-modal
+  *ngIf="showTermsModal"
+  (close)="closeTerms()"
+></app-terms-modal>

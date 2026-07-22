@@ -1,0 +1,344 @@
+.welcome-container {
+  min-height: 100vh;
+  background: transparent;
+  color: #333;
+  padding: 20px;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 60px + 3px);
+  padding-bottom: 20px;
+  font-family: 'EBGaramond', serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* ============================================
+   Decorative element
+   ============================================ */
+.welcome-decoration {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-gate {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  opacity: 0.7;
+}
+
+/* ============================================
+   Title
+   ============================================ */
+.welcome-title {
+  font-family: 'EBGaramond', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0a1e3d;
+  text-align: center;
+  margin: 0 0 20px;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================
+   Disclaimer card
+   ============================================ */
+.disclaimer-card {
+  width: 100%;
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 12px rgba(188, 215, 248, 0.2);
+}
+
+.disclaimer-text {
+  font-family: 'EBGaramond', serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: #3a3a4a;
+  line-height: 1.6;
+  letter-spacing: 0.2px;
+  margin: 0;
+  text-align: center;
+}
+
+/* ============================================
+   Checkbox row
+   ============================================ */
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.checkbox-custom {
+  position: relative;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+}
+
+.checkbox-native {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.checkbox-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #c8c8cc;
+  border-radius: 6px;
+  background: #fff;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.checkbox-visual.checkbox-checked {
+  background: #007AFF;
+  border-color: #007AFF;
+}
+
+.checkmark {
+  width: 14px;
+  height: 14px;
+  color: #fff;
+}
+
+.checkbox-label {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: #3a3a4a;
+  line-height: 1.5;
+  letter-spacing: 0.1px;
+  flex: 1;
+}
+
+/* ============================================
+   Terms link inside checkbox label
+   ============================================ */
+
+.terms-link {
+  color: #007AFF;
+  text-decoration: underline;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.15s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
+}
+
+/* ============================================
+   Enter button
+   ============================================ */
+.enter-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  padding: 16px 24px;
+  background: #007AFF;
+  border: none;
+  border-radius: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+    opacity: 0.85;
+  }
+
+  &:disabled {
+    background: rgba(0, 122, 255, 0.4);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 768px) {
+  .welcome-container {
+    padding: 15px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 55px + 3px);
+    padding-bottom: 15px;
+  }
+
+  .welcome-title {
+    font-size: 1.8rem;
+    margin-bottom: 16px;
+  }
+
+  .disclaimer-card {
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+
+  .disclaimer-text {
+    font-size: 0.95rem;
+  }
+
+  .checkbox-label {
+    font-size: 0.82rem;
+  }
+
+  .enter-button {
+    padding: 14px 20px;
+    font-size: 0.95rem;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-container {
+    padding: 10px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 50px + 3px);
+    padding-bottom: 10px;
+  }
+
+  .welcome-gate {
+    width: 60px;
+    height: 60px;
+  }
+
+  .welcome-title {
+    font-size: 1.6rem;
+    margin-bottom: 14px;
+  }
+
+  .disclaimer-card {
+    padding: 14px 16px;
+    border-radius: 14px;
+    margin-bottom: 14px;
+  }
+
+  .disclaimer-text {
+    font-size: 0.9rem;
+  }
+
+  .checkbox-row {
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .checkbox-custom {
+    width: 20px;
+    height: 20px;
+  }
+
+  .checkbox-visual {
+    width: 20px;
+    height: 20px;
+  }
+
+  .checkmark {
+    width: 12px;
+    height: 12px;
+  }
+
+  .checkbox-label {
+    font-size: 0.78rem;
+  }
+
+  .enter-button {
+    padding: 12px 16px;
+    font-size: 0.88rem;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .welcome-container {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 45px + 3px);
+  }
+
+  .welcome-title {
+    font-size: 1.4rem;
+  }
+
+  .disclaimer-text {
+    font-size: 0.85rem;
+  }
+
+  .checkbox-label {
+    font-size: 0.74rem;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+  .welcome-container {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 50px + 3px);
+    padding-bottom: 10px;
+    justify-content: flex-start;
+  }
+
+  .welcome-gate {
+    width: 40px;
+    height: 40px;
+  }
+
+  .welcome-title {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+  }
+
+  .disclaimer-card {
+    padding: 10px 14px;
+    margin-bottom: 10px;
+  }
+
+  .disclaimer-text {
+    font-size: 0.82rem;
+  }
+
+  .checkbox-row {
+    margin-bottom: 14px;
+  }
+
+  .checkbox-label {
+    font-size: 0.74rem;
+  }
+
+  .enter-button {
+    padding: 10px 14px;
+    font-size: 0.82rem;
+  }
+}

@@ -15,4 +15,9 @@ body {
   padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
 }
 
+/* Remove bottom padding when on welcome page (no bottom bar) */
+body.welcome-active {
+  padding-bottom: 0;
+}
+
 /* App root - no shared top bar, each page has its own fixed elements */

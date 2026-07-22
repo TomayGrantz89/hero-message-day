@@ -1,0 +1,84 @@
+<div class="terms-backdrop" (click)="onBackdropClick($event)">
+  <div class="terms-card">
+    <!-- Close button -->
+    <button class="terms-close-btn" (click)="onClose()" aria-label="Закрыть">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </button>
+
+    <!-- Title -->
+    <h2 class="terms-title">Пользовательское соглашение</h2>
+
+    <!-- Divider -->
+    <div class="terms-divider"></div>
+
+    <!-- Scrollable content -->
+    <div class="terms-content">
+      <ng-container *ngIf="!termsUrl; else urlContent">
+        <div class="terms-text">
+          <p class="terms-paragraph">
+            Настоящее Соглашение регулирует отношения между вами (Пользователем) и разработчиками приложения «Карта дня» (далее — Приложение).
+          </p>
+
+          <h3 class="terms-section-title">1. Общие положения</h3>
+          <p class="terms-paragraph">
+            1.1. Используя Приложение, вы соглашаетесь с условиями настоящего Соглашения.
+          </p>
+          <p class="terms-paragraph">
+            1.2. Если вы не согласны с условиями, прекратите использование Приложения.
+          </p>
+
+          <h3 class="terms-section-title">2. Характер Приложения</h3>
+          <p class="terms-paragraph">
+            2.1. Приложение носит исключительно развлекательный характер.
+          </p>
+          <p class="terms-paragraph">
+            2.2. Все предсказания, ответы и результаты генерируются случайным образом и не являются реальными предсказаниями.
+          </p>
+          <p class="terms-paragraph">
+            2.3. Информация, предоставляемая Приложением, не является финансовой, юридической, медицинской или иной профессиональной консультацией.
+          </p>
+
+          <h3 class="terms-section-title">3. Ответственность</h3>
+          <p class="terms-paragraph">
+            3.1. Разработчики не несут ответственности за любые решения, принятые вами на основе информации, полученной в Приложении.
+          </p>
+          <p class="terms-paragraph">
+            3.2. Вы подтверждаете, что используете Приложение на свой собственный риск.
+          </p>
+
+          <h3 class="terms-section-title">4. Возрастные ограничения</h3>
+          <p class="terms-paragraph">
+            4.1. Приложение предназначено для лиц, достигших 18 лет.
+          </p>
+          <p class="terms-paragraph">
+            4.2. Используя Приложение, вы подтверждаете, что вам исполнилось 18 лет.
+          </p>
+
+          <h3 class="terms-section-title">5. Заключительные положения</h3>
+          <p class="terms-paragraph">
+            5.1. Разработчики оставляют за собой право вносить изменения в настоящее Соглашение без предварительного уведомления.
+          </p>
+          <p class="terms-paragraph">
+            5.2. Продолжая использовать Приложение после внесения изменений, вы принимаете новые условия.
+          </p>
+        </div>
+      </ng-container>
+
+      <ng-template #urlContent>
+        <iframe
+          *ngIf="termsUrl"
+          [src]="termsUrl"
+          class="terms-iframe"
+          frameborder="0"
+          sandbox="allow-same-origin allow-scripts"
+        ></iframe>
+      </ng-template>
+    </div>
+
+    <!-- Bottom close button -->
+    <button class="terms-bottom-btn" (click)="onClose()">Закрыть</button>
+  </div>
+</div>

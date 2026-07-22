@@ -14,7 +14,6 @@ export class Question implements OnInit {
   answers: string[] = [
     'Да, безусловно',
     'Сейчас не лучшее время',
-    'Звезды говорят да',
     'Маловероятно',
     'Попробуй позже',
     'Абсолютно нет',
@@ -37,7 +36,7 @@ export class Question implements OnInit {
   hasAttempt: boolean = false;
 
   /** Default banner text, replaced after asking */
-  bannerText: string = 'Сформулируй свой вопрос, на который можно ответить «Да» или «Нет», и нажми на кнопку';
+  bannerText: string = 'Задай вопрос, на который можно ответить «Да» или «Нет»';
 
   constructor(
     private attempt: Attempt,

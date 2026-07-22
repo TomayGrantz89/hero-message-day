@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { Attempt } from '../../services/attempt';
 import { Premium } from '../../services/premium';
 
@@ -10,7 +11,7 @@ import { Premium } from '../../services/premium';
   templateUrl: './question.html',
   styleUrl: './question.scss'
 })
-export class Question implements OnInit {
+export class Question implements OnInit, OnDestroy {
   answers: string[] = [
     'Да, безусловно',
     'Сейчас не лучшее время',
@@ -32,11 +33,12 @@ export class Question implements OnInit {
   showAnswer: boolean = false;
   isPremium: boolean = false;
   remainingQuestions: number = 0;
-  maxQuestions: number = 0;
   hasAttempt: boolean = false;
 
   /** Default banner text, replaced after asking */
   bannerText: string = 'Задай вопрос, на который можно ответить «Да» или «Нет»';
+
+  private premiumSubscription: Subscription | null = null;
 
   constructor(
     private attempt: Attempt,
@@ -45,8 +47,23 @@ export class Question implements OnInit {
 
   ngOnInit(): void {
     this.isPremium = this.premium.isPremium();
-    this.maxQuestions = this.isPremium ? 5 : 1;
     this.updateRemainingQuestions();
+
+    // Reactively update when premium is purchased from another component (e.g., bottom-bar shop)
+    this.premiumSubscription = this.premium.premiumStatus$.subscribe(isPremium => {
+      this.isPremium = isPremium;
+      if (isPremium) {
+        // Grant full question attempts for premium user
+        this.attempt.refreshQuestionAttempts();
+      }
+      this.updateRemainingQuestions();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.premiumSubscription) {
+      this.premiumSubscription.unsubscribe();
+    }
   }
 
   updateRemainingQuestions(): void {
@@ -94,11 +111,10 @@ export class Question implements OnInit {
     // Simulate purchase
     this.premium.activatePremium();
     this.isPremium = true;
-    this.maxQuestions = 5;
-    // Refresh question attempts to premium maximum (5)
+    // Refresh question attempts for premium user (unlimited)
     this.attempt.refreshQuestionAttempts();
     this.updateRemainingQuestions();
-    alert('Премиум-доступ активирован! Теперь вы можете задавать 5 вопросов в день.');
+    alert('Премиум-доступ активирован! Теперь у вас неограниченное количество вопросов к оракулу.');
   }
 
   resetQuestion(): void {

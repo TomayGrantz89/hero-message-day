@@ -7,8 +7,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class Premium {
   private readonly PREMIUM_KEY = 'cardGamePremiumStatus';
   private readonly PREMIUM_PURCHASE_DATE_KEY = 'cardGamePremiumPurchaseDate';
-  private readonly QUESTION_ATTEMPTS_KEY = 'cardGameQuestionAttempts';
-  private readonly QUESTION_LAST_RESET_KEY = 'cardGameQuestionLastReset';
 
   private premiumStatusSource = new BehaviorSubject<boolean>(this.isPremium());
   premiumStatus$: Observable<boolean> = this.premiumStatusSource.asObservable();
@@ -28,10 +26,7 @@ export class Premium {
   activatePremium(): void {
     localStorage.setItem(this.PREMIUM_KEY, 'true');
     localStorage.setItem(this.PREMIUM_PURCHASE_DATE_KEY, new Date().toISOString());
-    // Immediately grant 5 question attempts for the oracle section
-    localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, '5');
-    const today = new Date().toDateString();
-    localStorage.setItem(this.QUESTION_LAST_RESET_KEY, today);
+    // Premium users have unlimited questions — no need to set a fixed count
     this.premiumStatusSource.next(true);
   }
 

@@ -86,23 +86,29 @@ export class Attempt {
 
   // Question attempts management
   getRemainingQuestionAttempts(): number {
-    // Ensure daily reset
+    // Premium users have unlimited questions
+    if (this.premium.isPremium()) {
+      return Infinity;
+    }
+
+    // Free users: ensure daily reset
     const now = new Date();
     const today = now.toDateString();
     const lastReset = localStorage.getItem(this.QUESTION_LAST_RESET_KEY);
     if (lastReset !== today) {
-      const initialQuestionAttempts = this.premium.isPremium() ? 5 : 1;
-      localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, initialQuestionAttempts.toString());
+      localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, '1');
       localStorage.setItem(this.QUESTION_LAST_RESET_KEY, today);
     }
     const attempts = parseInt(localStorage.getItem(this.QUESTION_ATTEMPTS_KEY) || '1');
-    // Cap attempts based on current premium status to prevent stale values
-    // (e.g., if user was premium and then lost access)
-    const maxAttempts = this.premium.isPremium() ? 5 : 1;
-    return Math.min(attempts, maxAttempts);
+    return Math.min(attempts, 1);
   }
 
   useQuestionAttempt(): boolean {
+    // Premium users have unlimited questions — always succeed
+    if (this.premium.isPremium()) {
+      return true;
+    }
+
     const attempts = this.getRemainingQuestionAttempts();
     if (attempts <= 0) return false;
     localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, (attempts - 1).toString());
@@ -135,11 +141,16 @@ export class Attempt {
   }
 
   /**
-   * Refresh question attempts to premium maximum (5)
+   * Refresh question attempts — for premium users this is a no-op (unlimited),
+   * for free users resets to 1.
    * Called when user purchases premium to immediately grant full attempts
    */
   refreshQuestionAttempts(): void {
-    localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, '5');
+    // Premium users have unlimited questions, no need to set a count
+    if (this.premium.isPremium()) {
+      return;
+    }
+    localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, '1');
     const today = new Date().toDateString();
     localStorage.setItem(this.QUESTION_LAST_RESET_KEY, today);
     this.notifyAttemptsChanged();

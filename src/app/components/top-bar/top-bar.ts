@@ -53,7 +53,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
   private updateForRoute(url: string): void {
     if (url.startsWith('/welcome')) {
-      this.currentTitle = 'Добро пожаловать';
+      this.currentTitle = '';
       this.showIndicator = false;
     } else if (url.startsWith('/collection')) {
       this.currentTitle = 'Коллекция';

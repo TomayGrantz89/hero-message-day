@@ -3,31 +3,14 @@
   background: transparent;
   color: #333;
   padding: 20px;
-  padding-top: calc(env(safe-area-inset-top, 0px) + 60px + 3px);
+  padding-top: calc(env(safe-area-inset-top, 0px) + 44px + 20px);
   padding-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   box-sizing: border-box;
   position: relative;
-}
-
-/* ============================================
-   Decorative element
-   ============================================ */
-.welcome-decoration {
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.welcome-gate {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-  opacity: 0.7;
 }
 
 /* ============================================
@@ -192,7 +175,7 @@
 @media (max-width: 768px) {
   .welcome-container {
     padding: 15px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 55px + 3px);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 40px + 20px);
     padding-bottom: 15px;
   }
 
@@ -224,13 +207,8 @@
 @media (max-width: 480px) {
   .welcome-container {
     padding: 10px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 50px + 3px);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 36px + 20px);
     padding-bottom: 10px;
-  }
-
-  .welcome-gate {
-    width: 60px;
-    height: 60px;
   }
 
   .welcome-title {
@@ -281,7 +259,7 @@
 
 @media (max-width: 360px) {
   .welcome-container {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 45px + 3px);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 36px + 20px);
   }
 
   .welcome-title {
@@ -300,14 +278,9 @@
 /* Landscape orientation on mobile */
 @media (max-height: 600px) and (orientation: landscape) {
   .welcome-container {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 50px + 3px);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 36px + 20px);
     padding-bottom: 10px;
     justify-content: flex-start;
-  }
-
-  .welcome-gate {
-    width: 40px;
-    height: 40px;
   }
 
   .welcome-title {

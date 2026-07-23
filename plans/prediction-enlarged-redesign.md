@@ -73,7 +73,6 @@ Three changes to the prediction page:
     border-radius: 0 0 20px 20px; // rounded only at bottom
 
     .card-name {
-      font-family: 'EBGaramond', serif;
       font-size: 1.4rem;
       color: #3C3C43; // dark gray
       font-weight: 600;
@@ -162,7 +161,6 @@ Replace the entire `.enlarged-card-overlay` block (lines 246-349) and all its re
       cursor: pointer;
       transition: background 0.2s;
       -webkit-tap-highlight-color: transparent;
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
       line-height: 1;
 
       &:active {
@@ -176,7 +174,6 @@ Replace the entire `.enlarged-card-overlay` block (lines 246-349) and all its re
       text-align: center;
 
       p {
-        font-family: 'EBGaramond', serif;
         font-size: 1.6rem;
         line-height: 1.6;
         color: #EDECF9;

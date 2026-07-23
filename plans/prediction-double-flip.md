@@ -217,7 +217,6 @@ purchasePremium(): void {
   box-sizing: border-box;
 
   p {
-    font-family: 'EBGaramond', serif;
     font-size: 1.4rem;
     line-height: 1.5;
     color: #EDECF9;

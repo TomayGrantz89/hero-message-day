@@ -7,17 +7,10 @@
 }
 
 @font-face {
-  font-family: 'EBGaramond';
-  src: url('/fonts/EBGaramond-VariableFont_wght_0.ttf') format('truetype');
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto-VariableFont_wdth,wght.ttf') format('truetype');
   font-weight: 100 900;
   font-style: normal;
-}
-
-@font-face {
-  font-family: 'EBGaramond';
-  src: url('/fonts/EBGaramond-Italic-VariableFont_wght_0.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: italic;
 }
 
 .header {
@@ -50,8 +43,7 @@ body {
 
 
 body {
-  // font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-family: 'EBGaramond', serif !important;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(180deg, #F0F6FE 0%, #BCD7F8 100%);

@@ -71,7 +71,6 @@ Style the `.collection-indicator` to appear in the top-right corner of the top-b
   position: absolute;
   top: env(safe-area-inset-top, 0px);
   right: 16px;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
   font-size: 13px;
   font-weight: 500;
   color: rgba(60, 60, 67, 0.6);

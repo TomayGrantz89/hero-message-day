@@ -118,7 +118,6 @@ Replace the current locked card rendering (which shows card back image) with:
   text-align: center;
   padding: 16px;
   margin-top: 12px;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
   font-size: 14px;
   color: rgba(60, 60, 67, 0.7);
   background: rgba(255, 255, 255, 0.8);

@@ -173,7 +173,6 @@
     border-radius: 0 0 20px 20px;
 
     .card-name {
-      font-family: 'EBGaramond', serif;
       font-size: 1.4rem;
       color: #3C3C43;
       font-weight: 600;
@@ -241,7 +240,6 @@
     box-sizing: border-box;
     
     p {
-      font-family: 'EBGaramond', serif;
       font-size: 1.4rem;
       line-height: 1.5;
       color: #EDECF9;

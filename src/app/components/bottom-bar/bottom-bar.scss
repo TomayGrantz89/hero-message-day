@@ -52,7 +52,6 @@
 
 .nav-label {
   font-size: 10px;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
   font-weight: 500;
   color: #8E8E93;
   letter-spacing: 0.2px;
@@ -150,7 +149,6 @@
   text-align: center;
   color: #1C1C1E;
   margin: 0 0 12px;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
 }
 
 .premium-modal-text {
@@ -159,7 +157,6 @@
   text-align: center;
   margin: 0 0 16px;
   line-height: 1.5;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
 }
 
 .premium-modal-list {
@@ -171,7 +168,6 @@
     padding: 8px 0;
     font-size: 14px;
     color: #1C1C1E;
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
 
     &::before {
       content: '✓ ';
@@ -193,7 +189,6 @@
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s ease;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
   min-width: auto;
   min-height: auto;
 

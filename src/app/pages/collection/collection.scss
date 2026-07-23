@@ -5,7 +5,6 @@
   background-position: center;
   background-repeat: no-repeat;
   color: #333;
-  font-family: 'EBGaramond', serif;
   padding: 20px;
   padding-top: calc(env(safe-area-inset-top, 0px) + 44px + 5px);
   padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 20px);
@@ -174,7 +173,6 @@
   text-align: center;
   padding: 16px 20px;
   margin-top: 16px;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
   font-size: 14px;
   font-weight: 500;
   color: rgba(60, 60, 67, 0.75);

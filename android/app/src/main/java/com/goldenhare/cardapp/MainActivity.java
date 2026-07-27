@@ -22,7 +22,7 @@ class RuStorePayBridge extends Plugin {
   @PluginMethod
   public void checkPremiumStatus(PluginCall call) {
     com.getcapacitor.JSObject ret = new com.getcapacitor.JSObject();
-    // Отдаем false для обычного режима (14 карт), true — для полной версии (60 карт)
+    // false — обычный режим, true — премиум-режим для ваших тестов вёрстки
     ret.put("isPurchased", false);
     call.resolve(ret);
   }
@@ -31,7 +31,7 @@ class RuStorePayBridge extends Plugin {
   @PluginMethod
   public void startPaymentFlow(PluginCall call) {
     com.getcapacitor.JSObject ret = new com.getcapacitor.JSObject();
-    // Возвращаем true, чтобы Angular понял, что нативная кнопка нажата успешно
+    // Возвращаем true, чтобы Angular понял, что нативный мост активен
     ret.put("success", true);
     call.resolve(ret);
   }

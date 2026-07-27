@@ -73,32 +73,63 @@ export class Premium {
   //   }
   // }
 
-  async buyFullVersion(): Promise<boolean> {
+//   async buyFullVersion(): Promise<boolean> {
+//   try {
+//     // 1. Посылаем сигнал в телефон через наш безопасный Java-мост
+//     const response = await RuStorePayBridge.startPaymentFlow();
+
+//     if (response && response.success) {
+//       // 2. Открываем официальную платежную витрину RuStore для вашего приложения
+//       window.open('https://rustore.ru', '_blank');
+
+//       const dateStr = new Date().toISOString();
+
+//       // 3. Сохраняем в обычную память (для ваших старых методов расчета дней)
+//       localStorage.setItem(this.PREMIUM_KEY, 'true');
+//       localStorage.setItem(this.PREMIUM_PURCHASE_DATE_KEY, dateStr);
+
+//       // 4. 🔒 НАСТОЯЩАЯ ЗАЩИТА: Шифруем флаг и дату покупки в скрытой памяти телефона
+//       await SecureStoragePlugin.set({ key: this.PREMIUM_KEY, value: 'true' });
+//       await SecureStoragePlugin.set({ key: this.PREMIUM_PURCHASE_DATE_KEY, value: dateStr });
+
+//       // 5. Пушим статус в ваш BehaviorSubject, чтобы карты мгновенно открылись на экране
+//       this.applyPremiumState(true);
+//       return true;
+//     }
+//     return false;
+//   } catch (error) {
+//     console.error('Ошибка при проведении платежа:', error);
+//     return false;
+//   }
+// }
+
+
+async buyFullVersion(): Promise<boolean> {
   try {
-    // 1. Посылаем сигнал в телефон через наш безопасный Java-мост
+    // 1. Проверяем связь с телефоном через наш безопасный мост
     const response = await RuStorePayBridge.startPaymentFlow();
 
     if (response && response.success) {
-      // 2. Открываем официальную платежную витрину RuStore для вашего приложения
+      // 2. Открываем официальную платежную витрину RuStore для вашего товара
       window.open('https://rustore.ru', '_blank');
 
       const dateStr = new Date().toISOString();
 
-      // 3. Сохраняем в обычную память (для ваших старых методов расчета дней)
+      // 3. Дублируем в локальную память для расчетов дней
       localStorage.setItem(this.PREMIUM_KEY, 'true');
       localStorage.setItem(this.PREMIUM_PURCHASE_DATE_KEY, dateStr);
 
-      // 4. 🔒 НАСТОЯЩАЯ ЗАЩИТА: Шифруем флаг и дату покупки в скрытой памяти телефона
+      // 4. 🔒 НАСТОЯЩАЯ ЗАЩИТА: Намертво шифруем флаг покупки в скрытой памяти телефона
       await SecureStoragePlugin.set({ key: this.PREMIUM_KEY, value: 'true' });
       await SecureStoragePlugin.set({ key: this.PREMIUM_PURCHASE_DATE_KEY, value: dateStr });
 
-      // 5. Пушим статус в ваш BehaviorSubject, чтобы карты мгновенно открылись на экране
+      // 5. Пушим статус в поток, чтобы 64 карты мгновенно открылись
       this.applyPremiumState(true);
       return true;
     }
     return false;
   } catch (error) {
-    console.error('Ошибка при проведении платежа:', error);
+    console.error('Ошибка платежа:', error);
     return false;
   }
 }

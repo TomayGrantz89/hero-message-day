@@ -58,7 +58,7 @@ export class BottomBarComponent implements OnInit, OnDestroy {
       {
         link: '/prediction',
         icon: 'assets/ui/icon-card.svg',
-        label: 'Карта дня',
+        label: 'Послание дня',
         isActive: false,
       },
       {

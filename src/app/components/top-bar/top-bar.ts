@@ -62,7 +62,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
       this.currentTitle = 'Оракул';
       this.showIndicator = false;
     } else {
-      this.currentTitle = 'Карта дня';
+      this.currentTitle = 'Послание дня';
       this.showIndicator = false;
     }
   }

@@ -29,6 +29,7 @@ repositories {
     flatDir{
         dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
     }
+    maven { url 'https://rustore.ru' }
 }
 
 dependencies {

@@ -32,7 +32,7 @@ export class BottomBarComponent implements OnInit, OnDestroy {
     private router: Router,
     private premium: Premium,
     private attempt: Attempt
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.isPremium = this.premium.isPremium();
@@ -108,12 +108,31 @@ export class BottomBarComponent implements OnInit, OnDestroy {
     this.showPremiumModal = false;
   }
 
-  purchasePremium(): void {
-    this.premium.activatePremium();
-    this.isPremium = true;
-    // Grant premium benefits
-    this.attempt.refreshPredictionAttempts();
-    this.attempt.refreshQuestionAttempts();
-    this.closePremiumModal();
+  // purchasePremium(): void {
+  //   this.premium.activatePremium();
+  //   this.isPremium = true;
+  //   // Grant premium benefits
+  //   this.attempt.refreshPredictionAttempts();
+  //   this.attempt.refreshQuestionAttempts();
+  //   this.closePremiumModal();
+  // }
+
+  async purchasePremium(): Promise<void> {
+    // Вызываем реальную шторку оплаты RuStore и ждем ответа (await)
+    const success = await this.premium.buyFullVersion();
+
+    if (success) {
+      this.isPremium = true;
+
+      // Ваши готовые бонусы
+      this.attempt.refreshPredictionAttempts();
+      this.attempt.refreshQuestionAttempts();
+      this.closePremiumModal();
+
+      alert('Спасибо за покупку! Полная коллекция карт разблокирована.');
+    } else {
+      alert('Оплата не удалась или была отменена.');
+    }
   }
+
 }

@@ -36,7 +36,7 @@ export class Question implements OnInit, OnDestroy {
   hasAttempt: boolean = false;
 
   /** Default banner text, replaced after asking */
-  bannerText: string = 'Задай вопрос, на который можно ответить «Да» или «Нет»';
+  bannerText: string = 'Загадай вопрос, на который можно ответить «Да» или «Нет»';
 
   private premiumSubscription: Subscription | null = null;
 

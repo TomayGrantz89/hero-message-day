@@ -76,6 +76,7 @@
   height: 60vh;
   max-width: 90vw;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 
   .card {
     width: 100%;
@@ -84,6 +85,7 @@
     border-radius: 20px;
     // box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 
     .side {
       position: absolute;
@@ -117,7 +119,6 @@
 
     .face {
       background: transparent;
-      border: 5px solid transparent;
       padding: 0;
       justify-content: flex-start;
       z-index: 1;
@@ -191,14 +192,16 @@
         padding: 30px;
         border-radius: 20px;
         box-sizing: border-box;
-        transition: opacity 0.5s ease;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
         opacity: 0;
         pointer-events: none;
+        visibility: hidden;
         z-index: 1;
 
         &.visible {
           opacity: 1;
           pointer-events: auto;
+          visibility: visible;
         }
 
         p {

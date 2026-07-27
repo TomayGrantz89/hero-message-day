@@ -46,6 +46,7 @@
       border-radius: 8px;
       overflow: hidden;
       cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
       transition: all 0.3s;
       display: flex;
       flex-direction: column;
@@ -216,6 +217,7 @@
     border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
     transition: all 0.3s;
     display: flex;
     flex-direction: column;
@@ -313,6 +315,7 @@
   align-items: center;
   z-index: 1000;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 
   .enlarged-card-container {
     cursor: default;
@@ -323,6 +326,7 @@
       height: 600px;
       position: relative;
       cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
       transition: transform 0.3s;
 
       &:hover {
@@ -353,6 +357,7 @@
         transition: transform 0.8s;
         transform-style: preserve-3d;
         border: 5px solid;
+        -webkit-tap-highlight-color: transparent;
       }
 
       .enlarged-card-face {

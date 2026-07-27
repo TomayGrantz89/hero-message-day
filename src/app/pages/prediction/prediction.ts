@@ -130,6 +130,23 @@ export class Prediction implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Banner text shown in the instruction banner above the card.
+   * Changes based on the current card state.
+   */
+  get bannerText(): string {
+    if (!this.showCardFace) {
+      // State 1: card back is showing
+      return 'Нажмите на карту, чтобы открыть её';
+    }
+    if (!this.showPrediction) {
+      // State 2: card face (image) is showing, prediction not yet revealed
+      return 'Нажмите на карту, чтобы получить послание';
+    }
+    // State 3: prediction is showing — no banner, timer is shown instead
+    return '';
+  }
+
   private addCurrentCardToCollection(): void {
     if (this.card && !this.attemptService.hasCard(this.card.id)) {
       this.attemptService.addCardToCollection(this.card.id);
@@ -137,11 +154,11 @@ export class Prediction implements OnInit, OnDestroy {
   }
 
   /**
-   * Timer is shown after the card has been opened (flipped).
-   * If card was already opened today (restored from saved state), timer shows immediately.
+   * Timer is shown only after the prediction (послание) has been revealed.
+   * In states 1 (card back) and 2 (card face image), the instruction banner is shown instead.
    */
   get showTimer(): boolean {
-    return this.showCardFace;
+    return this.showCardFace && this.showPrediction;
   }
 
   purchasePremium(): void {

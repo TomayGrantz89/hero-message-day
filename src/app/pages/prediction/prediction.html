@@ -1,10 +1,14 @@
 <div class="prediction-container">
   <main class="main">
-    <!-- <p class="subtitle">{{'Откройте карту и узнайте предсказание на сегодня'}}</p> -->
 
-    <!-- Unified action area — above the card, space reserved for timer -->
+    <!-- Unified action area — above the card, space reserved for banner or timer -->
     <div class="action-area">
-      <!-- Timer: shown after card is opened -->
+      <!-- Instruction banner: shown in states 1 (card back) and 2 (card face image) -->
+      <div class="instruction-banner" *ngIf="!showTimer">
+        <span class="instruction-text">{{ bannerText }}</span>
+      </div>
+
+      <!-- Timer: shown only in state 3 (after prediction is revealed) -->
       <div class="timer-block" *ngIf="showTimer">
         <span class="timer-label">Следующая карта через:</span>
         <span class="timer-value">{{ timer }}</span>

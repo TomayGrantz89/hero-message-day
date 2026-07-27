@@ -225,6 +225,30 @@
   min-height: 72px;
   justify-content: flex-start;
 
+  /* Instruction banner — Apple-style frosted glass, same height as timer block */
+  .instruction-banner {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 8px 24px;
+    text-align: center;
+    box-sizing: border-box;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .instruction-text {
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: #3a3a4a;
+      line-height: 1.5;
+      letter-spacing: 0.2px;
+    }
+  }
+
   /* Timer block — centered content */
   .timer-block {
     width: 100%;
@@ -352,6 +376,15 @@
     max-width: 280px;
     min-height: 64px;
 
+    .instruction-banner {
+      padding: 6px 20px;
+      min-height: 52px;
+
+      .instruction-text {
+        font-size: 1rem;
+      }
+    }
+
     .timer-block {
       min-height: 52px;
       padding: 6px 28px;
@@ -432,6 +465,15 @@
     max-width: 260px;
     min-height: 62px;
 
+    .instruction-banner {
+      padding: 6px 16px;
+      min-height: 50px;
+
+      .instruction-text {
+        font-size: 0.95rem;
+      }
+    }
+
     .timer-block {
       min-height: 50px;
       padding: 6px 24px;
@@ -477,6 +519,15 @@
 
   .action-area {
     min-height: 54px;
+
+    .instruction-banner {
+      padding: 4px 14px;
+      min-height: 46px;
+
+      .instruction-text {
+        font-size: 0.9rem;
+      }
+    }
 
     .timer-block {
       min-height: 46px;

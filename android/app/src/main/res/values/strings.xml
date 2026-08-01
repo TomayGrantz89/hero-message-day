@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">cardnew</string>
     <string name="title_activity_main">cardnew</string>
-    <string name="package_name">com.example.myapp</string>
-    <string name="custom_url_scheme">com.example.myapp</string>
+    <string name="package_name">com.goldenhare.cardapp</string>
+    <string name="custom_url_scheme">com.goldenhare.cardapp</string>
+    <string name="CONSOLE_APPLICATION_ID">2063735659</string>
+    <string name="APP_SCHEME">com.goldenhare.cardapp.rustore.scheme</string>
 </resources>

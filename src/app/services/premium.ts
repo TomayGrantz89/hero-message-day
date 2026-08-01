@@ -11,6 +11,7 @@ const RuStorePayBridge = (Capacitor as any).Plugins.RuStorePayBridge;
 export class Premium {
   private readonly PREMIUM_KEY = 'cardGamePremiumStatus';
   private readonly PREMIUM_PURCHASE_DATE_KEY = 'cardGamePremiumPurchaseDate';
+  private readonly PREMIUM_PRODUCT_ID = 'premium_unlock';
 
   private premiumStatusSource = new BehaviorSubject<boolean>(this.isPremium());
   premiumStatus$: Observable<boolean> = this.premiumStatusSource.asObservable();
@@ -46,95 +47,41 @@ export class Premium {
     this.applyPremiumState(this.isPremiumLegacy());
   }
 
-  // async buyFullVersion(): Promise<boolean> {
-  //   try {
-  //     // Вызываем нативную шторку оплаты RuStore поверх Angular
-  //     const response = await RuStorePayBridge.startPaymentFlow();
+  async buyFullVersion(): Promise<boolean> {
+    try {
+      // Вызываем нативную шторку оплаты RuStore с ID товара
+      const response = await RuStorePayBridge.startPaymentFlow({
+        productId: this.PREMIUM_PRODUCT_ID,
+      });
 
-  //     if (response && response.success) {
-  //       const dateStr = new Date().toISOString();
+      if (response && response.success) {
+        const dateStr = new Date().toISOString();
 
-  //       // 1. Дублируем в обычный localStorage для совместимости ваших старых методов
-  //       localStorage.setItem(this.PREMIUM_KEY, 'true');
-  //       localStorage.setItem(this.PREMIUM_PURCHASE_DATE_KEY, dateStr);
+        // 1. Дублируем в локальную память для расчетов дней
+        localStorage.setItem(this.PREMIUM_KEY, 'true');
+        localStorage.setItem(this.PREMIUM_PURCHASE_DATE_KEY, dateStr);
 
-  //       // 2. 🔒 ЗАЩИТА: Записываем флаг в зашифрованное хранилище смартфона через плагин
-  //       await SecureStoragePlugin.set({ key: this.PREMIUM_KEY, value: 'true' });
-  //       await SecureStoragePlugin.set({ key: this.PREMIUM_PURCHASE_DATE_KEY, value: dateStr });
+        // 2. 🔒 НАСТОЯЩАЯ ЗАЩИТА: Намертво шифруем флаг покупки в скрытой памяти телефона
+        await SecureStoragePlugin.set({ key: this.PREMIUM_KEY, value: 'true' });
+        await SecureStoragePlugin.set({ key: this.PREMIUM_PURCHASE_DATE_KEY, value: dateStr });
 
-  //       // 3. Пушим статус в ваш BehaviorSubject, чтобы карты мгновенно открылись на экране
-  //       this.applyPremiumState(true);
-  //       return true;
-  //     }
-  //     return false;
-  //   } catch (error) {
-  //     console.error('Ошибка платежа:', error);
-  //     return false;
-  //   }
-  // }
+        // 3. Пушим статус в поток, чтобы 64 карты мгновенно открылись
+        this.applyPremiumState(true);
+        return true;
+      }
 
-//   async buyFullVersion(): Promise<boolean> {
-//   try {
-//     // 1. Посылаем сигнал в телефон через наш безопасный Java-мост
-//     const response = await RuStorePayBridge.startPaymentFlow();
+      if (response && response.cancelled) {
+        console.log('Покупка отменена пользователем');
+      } else {
+        console.error('Ошибка платежа:', response?.error || 'Неизвестная ошибка');
+      }
 
-//     if (response && response.success) {
-//       // 2. Открываем официальную платежную витрину RuStore для вашего приложения
-//       window.open('https://rustore.ru', '_blank');
-
-//       const dateStr = new Date().toISOString();
-
-//       // 3. Сохраняем в обычную память (для ваших старых методов расчета дней)
-//       localStorage.setItem(this.PREMIUM_KEY, 'true');
-//       localStorage.setItem(this.PREMIUM_PURCHASE_DATE_KEY, dateStr);
-
-//       // 4. 🔒 НАСТОЯЩАЯ ЗАЩИТА: Шифруем флаг и дату покупки в скрытой памяти телефона
-//       await SecureStoragePlugin.set({ key: this.PREMIUM_KEY, value: 'true' });
-//       await SecureStoragePlugin.set({ key: this.PREMIUM_PURCHASE_DATE_KEY, value: dateStr });
-
-//       // 5. Пушим статус в ваш BehaviorSubject, чтобы карты мгновенно открылись на экране
-//       this.applyPremiumState(true);
-//       return true;
-//     }
-//     return false;
-//   } catch (error) {
-//     console.error('Ошибка при проведении платежа:', error);
-//     return false;
-//   }
-// }
-
-
-async buyFullVersion(): Promise<boolean> {
-  try {
-    // 1. Проверяем связь с телефоном через наш безопасный мост
-    const response = await RuStorePayBridge.startPaymentFlow();
-
-    if (response && response.success) {
-      // 2. Открываем официальную платежную витрину RuStore для вашего товара
-      window.open('https://rustore.ru', '_blank');
-
-      const dateStr = new Date().toISOString();
-
-      // 3. Дублируем в локальную память для расчетов дней
-      localStorage.setItem(this.PREMIUM_KEY, 'true');
-      localStorage.setItem(this.PREMIUM_PURCHASE_DATE_KEY, dateStr);
-
-      // 4. 🔒 НАСТОЯЩАЯ ЗАЩИТА: Намертво шифруем флаг покупки в скрытой памяти телефона
-      await SecureStoragePlugin.set({ key: this.PREMIUM_KEY, value: 'true' });
-      await SecureStoragePlugin.set({ key: this.PREMIUM_PURCHASE_DATE_KEY, value: dateStr });
-
-      // 5. Пушим статус в поток, чтобы 64 карты мгновенно открылись
-      this.applyPremiumState(true);
-      return true;
+      return false;
+    } catch (error) {
+      console.error('Ошибка платежа:', error);
+      return false;
     }
-    return false;
-  } catch (error) {
-    console.error('Ошибка платежа:', error);
-    return false;
   }
-}
-
-
 
   /**
    * Check if user has premium access

@@ -10,9 +10,16 @@
       <img src="assets/ui/cold.png" alt="Персонаж" class="character-image" />
     </div>
 
-    <!-- Ask button, left-aligned under the banner -->
+    <!-- Button section: shows either timer block or ask button -->
     <div class="button-section">
-      <button class="rainbow-btn" (click)="askQuestion()" [disabled]="!hasAttempt">
+      <!-- Timer block: shown when non-premium user has 0 attempts -->
+      <div class="timer-block" *ngIf="showTimer">
+        <span class="timer-label">До новой попытки:</span>
+        <span class="timer-value">{{ timer }}</span>
+      </div>
+
+      <!-- Ask button: shown when user has attempts or is premium -->
+      <button class="rainbow-btn" *ngIf="!showTimer" (click)="askQuestion()" [disabled]="!hasAttempt">
         Узнать ответ
       </button>
     </div>

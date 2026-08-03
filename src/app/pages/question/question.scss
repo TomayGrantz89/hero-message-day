@@ -71,7 +71,7 @@
     pointer-events: auto;
   }
 
-  /* ---- Ask button, left-aligned under the banner ---- */
+  /* ---- Button section: contains either the ask button or timer block ---- */
   .button-section {
     position: relative;
     width: 100%;
@@ -84,6 +84,36 @@
     pointer-events: auto;
     box-sizing: border-box;
     z-index: 2;
+    min-height: 56px;
+
+    /* Timer block — shown when non-premium user has 0 attempts */
+    .timer-block {
+      width: 100%;
+      min-height: 56px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 14px;
+      padding: 8px 32px;
+      box-sizing: border-box;
+
+      .timer-label {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 2px;
+      }
+
+      .timer-value {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #cc3300;
+        letter-spacing: 1px;
+      }
+    }
   }
 
   /* Основные стили кнопки */
@@ -178,6 +208,20 @@
 
     .button-section {
       margin-top: 14px;
+      min-height: 52px;
+
+      .timer-block {
+        min-height: 52px;
+        padding: 6px 28px;
+
+        .timer-label {
+          font-size: 0.85rem;
+        }
+
+        .timer-value {
+          font-size: 1.2rem;
+        }
+      }
     }
 
     .ask-button {
@@ -209,6 +253,20 @@
 
     .button-section {
       margin-top: 12px;
+      min-height: 50px;
+
+      .timer-block {
+        min-height: 50px;
+        padding: 6px 24px;
+
+        .timer-label {
+          font-size: 0.8rem;
+        }
+
+        .timer-value {
+          font-size: 1.15rem;
+        }
+      }
     }
 
     .ask-button {

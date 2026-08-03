@@ -385,6 +385,20 @@
         overflow-y: auto;
         justify-content: flex-start;
 
+        // Hide scrollbar — Chrome, Safari, Edge
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
+        // Hide scrollbar — Firefox
+        scrollbar-width: none;
+
+        // Hide scrollbar — IE / legacy Edge
+        -ms-overflow-style: none;
+
+        // Smooth scrolling
+        scroll-behavior: smooth;
+
         .enlarged-card-info {
           width: 100%;
 

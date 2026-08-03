@@ -83,6 +83,29 @@ export class Premium {
     }
   }
 
+//   async buyFullVersion(): Promise<boolean> {
+//   try {
+//     // 1. Сначала дергаем наш безопасный Java-мост, чтобы проверить связь с телефоном
+//     const response = await RuStorePayBridge.startPaymentFlow();
+
+//     if (response && response.success) {
+//       // 2. Открываем веб-окно оплаты RuStore (или вашу кассу) прямо поверх приложения
+//       // Вставьте сюда вашу платежную ссылку на товар из консоли RuStore или ЮKassa:
+//       window.open('https://rustore.ru', '_blank');
+
+//       // Для теста сразу включаем премиум и шифруем его в памяти телефона через плагин
+//       this.applyPremiumState(true);
+//       await SecureStoragePlugin.set({ key: this.PREMIUM_KEY, value: 'true' });
+//       return true;
+//     }
+//     return false;
+//   } catch (error) {
+//     console.error('Ошибка платежа:', error);
+//     return false;
+//   }
+// }
+
+
   /**
    * Check if user has premium access
    */

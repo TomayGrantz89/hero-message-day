@@ -21,6 +21,15 @@ export class Prediction implements OnInit, OnDestroy {
   private timerInterval: any;
   private previousPredictionId: number | null = null;
   private attemptsSubscription: Subscription | null = null;
+  private readonly TIMER_LOCK_KEY = 'cardGameTimerLocked';
+
+  private isTimerLocked(): boolean {
+    return localStorage.getItem(this.TIMER_LOCK_KEY) === 'true';
+  }
+
+  private setTimerLocked(): void {
+    localStorage.setItem(this.TIMER_LOCK_KEY, 'true');
+  }
 
   constructor(
     private cardData: CardData,
@@ -46,6 +55,11 @@ export class Prediction implements OnInit, OnDestroy {
 
   private updateAttempts(): void {
     this.attemptsRemaining = this.attemptService.getRemainingAttempts();
+
+    // If a new day has started (attempts > 0), clear the timer lock flag
+    if (this.attemptsRemaining > 0 && this.isTimerLocked()) {
+      localStorage.removeItem(this.TIMER_LOCK_KEY);
+    }
   }
 
   private startTimer(): void {
@@ -57,6 +71,15 @@ export class Prediction implements OnInit, OnDestroy {
 
   private updateTimer(): void {
     this.timer = this.attemptService.getTimeUntilNextReset();
+
+    // Re-check attempts on each tick — handles midnight transition
+    const currentAttempts = this.attemptService.getRemainingAttempts();
+    if (currentAttempts !== this.attemptsRemaining) {
+      this.attemptsRemaining = currentAttempts;
+      if (this.attemptsRemaining > 0 && this.isTimerLocked()) {
+        localStorage.removeItem(this.TIMER_LOCK_KEY);
+      }
+    }
   }
 
   private initializeCardState(): void {
@@ -127,6 +150,12 @@ export class Prediction implements OnInit, OnDestroy {
     } else {
       // Card is already flipped — toggle between image and prediction
       this.showPrediction = !this.showPrediction;
+
+      // Latch the flag in localStorage: once prediction is shown with 0 attempts,
+      // the timer block stays visible permanently (across page reloads too)
+      if (this.showCardFace && this.showPrediction && this.attemptsRemaining <= 0) {
+        this.setTimerLocked();
+      }
     }
   }
 
@@ -158,6 +187,12 @@ export class Prediction implements OnInit, OnDestroy {
    * In states 1 (card back) and 2 (card face image), the instruction banner is shown instead.
    */
   get showTimer(): boolean {
+    // Once the flag is latched, always show timer regardless of card state.
+    // Persists across page reloads, cleared only on new day (when attempts reset).
+    if (this.isTimerLocked()) {
+      return true;
+    }
+    // Normal behavior: timer shown only when prediction is revealed
     return this.showCardFace && this.showPrediction;
   }
 

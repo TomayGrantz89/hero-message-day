@@ -46,8 +46,11 @@ body {
   font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(180deg, #F0F6FE 0%, #BCD7F8 100%);
+  // #e7e4f7 0%, #ada1f1
+  background: linear-gradient(90deg,  #ffffff 0%, #7b9ce4 100%);
+  //  background: linear-gradient(180deg, #F0F6FE 0%, #BCD7F8 100%);
 }
+
 
 /* Improve tap targets on mobile */
 button,

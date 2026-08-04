@@ -10,23 +10,36 @@
   flex-direction: column;
   align-items: center;
 
-  .instruction-banner {
+  /* Single fixed-height plaque: always rendered so the layout never jumps
+     when the instruction text is replaced by the answer text. */
+  .oracle-plaque {
     width: 100%;
     max-width: 600px;
-    background: rgba(2255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 16px;
     padding: 18px 24px;
     text-align: center;
     box-sizing: border-box;
+    /* Fixed height (not min-height) so the plaque can never grow and the
+       layout below it never shifts when the text swaps. */
+    height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    .instruction-text {
+    .plaque-text {
       font-size: 1.15rem;
       font-weight: 400;
       color: #3a3a4a;
       line-height: 1.5;
       letter-spacing: 0.2px;
+
+      &.answer {
+        font-size: 1.3rem;
+        font-weight: 600;
+      }
     }
   }
 
@@ -198,11 +211,16 @@
     padding-top: calc(env(safe-area-inset-top, 0px) + 55px + 3px);
     padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
 
-    .instruction-banner {
+    .oracle-plaque {
       padding: 16px 20px;
+      height: 80px;
 
-      .instruction-text {
+      .plaque-text {
         font-size: 1.05rem;
+
+        &.answer {
+          font-size: 1.2rem;
+        }
       }
     }
 
@@ -242,12 +260,17 @@
     padding-top: calc(env(safe-area-inset-top, 0px) + 50px + 3px);
     padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 10px);
 
-    .instruction-banner {
+    .oracle-plaque {
       padding: 14px 16px;
       border-radius: 14px;
+      height: 72px;
 
-      .instruction-text {
+      .plaque-text {
         font-size: 0.95rem;
+
+        &.answer {
+          font-size: 1.1rem;
+        }
       }
     }
 

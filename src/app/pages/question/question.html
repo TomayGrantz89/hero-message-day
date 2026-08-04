@@ -1,6 +1,9 @@
 <div class="question-container">
-  <div class="instruction-banner">
-    <span class="instruction-text">{{ bannerText }}</span>
+  <!-- Single fixed-height plaque: always rendered so the layout never jumps
+       when the instruction text is replaced by the answer text. -->
+  <div class="oracle-plaque">
+    <span class="plaque-text" *ngIf="!lastAnswer">{{ bannerText }}</span>
+    <span class="plaque-text answer" *ngIf="lastAnswer">{{ lastAnswer }}</span>
   </div>
 
   <div class="question-content">

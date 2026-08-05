@@ -507,7 +507,7 @@
 // Very small screens
 @media (max-width: 360px) {
   .prediction-container {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 45px);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
     padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 10px);
   }
 

@@ -3,7 +3,7 @@
   background: transparent;
   color: #333;
   padding: 20px;
-  padding-top: calc(env(safe-area-inset-top, 0px) + 60px + 3px);
+  padding-top: calc(env(safe-area-inset-top, 0px) + 60px);
   padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 20px);
   position: relative;
   display: flex;
@@ -208,7 +208,7 @@
 @media (max-width: 768px) {
   .question-container {
     padding: 15px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 55px + 3px);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 55px);
     padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
 
     .oracle-plaque {
@@ -257,7 +257,7 @@
 @media (max-width: 480px) {
   .question-container {
     padding: 10px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 50px + 3px);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
     padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 10px);
 
     .oracle-plaque {

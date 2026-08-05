@@ -6,7 +6,7 @@
   background-repeat: no-repeat;
   color: #333;
   padding: 20px;
-  padding-top: calc(env(safe-area-inset-top, 0px) + 44px + 5px);
+  padding-top: calc(env(safe-area-inset-top, 0px) + 60px);
   padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 20px);
   display: flex;
   flex-direction: column;

@@ -190,6 +190,7 @@
     opacity: 0;
     transform: translateY(8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -376,17 +377,10 @@
       }
 
       .enlarged-card-back {
-        // background: rgba(255, 255, 255, 0.07); /* Очень легкая, прозрачная белая вуаль */
-        // backdrop-filter: blur(15px);            /* Матовое размытие фона за ней */
-        -webkit-backdrop-filter: blur(15px);    /* Поддержка для старых телефонов */
-        // border: 1px solid rgba(255, 255, 255, 0.12); /* Вместо серой рамки — тончайшая, светящаяся нить */
-        // border-radius: 20px;                    /* Оставляем ваши красивые скругленные углы */
-
-        background: #2b3043; /* Четкий, глубокий черничный цвет — плашка перестанет быть мутной */
-border: 1px solid #333b50; /* Вместо яркой рамки — аккуратная, благородная темная нить */
-box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); /* Плотная тень, которая приподнимет плашку над фоном */
-border-radius: 20px; /* Ваши красивые скругленные углы */
-        // border: 5px solid rgb(85, 85, 85);
+        background: #2b3043;
+        border: 1px solid #333b50;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        border-radius: 20px;
         transform: rotateY(180deg);
         padding: 40px;
         text-align: left;
@@ -578,6 +572,7 @@ border-radius: 20px; /* Ваши красивые скругленные угл�
 
 // Prevent horizontal scrolling on all orientations
 @media (max-width: 768px) {
+
   html,
   body {
     overflow-x: hidden;
@@ -593,6 +588,7 @@ border-radius: 20px; /* Ваши красивые скругленные угл�
 // Desktop styles (> 768px)
 // ============================================
 @media (min-width: 769px) {
+
   // Show desktop grid on desktop
   .desktop-grid {
     display: block;

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Правила Android Auto Backup для Android 11 (API 30) и ниже.
+
+    @capacitor/preferences хранит данные в SharedPreferences-файле "CapacitorPreferences".
+    Именно там StorageService дублирует коллекцию открытых карт (cardGameCollection),
+    статус премиума и другие важные данные. Эти данные должны попадать в облачный
+    бэкап Google Drive, чтобы восстановиться на новом устройстве.
+
+    Кэш и временные файлы исключаем — они не нужны и только раздувают бэкап.
+-->
+<full-backup-content>
+    <!-- Бэкапим SharedPreferences, где лежат данные коллекции и премиума -->
+    <include
+        domain="sharedpref"
+        path="CapacitorPreferences.xml" />
+
+    <!-- Исключаем кэш и временные файлы -->
+    <exclude
+        domain="cache"
+        path="." />
+    <exclude
+        domain="file"
+        path="cache" />
+    <exclude
+        domain="file"
+        path="no_backup" />
+</full-backup-content>

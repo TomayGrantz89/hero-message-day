@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Правила извлечения данных для Android 12+ (API 31+).
+
+    На Android 12+ Google требует явно указать, какие данные попадают в
+    облачный бэкап (cloud-backup) и в перенос устройства (device-transfer).
+
+    @capacitor/preferences хранит данные в SharedPreferences-файле "CapacitorPreferences".
+    Именно там StorageService дублирует коллекцию открытых карт (cardGameCollection),
+    статус премиума и другие важные данные. Эти данные должны попадать в облачный
+    бэкап Google Drive, чтобы восстановиться на новом устройстве.
+
+    Кэш и временные файлы исключаем — они не нужны и только раздувают бэкап.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <!-- Бэкапим SharedPreferences, где лежат данные коллекции и премиума -->
+        <include
+            domain="sharedpref"
+            path="CapacitorPreferences.xml" />
+
+        <!-- Исключаем кэш и временные файлы -->
+        <exclude
+            domain="cache"
+            path="." />
+        <exclude
+            domain="file"
+            path="cache" />
+        <exclude
+            domain="file"
+            path="no_backup" />
+    </cloud-backup>
+
+    <device-transfer>
+        <!-- При переносе устройства тоже переносим данные коллекции -->
+        <include
+            domain="sharedpref"
+            path="CapacitorPreferences.xml" />
+    </device-transfer>
+</data-extraction-rules>

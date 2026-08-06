@@ -1,0 +1,26 @@
+<div class="shop-container">
+  <h1 class="shop-title">Магазин</h1>
+
+  <div class="product-card">
+    <h2 class="product-name">Полная коллекция карт</h2>
+    <p class="product-description">
+      Разблокируйте все карты коллекции и получите доступ к полному набору функций.
+    </p>
+
+    <button
+      class="buy-button"
+      (click)="onBuyClick()"
+      [disabled]="isProcessing"
+    >
+      {{ isProcessing ? 'Обработка...' : 'Купить' }}
+    </button>
+
+    <button
+      class="restore-button"
+      (click)="onRestoreClick()"
+      [disabled]="isProcessing"
+    >
+      {{ isProcessing ? 'Обработка...' : 'Восстановить покупки' }}
+    </button>
+  </div>
+</div>

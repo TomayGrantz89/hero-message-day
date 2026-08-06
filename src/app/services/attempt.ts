@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Premium } from './premium';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class Attempt {
   private attemptsChangedSource!: BehaviorSubject<number>;
   attemptsChanged$!: import('rxjs').Observable<number>;
 
-  constructor(private premium: Premium) {
+  constructor(private premium: Premium, private storage: StorageService) {
     this.attemptsChangedSource = new BehaviorSubject<number>(this.getRemainingAttempts());
     this.attemptsChanged$ = this.attemptsChangedSource.asObservable();
     this.resetIfNeeded();
@@ -34,35 +35,35 @@ export class Attempt {
   private resetIfNeeded(): void {
     const now = new Date();
     const today = now.toDateString();
-    const lastReset = localStorage.getItem(this.LAST_RESET_KEY);
+    const lastReset = this.storage.get(this.LAST_RESET_KEY);
 
     if (lastReset !== today) {
       // All users get 1 prediction attempt per day
-      localStorage.setItem(this.STORAGE_KEY, '1');
+      this.storage.set(this.STORAGE_KEY, '1');
 
-      localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
-      localStorage.setItem(this.TODAY_PREDICTION_IDS_KEY, JSON.stringify([]));
-      localStorage.setItem(this.LAST_RESET_KEY, today);
+      this.storage.set(this.PREDICTION_RECEIVED_KEY, 'false');
+      this.storage.set(this.TODAY_PREDICTION_IDS_KEY, JSON.stringify([]));
+      this.storage.set(this.LAST_RESET_KEY, today);
 
       // Clear last card data when a new day starts (timer resets attempts)
       this.clearLastCardData();
 
       // Reset question attempts
       const initialQuestionAttempts = this.premium.isPremium() ? 5 : 1;
-      localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, initialQuestionAttempts.toString());
-      localStorage.setItem(this.QUESTION_LAST_RESET_KEY, today);
+      this.storage.set(this.QUESTION_ATTEMPTS_KEY, initialQuestionAttempts.toString());
+      this.storage.set(this.QUESTION_LAST_RESET_KEY, today);
     }
   }
 
   private initializeCollection(): void {
     // Ensure collection exists in localStorage
-    if (!localStorage.getItem(this.COLLECTION_KEY)) {
-      localStorage.setItem(this.COLLECTION_KEY, JSON.stringify([]));
+    if (!this.storage.get(this.COLLECTION_KEY)) {
+      this.storage.set(this.COLLECTION_KEY, JSON.stringify([]));
     }
   }
 
   getRemainingAttempts(): number {
-    const attempts = parseInt(localStorage.getItem(this.STORAGE_KEY) || '1');
+    const attempts = parseInt(this.storage.get(this.STORAGE_KEY) || '1');
     // All users get max 1 attempt per day
     return Math.min(attempts, 1);
   }
@@ -70,7 +71,7 @@ export class Attempt {
   useAttempt(): boolean {
     const attempts = this.getRemainingAttempts();
     if (attempts <= 0) return false;
-    localStorage.setItem(this.STORAGE_KEY, (attempts - 1).toString());
+    this.storage.set(this.STORAGE_KEY, (attempts - 1).toString());
     this.notifyAttemptsChanged();
     return true;
   }
@@ -80,7 +81,7 @@ export class Attempt {
    */
   setAttempts(count: number): void {
     const cappedCount = Math.min(count, 1);
-    localStorage.setItem(this.STORAGE_KEY, cappedCount.toString());
+    this.storage.set(this.STORAGE_KEY, cappedCount.toString());
     this.notifyAttemptsChanged();
   }
 
@@ -94,12 +95,12 @@ export class Attempt {
     // Free users: ensure daily reset
     const now = new Date();
     const today = now.toDateString();
-    const lastReset = localStorage.getItem(this.QUESTION_LAST_RESET_KEY);
+    const lastReset = this.storage.get(this.QUESTION_LAST_RESET_KEY);
     if (lastReset !== today) {
-      localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, '1');
-      localStorage.setItem(this.QUESTION_LAST_RESET_KEY, today);
+      this.storage.set(this.QUESTION_ATTEMPTS_KEY, '1');
+      this.storage.set(this.QUESTION_LAST_RESET_KEY, today);
     }
-    const attempts = parseInt(localStorage.getItem(this.QUESTION_ATTEMPTS_KEY) || '1');
+    const attempts = parseInt(this.storage.get(this.QUESTION_ATTEMPTS_KEY) || '1');
     return Math.min(attempts, 1);
   }
 
@@ -111,7 +112,7 @@ export class Attempt {
 
     const attempts = this.getRemainingQuestionAttempts();
     if (attempts <= 0) return false;
-    localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, (attempts - 1).toString());
+    this.storage.set(this.QUESTION_ATTEMPTS_KEY, (attempts - 1).toString());
     this.notifyAttemptsChanged();
     return true;
   }
@@ -123,18 +124,18 @@ export class Attempt {
    */
   refreshPredictionAttempts(): void {
     const today = new Date().toDateString();
-    localStorage.setItem(this.LAST_RESET_KEY, today);
+    this.storage.set(this.LAST_RESET_KEY, today);
 
     // Check if a card was already opened today
     const lastCardData = this.getLastCardData();
     if (lastCardData) {
       // Card was already opened — 0 attempts remaining
-      localStorage.setItem(this.STORAGE_KEY, '0');
-      localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'true');
+      this.storage.set(this.STORAGE_KEY, '0');
+      this.storage.set(this.PREDICTION_RECEIVED_KEY, 'true');
     } else {
       // No card opened — 1 attempt available
-      localStorage.setItem(this.STORAGE_KEY, '1');
-      localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'false');
+      this.storage.set(this.STORAGE_KEY, '1');
+      this.storage.set(this.PREDICTION_RECEIVED_KEY, 'false');
     }
 
     this.notifyAttemptsChanged();
@@ -150,9 +151,9 @@ export class Attempt {
     if (this.premium.isPremium()) {
       return;
     }
-    localStorage.setItem(this.QUESTION_ATTEMPTS_KEY, '1');
+    this.storage.set(this.QUESTION_ATTEMPTS_KEY, '1');
     const today = new Date().toDateString();
-    localStorage.setItem(this.QUESTION_LAST_RESET_KEY, today);
+    this.storage.set(this.QUESTION_LAST_RESET_KEY, today);
     this.notifyAttemptsChanged();
   }
 
@@ -170,13 +171,13 @@ export class Attempt {
 
   // Prediction tracking
   markPredictionReceived(cardData: any, predictionText: string, predictionId?: number): void {
-    localStorage.setItem(this.PREDICTION_RECEIVED_KEY, 'true');
+    this.storage.set(this.PREDICTION_RECEIVED_KEY, 'true');
 
     // Add prediction ID to today's prediction IDs
     const todayPredictionIds = this.getTodayPredictionIds();
     if (predictionId !== undefined && !todayPredictionIds.includes(predictionId)) {
       todayPredictionIds.push(predictionId);
-      localStorage.setItem(this.TODAY_PREDICTION_IDS_KEY, JSON.stringify(todayPredictionIds));
+      this.storage.set(this.TODAY_PREDICTION_IDS_KEY, JSON.stringify(todayPredictionIds));
     }
 
     const lastCardData = {
@@ -186,20 +187,20 @@ export class Attempt {
       cardId: cardData?.id || 1,
       timestamp: new Date().toISOString()
     };
-    localStorage.setItem(this.LAST_CARD_DATA_KEY, JSON.stringify(lastCardData));
+    this.storage.set(this.LAST_CARD_DATA_KEY, JSON.stringify(lastCardData));
   }
 
   getTodayPredictionIds(): number[] {
-    const data = localStorage.getItem(this.TODAY_PREDICTION_IDS_KEY);
+    const data = this.storage.get(this.TODAY_PREDICTION_IDS_KEY);
     return data ? JSON.parse(data) : [];
   }
 
   wasPredictionReceivedToday(): boolean {
-    return localStorage.getItem(this.PREDICTION_RECEIVED_KEY) === 'true';
+    return this.storage.get(this.PREDICTION_RECEIVED_KEY) === 'true';
   }
 
   getLastCardData(): any {
-    const data = localStorage.getItem(this.LAST_CARD_DATA_KEY);
+    const data = this.storage.get(this.LAST_CARD_DATA_KEY);
     return data ? JSON.parse(data) : null;
   }
 
@@ -207,7 +208,7 @@ export class Attempt {
    * Clear last card data when a new day starts
    */
   clearLastCardData(): void {
-    localStorage.removeItem(this.LAST_CARD_DATA_KEY);
+    this.storage.remove(this.LAST_CARD_DATA_KEY);
   }
 
   // Check if user has free attempt remaining
@@ -220,12 +221,12 @@ export class Attempt {
     const collection = this.getCollection();
     if (!collection.includes(cardId)) {
       collection.push(cardId);
-      localStorage.setItem(this.COLLECTION_KEY, JSON.stringify(collection));
+      this.storage.set(this.COLLECTION_KEY, JSON.stringify(collection));
     }
   }
 
   getCollection(): number[] {
-    const data = localStorage.getItem(this.COLLECTION_KEY);
+    const data = this.storage.get(this.COLLECTION_KEY);
     return data ? JSON.parse(data) : [];
   }
 

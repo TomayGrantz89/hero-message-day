@@ -13,14 +13,33 @@ export class Premium {
   private readonly PREMIUM_PURCHASE_DATE_KEY = 'cardGamePremiumPurchaseDate';
   private readonly PREMIUM_PRODUCT_ID = 'premium_unlock';
 
-  private premiumStatusSource = new BehaviorSubject<boolean>(this.isPremium());
+  private premiumStatusSource = new BehaviorSubject<boolean>(false);
   premiumStatus$: Observable<boolean> = this.premiumStatusSource.asObservable();
 
   constructor() {
     this.checkPurchasesOnStart();
   }
 
+  /**
+   * Автовосстановление при старте.
+   * Порядок проверок:
+   *  1. Зашифрованный бэкап (SecureStorage) — мгновенно, переживает очистку кэша.
+   *  2. Стор (RuStore) — авторитетный источник.
+   *  3. Старый localStorage — для совместимости.
+   */
   async checkPurchasesOnStart() {
+    // 1. Сначала локальный зашифрованный бэкап — мгновенно восстанавливает премиум
+    //    и убирает «мигание» не-премиум состояния при старте.
+    try {
+      const backup = await SecureStoragePlugin.get({ key: this.PREMIUM_KEY });
+      if (backup && backup.value === 'true') {
+        this.applyPremiumState(true);
+      }
+    } catch (e) {
+      // Ключа шифрования нет (ещё не покупали) — продолжаем
+    }
+
+    // 2. Авторитетная проверка в сторе
     try {
       const result = await RuStorePayBridge.checkPremiumStatus();
 
@@ -29,22 +48,49 @@ export class Premium {
         return;
       }
     } catch (error) {
-      console.error('Сбой сети стора, проверяем зашифрованный бэкап', error);
-
-      // 🛡️ ЗАЩИТА №2: Локальная подстраховка в зашифрованной памяти (если у юзера нет интернета)
-      try {
-        const result = await SecureStoragePlugin.get({ key: this.PREMIUM_KEY });
-        if (result && result.value === 'true') {
-          this.applyPremiumState(true);
-          return;
-        }
-      } catch (e) {
-        // Ключа шифрования нет (еще не покупали), оставляем false
-      }
+      console.error('Сбой сети стора, полагаемся на локальный бэкап', error);
     }
 
-    // Если проверок нет — оставляем обычный статус из старого localStorage
+    // 3. Если стор вернул false или упал — оставляем состояние из локального бэкапа
+    //    (SecureStorage уже проверен выше) или из старого localStorage.
     this.applyPremiumState(this.isPremiumLegacy());
+  }
+
+  /**
+   * Восстановление покупок вручную (кнопка в магазине).
+   * Использует тот же механизм, что и автовосстановление при старте.
+   */
+  async restorePurchases(): Promise<boolean> {
+    // 1. Локальный зашифрованный бэкап
+    try {
+      const backup = await SecureStoragePlugin.get({ key: this.PREMIUM_KEY });
+      if (backup && backup.value === 'true') {
+        this.applyPremiumState(true);
+        return true;
+      }
+    } catch (e) {
+      // нет ключа
+    }
+
+    // 2. Авторитетная проверка в сторе
+    try {
+      const result = await RuStorePayBridge.checkPremiumStatus();
+
+      if (result && result.isPurchased) {
+        this.applyPremiumState(true);
+        return true;
+      }
+    } catch (error) {
+      console.error('Сбой сети стора при восстановлении', error);
+    }
+
+    // 3. Старый localStorage
+    if (this.isPremiumLegacy()) {
+      this.applyPremiumState(true);
+      return true;
+    }
+
+    return false;
   }
 
   async buyFullVersion(): Promise<boolean> {
@@ -57,7 +103,7 @@ export class Premium {
       if (response && response.success) {
         const dateStr = new Date().toISOString();
 
-        // 1. Дублируем в локальную память для расчетов дней
+        // 1. Дублируем в локальную память для расчётов дней
         localStorage.setItem(this.PREMIUM_KEY, 'true');
         localStorage.setItem(this.PREMIUM_PURCHASE_DATE_KEY, dateStr);
 
@@ -82,29 +128,6 @@ export class Premium {
       return false;
     }
   }
-
-//   async buyFullVersion(): Promise<boolean> {
-//   try {
-//     // 1. Сначала дергаем наш безопасный Java-мост, чтобы проверить связь с телефоном
-//     const response = await RuStorePayBridge.startPaymentFlow();
-
-//     if (response && response.success) {
-//       // 2. Открываем веб-окно оплаты RuStore (или вашу кассу) прямо поверх приложения
-//       // Вставьте сюда вашу платежную ссылку на товар из консоли RuStore или ЮKassa:
-//       window.open('https://rustore.ru', '_blank');
-
-//       // Для теста сразу включаем премиум и шифруем его в памяти телефона через плагин
-//       this.applyPremiumState(true);
-//       await SecureStoragePlugin.set({ key: this.PREMIUM_KEY, value: 'true' });
-//       return true;
-//     }
-//     return false;
-//   } catch (error) {
-//     console.error('Ошибка платежа:', error);
-//     return false;
-//   }
-// }
-
 
   /**
    * Check if user has premium access

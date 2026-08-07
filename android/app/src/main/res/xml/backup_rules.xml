@@ -14,15 +14,4 @@
     <include
         domain="sharedpref"
         path="CapacitorPreferences.xml" />
-
-    <!-- Исключаем кэш и временные файлы -->
-    <exclude
-        domain="cache"
-        path="." />
-    <exclude
-        domain="file"
-        path="cache" />
-    <exclude
-        domain="file"
-        path="no_backup" />
 </full-backup-content>

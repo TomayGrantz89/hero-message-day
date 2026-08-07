@@ -1,4 +1,4 @@
-package com.goldenhare.cardapp;
+package com.goldenhare.cardofdayapp;
 
 import android.content.Intent;
 import android.os.Bundle;

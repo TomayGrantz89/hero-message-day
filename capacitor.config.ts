@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.goldenhare.cardapp',
+  appId: 'com.goldenhare.cardofdayapp',
   appName: 'cardnew',
   webDir: 'dist/cardnew/browser',
   // android: {

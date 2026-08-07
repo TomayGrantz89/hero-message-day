@@ -23,3 +23,82 @@ body.welcome-active {
 }
 
 /* App root - no shared top bar, each page has its own fixed elements */
+
+/* ============================================
+   Startup splash screen overlay
+   ============================================ */
+.splash-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.splash-overlay.splash-hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition:
+    opacity 0.5s ease,
+    visibility 0s linear 0.5s;
+}
+
+.splash-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.splash-logo {
+  width: 160px;
+  height: auto;
+  opacity: 0;
+  transform: scale(0.92);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.splash-logo.logo-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.splash-caption {
+  margin: 28px 0 0;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  color: #d9a441;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+.splash-caption.caption-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Scale logo down slightly on very small screens */
+@media (max-width: 480px) {
+  .splash-logo {
+    width: 130px;
+  }
+
+  .splash-caption {
+    font-size: 0.82rem;
+  }
+}

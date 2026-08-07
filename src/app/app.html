@@ -1,3 +1,24 @@
+<!-- Startup splash screen overlay -->
+<div
+  class="splash-overlay"
+  [class.splash-hidden]="!splashVisible"
+>
+  <div class="splash-inner">
+    <img
+      src="logo.png"
+      alt="Золотой Заяц"
+      class="splash-logo"
+      [class.logo-visible]="splashLogoVisible"
+    />
+    <p
+      class="splash-caption"
+      [class.caption-visible]="splashCaptionVisible"
+    >
+      Golden Hare Games
+    </p>
+  </div>
+</div>
+
 <app-top-bar></app-top-bar>
 <router-outlet></router-outlet>
 <app-bottom-bar *ngIf="showBottomBar"></app-bottom-bar>

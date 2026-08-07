@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.goldenhare.cardapp",
+  "applicationId": "com.goldenhare.cardofdayapp",
   "variantName": "release",
   "elements": [
     {

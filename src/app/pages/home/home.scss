@@ -13,13 +13,13 @@
   position: relative;
 
   h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: 3.5rem;
+    margin-bottom: 1.2rem;
     color: #0a1e3d;
   }
 
   p {
-    font-size: 1.1rem;
+    font-size: 1.4rem;
     max-width: 600px;
     margin-bottom: 2rem;
     line-height: 1.6;
@@ -108,12 +108,12 @@
     padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
 
     h1 {
-      font-size: 2rem;
+      font-size: 2.8rem;
       margin-bottom: 0.8rem;
     }
 
     p {
-      font-size: 1rem;
+      font-size: 1.2rem;
       margin-bottom: 1.5rem;
       padding: 0 10px;
     }
@@ -155,11 +155,11 @@
     min-height: calc(100vh - 20px);
 
     h1 {
-      font-size: 1.8rem;
+      font-size: 2.4rem;
     }
 
     p {
-      font-size: 0.95rem;
+      font-size: 1.15rem;
       line-height: 1.5;
     }
 

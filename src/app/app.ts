@@ -19,12 +19,11 @@ export class App implements OnInit, OnDestroy {
   splashVisible = true;
   /** Logo fade-in state (appears immediately) */
   splashLogoVisible = false;
-  /** Studio caption fade-in state (appears at 1s) */
+  /** Studio caption fade-in state (appears together with logo) */
   splashCaptionVisible = false;
 
-  /** Constants for splash timing (ms) */
-  private readonly SPLASH_CAPTION_DELAY = 1000;
-  private readonly SPLASH_HIDE_DELAY = 3000;
+  /** Splash display duration (ms) */
+  private readonly SPLASH_HIDE_DELAY = 1500;
 
   private routerSubscription: Subscription | null = null;
   private splashTimers: ReturnType<typeof setTimeout>[] = [];
@@ -60,24 +59,17 @@ export class App implements OnInit, OnDestroy {
 
   /**
    * Run the startup splash animation sequence:
-   *  - Logo appears immediately (t=0)
-   *  - Caption "разработано в студии Золотой Заяц" appears at 1s
+   *  - Logo and caption "разработано в студии Золотой Заяц" appear together at t=0
    *  - Overlay fades out at 3s, revealing the app underneath
    *
    * Note: the app runs zoneless (no Zone.js), so setTimeout callbacks
    * must call markForCheck() to trigger change detection after mutating state.
    */
   private startSplashSequence(): void {
-    // Show logo right away
+    // Show logo and caption together right away
     this.splashLogoVisible = true;
-
-    // Show caption at 1s
-    this.splashTimers.push(
-      setTimeout(() => {
-        this.splashCaptionVisible = true;
-        this.cdr.markForCheck();
-      }, this.SPLASH_CAPTION_DELAY)
-    );
+    this.splashCaptionVisible = true;
+    this.cdr.markForCheck();
 
     // Start hiding the overlay at 3s (fade-out handled by CSS transition)
     this.splashTimers.push(

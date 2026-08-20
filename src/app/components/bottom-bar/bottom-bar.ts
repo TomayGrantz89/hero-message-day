@@ -74,21 +74,16 @@ export class BottomBarComponent implements OnInit, OnDestroy {
         isActive: false,
       },
       {
-        link: '',
+        link: '/shop',
         icon: 'assets/ui/icon-shop.svg',
         label: 'Магазин',
         isActive: false,
-        onClick: () => this.openPremiumModal(),
       },
     ];
   }
 
   private updateActiveRoute(url: string): void {
     this.navItems.forEach(item => {
-      if (item.link === '') {
-        item.isActive = false; // Shop never active as route
-        return;
-      }
       item.isActive = url.startsWith(item.link);
     });
   }

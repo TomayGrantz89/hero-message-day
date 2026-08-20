@@ -52,7 +52,21 @@
 .buy-button {
   background: #4caf50;
   color: #ffffff;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+}
+
+.terms-disclaimer {
+  font-size: 11px;
+  line-height: 1.4;
+  color: #999999;
+  text-align: center;
+  margin: 0 0 12px;
+}
+
+.terms-link {
+  color: #2196f3;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .restore-button {

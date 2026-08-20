@@ -15,6 +15,12 @@
       {{ isProcessing ? 'Обработка...' : 'Купить' }}
     </button>
 
+    <p class="terms-disclaimer">
+      Нажимая кнопку, вы принимаете условия
+      <a class="terms-link" (click)="openTerms($event)">Пользовательского соглашения</a>
+      и соглашаетесь со стоимостью услуги. После открытия контента возврат средств невозможен.
+    </p>
+
     <button
       class="restore-button"
       (click)="onRestoreClick()"
@@ -24,3 +30,9 @@
     </button>
   </div>
 </div>
+
+<!-- Terms Modal -->
+<app-terms-modal
+  *ngIf="showTermsModal"
+  (close)="closeTerms()"
+></app-terms-modal>

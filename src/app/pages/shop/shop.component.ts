@@ -1,15 +1,30 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Premium } from '../../services/premium';
+import { TermsModalComponent } from '../../components/terms-modal/terms-modal';
 
 @Component({
   selector: 'app-shop',
+  standalone: true,
+  imports: [CommonModule, TermsModalComponent],
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.scss'],
 })
 export class ShopComponent {
   isProcessing = false;
+  showTermsModal = false;
 
   constructor(private readonly premium: Premium) {}
+
+  openTerms(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.showTermsModal = true;
+  }
+
+  closeTerms(): void {
+    this.showTermsModal = false;
+  }
 
   async onBuyClick(): Promise<void> {
     if (this.isProcessing) {

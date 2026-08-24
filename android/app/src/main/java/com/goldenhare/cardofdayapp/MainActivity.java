@@ -2,6 +2,7 @@ package com.goldenhare.cardofdayapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.JSObject;
@@ -39,16 +40,26 @@ import ru.rustore.sdk.pay.model.SdkTheme;
 public class MainActivity extends BridgeActivity {
 
   private static final String PRODUCT_ID = "premium_unlock";
+  private static final String TAG = "MainActivity";
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    registerPlugin(RuStorePayBridge.class);
+    // ВАЖНО: оборачиваем регистрацию RuStore-моста в try/catch(Throwable).
+    // Если классы SDK загружаются с ошибкой (NoClassDefFoundError и т.п.),
+    // это Error, а не Exception — без перехвата приложение вылетает при старте.
+    try {
+      registerPlugin(RuStorePayBridge.class);
+    } catch (Throwable t) {
+      Log.e(TAG, "registerPlugin(RuStorePayBridge) failed at startup", t);
+    }
+
     super.onCreate(savedInstanceState);
 
     // Обрабатываем deeplink от RuStore (возврат после оплаты)
     try {
       RuStorePayClient.Companion.getInstance().getIntentInteractor().proceedIntent(getIntent(), SdkTheme.LIGHT);
-    } catch (Exception e) {
+    } catch (Throwable e) {
+      Log.e(TAG, "RuStore deeplink proceedIntent failed at startup", e);
       // SDK ещё не инициализирован — пропускаем, deeplink обработается в onNewIntent
     }
   }

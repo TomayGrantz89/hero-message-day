@@ -11,7 +11,7 @@ const RuStorePayBridge = (Capacitor as any).Plugins.RuStorePayBridge;
 export class Premium {
   private readonly PREMIUM_KEY = 'cardGamePremiumStatus';
   private readonly PREMIUM_PURCHASE_DATE_KEY = 'cardGamePremiumPurchaseDate';
-  private readonly PREMIUM_PRODUCT_ID = 'premium_unlock';
+  private readonly PREMIUM_PRODUCT_ID = 'gh777';
 
   private premiumStatusSource = new BehaviorSubject<boolean>(false);
   premiumStatus$: Observable<boolean> = this.premiumStatusSource.asObservable();

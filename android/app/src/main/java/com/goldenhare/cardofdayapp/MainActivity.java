@@ -39,7 +39,7 @@ import ru.rustore.sdk.pay.model.SdkTheme;
 
 public class MainActivity extends BridgeActivity {
 
-  private static final String PRODUCT_ID = "premium_unlock";
+  private static final String PRODUCT_ID = "gh777";
   private static final String TAG = "MainActivity";
 
   @Override

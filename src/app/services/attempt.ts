@@ -87,8 +87,11 @@ export class Attempt {
 
   // Question attempts management
   getRemainingQuestionAttempts(): number {
+    const isPrem = this.premium.isPremium();
+    console.log('[DBG-A] getRemainingQuestionAttempts: premium.isPremium()=', isPrem,
+      '| QUESTION_ATTEMPTS_KEY=', this.storage.get(this.QUESTION_ATTEMPTS_KEY));
     // Premium users have unlimited questions
-    if (this.premium.isPremium()) {
+    if (isPrem) {
       return Infinity;
     }
 
@@ -105,6 +108,7 @@ export class Attempt {
   }
 
   useQuestionAttempt(): boolean {
+    console.log('[DBG-A] useQuestionAttempt: premium.isPremium()=', this.premium.isPremium());
     // Premium users have unlimited questions — always succeed
     if (this.premium.isPremium()) {
       return true;

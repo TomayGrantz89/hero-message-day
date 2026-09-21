@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SecureStoragePlugin } from 'capacitor-secure-storage-plugin';
 import { Capacitor } from '@capacitor/core';
+import { StorageService } from './storage.service';
 
 const RuStorePayBridge = (Capacitor as any).Plugins.RuStorePayBridge;
 
@@ -13,10 +14,19 @@ export class Premium {
   private readonly PREMIUM_PURCHASE_DATE_KEY = 'cardGamePremiumPurchaseDate';
   private readonly PREMIUM_PRODUCT_ID = 'gh777';
 
-  private premiumStatusSource = new BehaviorSubject<boolean>(false);
+  /**
+   * Единый источник правды в памяти.
+   * Синхронные потребители (attempt-система, карточки, страницы) вызывают
+   * isPremium() и должны видеть то же состояние, что и UI.
+   * Инициализируется из localStorage, затем обновляется через applyPremiumState()
+   * по результатам проверки SecureStorage / стора при старте.
+   */
+  private currentPremium: boolean = localStorage.getItem(this.PREMIUM_KEY) === 'true';
+
+  private premiumStatusSource = new BehaviorSubject<boolean>(this.currentPremium);
   premiumStatus$: Observable<boolean> = this.premiumStatusSource.asObservable();
 
-  constructor() {
+  constructor(private storage: StorageService) {
     this.checkPurchasesOnStart();
   }
 
@@ -26,13 +36,21 @@ export class Premium {
    *  1. Зашифрованный бэкап (SecureStorage) — мгновенно, переживает очистку кэша.
    *  2. Стор (RuStore) — авторитетный источник.
    *  3. Старый localStorage — для совместимости.
+   *
+   * Любое подтверждение премиума через applyPremiumState(true) ОБЯЗАТЕЛЬНО
+   * синхронизирует флаг в localStorage (+ нативный бэкап), чтобы синхронные
+   * проверки isPremium() (например, attempt-система вопросов к оракулу)
+   * считали пользователя премиумом с неограниченными вопросами.
    */
   async checkPurchasesOnStart() {
+    console.log('[DBG-P] checkPurchasesOnStart START: currentPremium=', this.currentPremium,
+      '| localStorage PREMIUM_KEY=', localStorage.getItem(this.PREMIUM_KEY));
     // 1. Сначала локальный зашифрованный бэкап — мгновенно восстанавливает премиум
     //    и убирает «мигание» не-премиум состояния при старте.
     try {
       const backup = await SecureStoragePlugin.get({ key: this.PREMIUM_KEY });
       if (backup && backup.value === 'true') {
+        console.log('[DBG-P] SecureStorage backup=true -> applyPremiumState(true)');
         this.applyPremiumState(true);
       }
     } catch (e) {
@@ -44,6 +62,7 @@ export class Premium {
       const result = await RuStorePayBridge.checkPremiumStatus();
 
       if (result && result.isPurchased) {
+        console.log('[DBG-P] Store check isPurchased=true -> applyPremiumState(true)');
         this.applyPremiumState(true);
         return;
       }
@@ -52,7 +71,10 @@ export class Premium {
     }
 
     // 3. Если стор вернул false или упал — оставляем состояние из локального бэкапа
-    //    (SecureStorage уже проверен выше) или из старого localStorage.
+    //    (SecureStorage уже проверен выше и синхронизирован в localStorage)
+    //    или из старого localStorage.
+    console.log('[DBG-P] checkPurchasesOnStart fallback: isPremiumLegacy()=',
+      this.isPremiumLegacy());
     this.applyPremiumState(this.isPremiumLegacy());
   }
 
@@ -104,8 +126,10 @@ export class Premium {
         const dateStr = new Date().toISOString();
 
         // 1. Дублируем в локальную память для расчётов дней
-        localStorage.setItem(this.PREMIUM_KEY, 'true');
-        localStorage.setItem(this.PREMIUM_PURCHASE_DATE_KEY, dateStr);
+        //    (StorageService.set дополнительно пишет нативный бэкап, чтобы флаг
+        //    пережил очистку кэша и был восстановлен restoreAll() при старте)
+        this.storage.set(this.PREMIUM_KEY, 'true');
+        this.storage.set(this.PREMIUM_PURCHASE_DATE_KEY, dateStr);
 
         // 2. 🔒 НАСТОЯЩАЯ ЗАЩИТА: Намертво шифруем флаг покупки в скрытой памяти телефона
         await SecureStoragePlugin.set({ key: this.PREMIUM_KEY, value: 'true' });
@@ -130,17 +154,31 @@ export class Premium {
   }
 
   /**
-   * Check if user has premium access
+   * Check if user has premium access.
+   * Единый источник правды — in-memory флаг (обновляется через applyPremiumState),
+   * с фолбэком на localStorage на случай внешних записей (savePurchaseStatus и т.п.).
    */
   isPremium(): boolean {
-    return localStorage.getItem(this.PREMIUM_KEY) === 'true';
+    return this.currentPremium || localStorage.getItem(this.PREMIUM_KEY) === 'true';
   }
 
   private isPremiumLegacy(): boolean {
     return localStorage.getItem(this.PREMIUM_KEY) === 'true';
   }
 
+  /**
+   * Единственная точка изменения премиум-статуса:
+   *  - обновляет in-memory флаг (единый источник правды),
+   *  - синхронизирует localStorage + нативный бэкап (переживает очистку кэша),
+   *  - пушит статус в реактивный поток для UI.
+   */
   private applyPremiumState(status: boolean) {
+    this.currentPremium = status;
+    if (status) {
+      this.storage.set(this.PREMIUM_KEY, 'true');
+    } else {
+      this.storage.remove(this.PREMIUM_KEY);
+    }
     this.premiumStatusSource.next(status);
   }
 
@@ -148,19 +186,18 @@ export class Premium {
    * Activate premium access (simulate purchase)
    */
   activatePremium(): void {
-    localStorage.setItem(this.PREMIUM_KEY, 'true');
-    localStorage.setItem(this.PREMIUM_PURCHASE_DATE_KEY, new Date().toISOString());
+    const dateStr = new Date().toISOString();
+    this.storage.set(this.PREMIUM_PURCHASE_DATE_KEY, dateStr);
     // Premium users have unlimited questions — no need to set a fixed count
-    this.premiumStatusSource.next(true);
+    this.applyPremiumState(true);
   }
 
   /**
    * Deactivate premium access (for testing or refund scenarios)
    */
   deactivatePremium(): void {
-    localStorage.removeItem(this.PREMIUM_KEY);
-    localStorage.removeItem(this.PREMIUM_PURCHASE_DATE_KEY);
-    this.premiumStatusSource.next(false);
+    this.storage.remove(this.PREMIUM_PURCHASE_DATE_KEY);
+    this.applyPremiumState(false);
   }
 
   /**

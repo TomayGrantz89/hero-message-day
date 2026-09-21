@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">cardnew</string>
-    <string name="title_activity_main">cardnew</string>
+    <string name="app_name">Послание дня</string>
+    <string name="title_activity_main">Послание дня</string>
     <string name="package_name">com.goldenhare.cardofdayapp</string>
     <string name="custom_url_scheme">com.goldenhare.cardofdayapp</string>
     <string name="CONSOLE_APPLICATION_ID">2063735659</string>

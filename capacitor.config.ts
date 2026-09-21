@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.goldenhare.cardofdayapp',
-  appName: 'cardnew',
+  appName: 'Послание дня',
   webDir: 'dist/cardnew/browser',
   // android: {
   //   "adjustMarginsForEdgeToEdge": "auto"

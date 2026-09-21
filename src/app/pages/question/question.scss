@@ -80,7 +80,9 @@
     right: 0;
     object-fit: contain;
     object-position: right bottom;
-    transform: translateX(25%);
+    /* Смещаем изображение оракула на 10px вниз, чтобы плашка с ответом
+       не перекрывала голову персонажа */
+    transform: translate(25%, 10px);
     pointer-events: auto;
   }
 

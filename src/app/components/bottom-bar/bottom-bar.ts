@@ -112,7 +112,7 @@ export class BottomBarComponent implements OnInit, OnDestroy {
   }
 
   async purchasePremium(): Promise<void> {
-    // Открывает окно оплаты VK Pay
+    // Открывает шторку оплаты VK Payments (VKWebAppShowOrderBox)
     const success = await this.premium.buyFullVersion();
 
     if (success) {

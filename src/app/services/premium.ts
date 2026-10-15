@@ -36,27 +36,21 @@ export class Premium {
 
   /**
    * Проверка статуса покупки при старте.
-   * Порядок:
-   *  1. localStorage (мгновенно) — состояние, сохранённое ранее;
-   *  2. облачное зеркало VK Storage (восстанавливается в restoreAll());
-   *  3. авторитетная проверка истории заказов VK (VKWebAppGetOrders).
+   * Локальное состояние (localStorage) уже восстановлено из облачного
+   * хранилища VK в restoreAll() (APP_INITIALIZER), поэтому авторитетная
+   * проверка заказов здесь не выполняется — она запрашивает токен
+   * пользователя и не должна показывать диалог при каждом запуске.
    */
   async checkPurchasesOnStart(): Promise<void> {
-    try {
-      const orders = await this.vk.getOrders();
-      if (orders.some((o) => o.item === this.PREMIUM_PRODUCT_ID)) {
-        this.applyPremiumState(true);
-        return;
-      }
-    } catch (e) {
-      console.warn('[Premium] Проверка заказов VK не удалась:', e);
-    }
-    // Фолбэк — локальное состояние
     this.applyPremiumState(this.isPremiumLegacy());
   }
 
   /**
    * Ручное восстановление покупки (кнопка в магазине).
+   * Порядок:
+   *  1. локальный флаг (включая данные, восстановленные из VK Storage);
+   *  2. авторитетная проверка истории заказов VK (orders.get);
+   *  3. прямая проверка облачного хранилища VK.
    */
   async restorePurchases(): Promise<boolean> {
     // 1. Локальный флаг
@@ -65,7 +59,7 @@ export class Premium {
       return true;
     }
 
-    // 2. Авторитетная проверка истории заказов VK
+    // 2. Авторитетная проверка истории заказов VK (orders.get)
     try {
       const orders = await this.vk.getOrders();
       if (orders.some((o) => o.item === this.PREMIUM_PRODUCT_ID)) {
@@ -73,23 +67,35 @@ export class Premium {
         return true;
       }
     } catch (e) {
-      console.warn('[Premium] Ошибка VKWebAppGetOrders:', e);
+      console.warn('[Premium] Ошибка orders.get:', e);
+    }
+
+    // 3. Прямая проверка облачного хранилища VK
+    try {
+      const cloud = await this.vk.storageGet(['cg_cardGamePremiumStatus']);
+      if (cloud['cg_cardGamePremiumStatus'] === 'true') {
+        this.applyPremiumState(true);
+        return true;
+      }
+    } catch (e) {
+      console.warn('[Premium] Ошибка проверки VK Storage:', e);
     }
 
     return false;
   }
 
   /**
-   * Покупка полной версии через VK Payments.
+   * Покупка полной версии через VK Payments (VKWebAppShowOrderBox).
    */
   async buyFullVersion(): Promise<boolean> {
-    const success = await this.vk.showOrderBox(this.PREMIUM_PRODUCT_ID);
+    const result = await this.vk.showOrderBox(this.PREMIUM_PRODUCT_ID);
 
-    if (!success) {
-      console.log('Покупка отменена или завершилась ошибкой');
+    if (!result.success) {
+      console.log('Покупка отменена или завершилась ошибкой:', result.status);
       return false;
     }
 
+    console.log('[Premium] Покупка успешна, order_id:', result.orderId);
     const dateStr = new Date().toISOString();
     // Локально для расчётов дней и мгновенной разблокировки
     this.storage.set(this.PREMIUM_KEY, 'true');

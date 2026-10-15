@@ -29,7 +29,6 @@ repositories {
     flatDir{
         dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
     }
-    maven {  url = uri("https://artifactory-external.vkpartner.ru/artifactory/maven-rustore-exposed/") }
 }
 
 dependencies {
@@ -42,9 +41,6 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation project(':capacitor-cordova-android-plugins')
-
-    implementation(platform("ru.rustore.sdk:bom:2026.08.01"))
-    implementation("ru.rustore.sdk:pay")
 }
 
 apply from: 'capacitor.build.gradle'

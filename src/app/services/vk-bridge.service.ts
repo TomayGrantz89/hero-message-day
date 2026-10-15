@@ -19,6 +19,13 @@ export interface VKOrder {
   date: number;
 }
 
+/** Результат показа шторки оплаты VK Payments (VKWebAppShowOrderBox). */
+export interface VKOrderBoxResult {
+  success: boolean;
+  status?: 'success' | 'cancel' | 'fail';
+  orderId?: string;
+}
+
 /**
  * Единая точка интеграции с платформой VK Mini Apps.
  *
@@ -29,7 +36,7 @@ export interface VKOrder {
  *    CSS-классы `vk-light` / `vk-dark` на <body>;
  *  - данные пользователя (VKWebAppGetUserInfo);
  *  - облачное хранилище VK (VKWebAppStorage*) — фоновое зеркалирование;
- *  - платежи VK Pay (VKWebAppShowOrderBox / VKWebAppGetOrders).
+ *  - платежи VK Payments (VKWebAppShowOrderBox / orders.get через VK API).
  *
  * Все методы безопасны вне VK (обычный браузер): они тихо возвращают
  * значения по умолчанию, не бросая исключений.
@@ -173,42 +180,96 @@ export class VkBridgeService {
   }
 
   // ============================================================
-  // VK Payments (VK Pay / VK Donut)
+  // VK Payments (шторка оплаты VKWebAppShowOrderBox)
   // ============================================================
 
   /**
-   * Показать окно покупки товара через VK Pay.
-   * @param productId ID товара, настроенный в кабинете разработчика VK
-   * @returns true — покупка успешно совершена; false — отменена/ошибка
+   * Показать шторку оплаты товара через VK Payments (официальная
+   * библиотека VK Bridge, метод VKWebAppShowOrderBox).
+   *
+   * Ответ VK: { status: 'success' | 'cancel' | 'fail', order_id: string }.
+   *
+   * @param productId ID товара (item), настроенный в кабинете разработчика VK
+   * @returns результат показа шторки: success + order_id при успехе
    */
-  async showOrderBox(productId: string): Promise<boolean> {
+  async showOrderBox(productId: string): Promise<VKOrderBoxResult> {
     if (!this._isVK) {
       console.warn('[VK] showOrderBox доступен только внутри VK');
-      return false;
+      return { success: false, status: 'fail' };
     }
     try {
       const res = await bridge.send('VKWebAppShowOrderBox', {
         type: 'item',
         item: productId,
       });
-      return !!(res as any).success;
+      const data = res as any;
+      const status: 'success' | 'cancel' | 'fail' = data.status;
+      return {
+        success: status === 'success',
+        status,
+        orderId: data.order_id,
+      };
     } catch (e) {
       console.warn('[VK] VKWebAppShowOrderBox failed:', e);
-      return false;
+      return { success: false, status: 'fail' };
     }
   }
 
   /**
-   * Получить историю покупок пользователя для восстановления доступа.
+   * Авторитетная проверка истории заказов пользователя через VK API
+   * (orders.get). Метода VKWebAppGetOrders в VK Bridge не существует,
+   * поэтому используем VKWebAppCallAPIMethod + orders.get.
+   *
+   * Требует токен пользователя (VKWebAppGetAuthToken). Best-effort:
+   * при любой ошибке возвращает пустой массив.
    */
   async getOrders(): Promise<VKOrder[]> {
     if (!this._isVK) return [];
     try {
-      const res = await bridge.send('VKWebAppGetOrders' as any);
-      return (res as any).items || [];
+      const launchParams = await this.getLaunchParams();
+      const appId = launchParams?.vk_app_id;
+      if (!appId) return [];
+
+      const tokenRes = await bridge.send('VKWebAppGetAuthToken', {
+        app_id: appId,
+        scope: '',
+      });
+      const accessToken = (tokenRes as any).access_token;
+      if (!accessToken) return [];
+
+      const res = await bridge.send('VKWebAppCallAPIMethod', {
+        method: 'orders.get',
+        params: {
+          access_token: accessToken,
+          v: '5.199',
+          count: 100,
+        },
+      });
+      const items = (res as any)?.response?.items || [];
+      return items.map((o: any) => ({
+        transaction_id: String(o.id ?? ''),
+        item: o.item ?? '',
+        amount: String(o.amount ?? ''),
+        date: Number(o.date ?? 0),
+      }));
     } catch (e) {
-      console.warn('[VK] VKWebAppGetOrders failed:', e);
+      console.warn('[VK] orders.get failed:', e);
       return [];
+    }
+  }
+
+  /**
+   * Параметры запуска мини-приложения (VKWebAppGetLaunchParams).
+   * Нужны для получения vk_app_id при запросе токена.
+   */
+  async getLaunchParams(): Promise<{ vk_app_id?: number; vk_user_id?: number } | null> {
+    if (!this._isVK) return null;
+    try {
+      const res = await bridge.send('VKWebAppGetLaunchParams');
+      return res as any;
+    } catch (e) {
+      console.warn('[VK] VKWebAppGetLaunchParams failed:', e);
+      return null;
     }
   }
 

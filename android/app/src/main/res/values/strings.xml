@@ -4,6 +4,4 @@
     <string name="title_activity_main">Послание дня</string>
     <string name="package_name">com.goldenhare.cardofdayapp</string>
     <string name="custom_url_scheme">com.goldenhare.cardofdayapp</string>
-    <string name="CONSOLE_APPLICATION_ID">2063735659</string>
-    <string name="APP_SCHEME">com.goldenhare.cardofdayapp.rustore.scheme</string>
 </resources>

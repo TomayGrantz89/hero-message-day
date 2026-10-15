@@ -1,69 +1,108 @@
+/* ============================================
+   Страница приветствия — VK Mini App
+   Полноэкранная центрированная колонка,
+   цвета из CSS-переменных темы VK.
+   ============================================ */
+
 .welcome-container {
-  min-height: 100vh;
-  background: transparent;
-  color: #333;
-  padding: 20px;
-  padding-top: calc(env(safe-area-inset-top, 0px) + 44px + 20px);
-  padding-bottom: 20px;
+  min-height: 100dvh;
+  width: 100%;
+  padding: calc(env(safe-area-inset-top, 0px) + 28px) 20px
+    calc(env(safe-area-inset-bottom, 0px) + 28px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   box-sizing: border-box;
-  position: relative;
+  text-align: center;
 }
 
 /* ============================================
-   Title
+   Бренд: логотип и студия
+   ============================================ */
+.welcome-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.welcome-logo {
+  width: 148px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 18px rgba(20, 30, 60, 0.28));
+}
+
+.welcome-studio {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: var(--vk-accent);
+}
+
+/* ============================================
+   Заголовок
    ============================================ */
 .welcome-title {
-  font-size: 2rem;
+  font-family: var(--font-display);
+  font-size: 1.9rem;
   font-weight: 700;
-  color: #0a1e3d;
-  text-align: center;
+  color: var(--vk-text-primary);
+  margin: 0 0 6px;
+  letter-spacing: 0.4px;
+}
+
+.welcome-subtitle {
+  font-size: 1.02rem;
+  font-weight: 400;
+  color: var(--vk-text-secondary);
   margin: 0 0 20px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.2px;
 }
 
 /* ============================================
-   Disclaimer card
+   Дисклеймер
    ============================================ */
 .disclaimer-card {
   width: 100%;
-  max-width: 600px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  max-width: 420px;
+  background: var(--vk-surface);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-radius: 16px;
-  padding: 20px 24px;
+  padding: 18px 22px;
   margin-bottom: 20px;
   box-sizing: border-box;
-  box-shadow: 0 2px 12px rgba(188, 215, 248, 0.2);
+  box-shadow: 0 2px 12px rgba(90, 105, 140, 0.12);
 }
 
 .disclaimer-text {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 400;
-  color: #3a3a4a;
-  line-height: 1.6;
+  color: var(--vk-text-secondary);
+  line-height: 1.55;
   letter-spacing: 0.2px;
   margin: 0;
   text-align: center;
 }
 
 /* ============================================
-   Checkbox row
+   Чекбокс соглашения
    ============================================ */
 .checkbox-row {
   display: flex;
   align-items: flex-start;
   gap: 12px;
   width: 100%;
-  max-width: 600px;
+  max-width: 420px;
   margin-bottom: 24px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
+  text-align: left;
 }
 
 .checkbox-custom {
@@ -88,39 +127,35 @@
   justify-content: center;
   width: 22px;
   height: 22px;
-  border: 2px solid #c8c8cc;
+  border: 2px solid var(--vk-text-tertiary);
   border-radius: 6px;
-  background: #fff;
+  background: var(--vk-surface-solid);
   transition: all 0.2s ease;
   box-sizing: border-box;
 }
 
 .checkbox-visual.checkbox-checked {
-  background: #007AFF;
-  border-color: #007AFF;
+  background: var(--vk-accent);
+  border-color: var(--vk-accent);
 }
 
 .checkmark {
   width: 14px;
   height: 14px;
-  color: #fff;
+  color: #ffffff;
 }
 
 .checkbox-label {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 400;
-  color: #3a3a4a;
+  color: var(--vk-text-secondary);
   line-height: 1.5;
   letter-spacing: 0.1px;
   flex: 1;
 }
 
-/* ============================================
-   Terms link inside checkbox label
-   ============================================ */
-
 .terms-link {
-  color: #007AFF;
+  color: var(--vk-accent);
   text-decoration: underline;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -136,16 +171,16 @@
 }
 
 /* ============================================
-   Enter button
+   Кнопка входа
    ============================================ */
 .enter-button {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 600px;
+  max-width: 420px;
   padding: 16px 24px;
-  background: #007AFF;
+  background: var(--vk-accent);
   border: none;
   border-radius: 14px;
   font-size: 1.05rem;
@@ -156,157 +191,57 @@
   transition: all 0.2s ease;
   -webkit-tap-highlight-color: transparent;
   box-sizing: border-box;
+  box-shadow: 0 6px 18px rgba(45, 129, 224, 0.35);
 
   &:active:not(:disabled) {
-    transform: scale(0.96);
-    opacity: 0.85;
+    transform: scale(0.97);
+    opacity: 0.9;
   }
 
   &:disabled {
-    background: rgba(0, 122, 255, 0.4);
+    background: var(--vk-accent);
+    opacity: 0.4;
     cursor: not-allowed;
     box-shadow: none;
   }
 }
 
 /* ============================================
-   Responsive
+   Адаптив под небольшие экраны
    ============================================ */
-@media (max-width: 768px) {
+@media (max-height: 640px) {
   .welcome-container {
-    padding: 15px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 40px + 20px);
-    padding-bottom: 15px;
+    justify-content: flex-start;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 18px);
   }
 
-  .welcome-title {
-    font-size: 1.8rem;
-    margin-bottom: 16px;
+  .welcome-logo {
+    width: 108px;
   }
 
-  .disclaimer-card {
-    padding: 16px 20px;
-    margin-bottom: 16px;
-  }
-
-  .disclaimer-text {
-    font-size: 0.95rem;
-  }
-
-  .checkbox-label {
-    font-size: 0.82rem;
-  }
-
-  .enter-button {
-    padding: 14px 20px;
-    font-size: 0.95rem;
-    border-radius: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .welcome-container {
-    padding: 10px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 36px + 20px);
-    padding-bottom: 10px;
+  .welcome-brand {
+    margin-bottom: 14px;
   }
 
   .welcome-title {
     font-size: 1.6rem;
-    margin-bottom: 14px;
   }
 
   .disclaimer-card {
-    padding: 14px 16px;
-    border-radius: 14px;
+    padding: 14px 18px;
     margin-bottom: 14px;
   }
 
   .disclaimer-text {
-    font-size: 0.9rem;
-  }
-
-  .checkbox-row {
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-
-  .checkbox-custom {
-    width: 20px;
-    height: 20px;
-  }
-
-  .checkbox-visual {
-    width: 20px;
-    height: 20px;
-  }
-
-  .checkmark {
-    width: 12px;
-    height: 12px;
-  }
-
-  .checkbox-label {
-    font-size: 0.78rem;
-  }
-
-  .enter-button {
-    padding: 12px 16px;
     font-size: 0.88rem;
-    border-radius: 10px;
-  }
-}
-
-@media (max-width: 360px) {
-  .welcome-container {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 36px + 20px);
-  }
-
-  .welcome-title {
-    font-size: 1.4rem;
-  }
-
-  .disclaimer-text {
-    font-size: 0.85rem;
-  }
-
-  .checkbox-label {
-    font-size: 0.74rem;
-  }
-}
-
-/* Landscape orientation on mobile */
-@media (max-height: 600px) and (orientation: landscape) {
-  .welcome-container {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 36px + 20px);
-    padding-bottom: 10px;
-    justify-content: flex-start;
-  }
-
-  .welcome-title {
-    font-size: 1.4rem;
-    margin-bottom: 10px;
-  }
-
-  .disclaimer-card {
-    padding: 10px 14px;
-    margin-bottom: 10px;
-  }
-
-  .disclaimer-text {
-    font-size: 0.82rem;
   }
 
   .checkbox-row {
-    margin-bottom: 14px;
-  }
-
-  .checkbox-label {
-    font-size: 0.74rem;
+    margin-bottom: 16px;
   }
 
   .enter-button {
-    padding: 10px 14px;
-    font-size: 0.82rem;
+    padding: 14px 20px;
+    font-size: 0.98rem;
   }
 }

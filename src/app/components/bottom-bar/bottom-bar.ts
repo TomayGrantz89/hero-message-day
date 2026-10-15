@@ -27,29 +27,37 @@ export class BottomBarComponent implements OnInit, OnDestroy {
   isPremium = false;
 
   private routerSubscription: Subscription | null = null;
+  private premiumSubscription: Subscription | null = null;
 
   constructor(
     private router: Router,
     private premium: Premium,
     private attempt: Attempt
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.isPremium = this.premium.isPremium();
     this.initNavItems();
     this.updateActiveRoute(this.router.url);
 
-    // Subscribe to route changes to update active state
     this.routerSubscription = this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+      .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.updateActiveRoute(event.urlAfterRedirects);
       });
+
+    // Реактивное обновление статуса премиума (покупка в любом месте)
+    this.premiumSubscription = this.premium.premiumStatus$.subscribe((status) => {
+      this.isPremium = status;
+    });
   }
 
   ngOnDestroy(): void {
     if (this.routerSubscription) {
       this.routerSubscription.unsubscribe();
+    }
+    if (this.premiumSubscription) {
+      this.premiumSubscription.unsubscribe();
     }
   }
 
@@ -83,7 +91,7 @@ export class BottomBarComponent implements OnInit, OnDestroy {
   }
 
   private updateActiveRoute(url: string): void {
-    this.navItems.forEach(item => {
+    this.navItems.forEach((item) => {
       item.isActive = url.startsWith(item.link);
     });
   }
@@ -103,31 +111,31 @@ export class BottomBarComponent implements OnInit, OnDestroy {
     this.showPremiumModal = false;
   }
 
-  // purchasePremium(): void {
-  //   this.premium.activatePremium();
-  //   this.isPremium = true;
-  //   // Grant premium benefits
-  //   this.attempt.refreshPredictionAttempts();
-  //   this.attempt.refreshQuestionAttempts();
-  //   this.closePremiumModal();
-  // }
-
   async purchasePremium(): Promise<void> {
-    // Вызываем реальную шторку оплаты RuStore и ждем ответа (await)
+    // Открывает окно оплаты VK Pay
     const success = await this.premium.buyFullVersion();
 
     if (success) {
       this.isPremium = true;
-
-      // Ваши готовые бонусы
       this.attempt.refreshPredictionAttempts();
       this.attempt.refreshQuestionAttempts();
       this.closePremiumModal();
-
       alert('Спасибо за покупку! Полная коллекция карт разблокирована.');
     } else {
       alert('Оплата не удалась или была отменена.');
     }
   }
 
+  async restorePurchase(): Promise<void> {
+    const restored = await this.premium.restorePurchases();
+    if (restored) {
+      this.isPremium = true;
+      this.attempt.refreshPredictionAttempts();
+      this.attempt.refreshQuestionAttempts();
+      this.closePremiumModal();
+      alert('Покупка восстановлена. Полная коллекция карт снова доступна.');
+    } else {
+      alert('Покупка не найдена. Если вы оплачивали премиум, попробуйте позже.');
+    }
+  }
 }

@@ -1,15 +1,38 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="utf-8">
   <title>Послание дня</title>
   <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#EDF2FA">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="HandheldFriendly" content="true">
+  <meta name="MobileOptimized" content="width">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <!-- <style>
-    body {padding-top: 38px !important;}
-    .top-bar {margin-top: 38px;} -->
-  <!-- </style> -->
+  <!--
+    Адаптация под VK Mini Apps:
+    - запрет жестов браузера (pull-to-refresh, навигации) внутри VK webview;
+    - отключение выделения текста на игровых элементах;
+    - отсутствие скролл-бара и «липкого» скролла за пределами контента.
+  -->
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      overscroll-behavior: none;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+  </style>
 </head>
 <body>
   <app-root></app-root>

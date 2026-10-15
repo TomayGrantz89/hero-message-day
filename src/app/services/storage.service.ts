@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Preferences } from '@capacitor/preferences';
-import { Capacitor } from '@capacitor/core';
+import { VkBridgeService } from './vk-bridge.service';
 
 /**
- * Гибридное хранилище.
+ * Хранилище VK Mini App.
  *
- * Проблема: данные в `localStorage` WebView сбрасываются при очистке кэша приложения.
- * Решение: дублируем важные данные в нативное хранилище `@capacitor/preferences`
- * (SharedPreferences), которое переживает очистку кэша. При старте приложения
- * восстанавливаем данные из нативного хранилища обратно в `localStorage`.
+ * Синхронный слой поверх `localStorage` (весь существующий код работает
+ * с ним без изменений) + фоновое зеркалирование важных ключей в облачное
+ * хранилище VK (`VKWebAppStorageSet`), которое:
+ *  - переживает очистку кэша webview;
+ *  - привязано к пользователю VK и доступно с любого устройства.
  *
- * Существующий синхронный код продолжает работать с `localStorage`, а нативный
- * бэкап гарантирует сохранность при очистке кэша.
+ * При старте `restoreAll()` восстанавливает недостающие локальные ключи
+ * из облака VK.
  */
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
-  /** Ключи, которые нужно бэкапить в нативное хранилище. */
-  private readonly BACKUP_KEYS = [
+  /** Ключи, которые дублируются в облачное хранилище VK. */
+  private readonly MIRROR_KEYS = [
     'cardGameCollection',
     'cardGameAttempts',
     'cardGameLastReset',
@@ -31,14 +31,22 @@ export class StorageService {
     'cardGamePremiumPurchaseDate',
   ];
 
-  private readonly PREFIX = 'backup_';
+  /** Префикс ключей в облачном хранилище VK. */
+  private readonly VK_PREFIX = 'cg_';
+
+  private restoreStarted = false;
+
+  constructor(private vk: VkBridgeService) {}
 
   /**
-   * Записывает значение в localStorage и дублирует его в нативное хранилище.
+   * Записывает значение в localStorage и зеркалирует в VK Storage.
    */
   set(key: string, value: string): void {
     localStorage.setItem(key, value);
-    this.backup(key, value);
+    if (this.MIRROR_KEYS.includes(key)) {
+      // Огнезабываемо: ошибка облака не должна ломать основную запись
+      this.vk.storageSet(this.VK_PREFIX + key, value).catch(() => undefined);
+    }
   }
 
   /**
@@ -49,72 +57,58 @@ export class StorageService {
   }
 
   /**
-   * Удаляет значение из localStorage и нативного хранилища.
+   * Удаляет значение из localStorage; в VK Storage пишется пустая строка
+   * (API не поддерживает удаление отдельных ключей).
    */
   remove(key: string): void {
     localStorage.removeItem(key);
-    this.removeBackup(key);
-  }
-
-  /**
-   * Дублирует текущее значение localStorage в нативное хранилище.
-   */
-  backup(key: string, value?: string): void {
-    if (!this.BACKUP_KEYS.includes(key)) {
-      return;
+    if (this.MIRROR_KEYS.includes(key)) {
+      this.vk.storageSet(this.VK_PREFIX + key, '').catch(() => undefined);
     }
-    const val = value !== undefined ? value : localStorage.getItem(key);
-    if (val === null) {
-      return;
-    }
-    Preferences.set({ key: this.PREFIX + key, value: val }).catch(() => {
-      // Не критично — бэкап не удался, localStorage всё ещё работает
-    });
   }
 
   /**
-   * Удаляет бэкап из нативного хранилища.
-   */
-  private removeBackup(key: string): void {
-    Preferences.remove({ key: this.PREFIX + key }).catch(() => {
-      // ignore
-    });
-  }
-
-  /**
-   * Сохраняет статус покупки (премиум) в localStorage и нативное хранилище.
-   * Используется billing-сервисом.
+   * Сохраняет статус покупки (премиум) в localStorage и VK Storage.
    */
   savePurchaseStatus(status: boolean): void {
     this.set('cardGamePremiumStatus', status ? 'true' : 'false');
   }
 
   /**
-   * Восстанавливает данные из нативного хранилища в localStorage.
-   * Вызывается при старте приложения. Если в localStorage данных нет
-   * (например, после очистки кэша), а в нативном хранилище есть — восстанавливаем.
+   * Восстанавливает недостающие локальные данные из облака VK.
+   * Вызывается один раз при старте приложения (APP_INITIALIZER).
    */
   async restoreAll(): Promise<void> {
-    if (!Capacitor.isNativePlatform()) {
+    if (this.restoreStarted || !this.vk.isVK) {
       return;
     }
+    this.restoreStarted = true;
 
-    for (const key of this.BACKUP_KEYS) {
-      try {
-        const current = localStorage.getItem(key);
-        if (current !== null) {
-          // В localStorage уже есть данные — обновляем бэкап на всякий случай
-          this.backup(key, current);
-          continue;
-        }
+    try {
+      const cloudKeys = await this.vk.storageGetKeys(1000, 0);
+      const missingLocal = cloudKeys
+        .filter((k) => k.startsWith(this.VK_PREFIX))
+        .map((k) => k.slice(this.VK_PREFIX.length))
+        .filter(
+          (k) => this.MIRROR_KEYS.includes(k) && localStorage.getItem(k) === null
+        );
 
-        const { value } = await Preferences.get({ key: this.PREFIX + key });
-        if (value !== null && value !== undefined) {
-          localStorage.setItem(key, value);
-        }
-      } catch (e) {
-        // ignore
+      if (missingLocal.length === 0) {
+        return;
       }
+
+      const values = await this.vk.storageGet(
+        missingLocal.map((k) => this.VK_PREFIX + k)
+      );
+
+      for (const key of missingLocal) {
+        const raw = values[this.VK_PREFIX + key];
+        if (raw) {
+          localStorage.setItem(key, raw);
+        }
+      }
+    } catch (e) {
+      console.warn('[Storage] Восстановление из VK Storage не удалось:', e);
     }
   }
 }

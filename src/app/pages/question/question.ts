@@ -49,8 +49,6 @@ export class Question implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isPremium = this.premium.isPremium();
-    console.log('[DBG-Q] ngOnInit: isPremium(UI)=', this.isPremium,
-      '| premium.isPremium() (localStorage)=', this.premium.isPremium());
 
     // Load persisted last answer (kept visible when attempts run out)
     this.lastAnswer = localStorage.getItem(this.LAST_ANSWER_KEY) || '';
@@ -62,8 +60,6 @@ export class Question implements OnInit, OnDestroy {
     // Reactively update when premium is purchased from another component (e.g., bottom-bar shop)
     this.premiumSubscription = this.premium.premiumStatus$.subscribe(isPremium => {
       this.isPremium = isPremium;
-      console.log('[DBG-Q] premiumStatus$ emitted:', isPremium,
-        '| premium.isPremium() (localStorage)=', this.premium.isPremium());
       if (isPremium) {
         // Grant full question attempts for premium user
         this.attempt.refreshQuestionAttempts();
@@ -94,10 +90,6 @@ export class Question implements OnInit, OnDestroy {
     const remainingAttempts = this.attempt.getRemainingQuestionAttempts();
     this.remainingQuestions = remainingAttempts;
     this.hasAttempt = this.remainingQuestions > 0;
-    console.log('[DBG-Q] updateRemainingQuestions: premium.isPremium()=', this.premium.isPremium(),
-      '| remainingAttempts=', remainingAttempts,
-      '| remainingQuestions=', this.remainingQuestions,
-      '| hasAttempt=', this.hasAttempt);
 
     // When attempts refresh (new day / premium), clear the persisted last answer
     if (this.hasAttempt && this.lastAnswer) {
@@ -134,10 +126,6 @@ export class Question implements OnInit, OnDestroy {
   }
 
   askQuestion(): void {
-    console.log('[DBG-Q] askQuestion CLICK: hasAttempt=', this.hasAttempt,
-      '| remainingQuestions=', this.remainingQuestions,
-      '| isPremium(UI)=', this.isPremium,
-      '| premium.isPremium() (localStorage)=', this.premium.isPremium());
     if (!this.hasAttempt) {
       alert('У вас не осталось вопросов на сегодня. Вернитесь завтра!');
       return;
@@ -145,7 +133,6 @@ export class Question implements OnInit, OnDestroy {
 
     // Используем попытку для вопросов
     const success = this.attempt.useQuestionAttempt();
-    console.log('[DBG-Q] askQuestion: useQuestionAttempt success=', success);
     if (!success) {
       alert('Не удалось использовать попытку. Попробуйте позже.');
       return;

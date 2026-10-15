@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build && npx cap sync",
+    "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -17,12 +17,7 @@
     "@angular/forms": "^21.2.0",
     "@angular/platform-browser": "^21.2.0",
     "@angular/router": "^21.2.0",
-    "@capacitor/android": "^8.4.1",
-    "@capacitor/cli": "^8.4.1",
-    "@capacitor/core": "^8.4.1",
-    "@capacitor/preferences": "^8.0.1",
-    "@capacitor/screen-orientation": "^8.0.1",
-    "capacitor-secure-storage-plugin": "^0.13.0",
+    "@vkontakte/vk-bridge": "^3.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -30,7 +25,6 @@
     "@angular/build": "^21.2.7",
     "@angular/cli": "^21.2.7",
     "@angular/compiler-cli": "^21.2.0",
-    "@capacitor/assets": "^3.0.5",
     "jsdom": "^28.0.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.2",

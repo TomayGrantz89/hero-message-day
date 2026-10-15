@@ -1,50 +1,21 @@
+/* ============================================
+   Страница «Послание дня» (карта) — VK Mini App
+   Карта вписывается в вьюпорт VK между верхней
+   кромкой и нижней навигацией (58px + safe-area).
+   ============================================ */
+
 .prediction-container {
-  min-height: 100vh;
-  /* background inherited from global body */
-  color: #333;
-  background: transparent;
-  padding: 20px;
-  padding-top: calc(env(safe-area-inset-top, 0px) + 60px);
-  padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 20px);
+  min-height: 100%;
+  width: 100%;
+  padding: calc(env(safe-area-inset-top, 0px) + 14px) 16px
+    calc(58px + env(safe-area-inset-bottom, 0px) + 18px);
   display: flex;
   flex-direction: column;
   position: relative;
-}
+  box-sizing: border-box;
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  padding: 16px 20px;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 15px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-
-  h1 {
-    font-size: 2.5rem;
-    color: #0a1e3d;
-    margin: 0;
-    text-align: center;
-  }
-
-
-  .ad-button {
-    background: #0D0528;
-    color: #EDECF9;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-
-    &:hover {
-      transform: translateY(-3px);
-      // box-shadow: 0 5px 15px rgba(13, 5, 40, 0.4);
-    }
-  }
+  /* Фон слоя предсказания на лицевой стороне карты */
+  --prediction-bg: #23263a;
 }
 
 .main {
@@ -52,40 +23,101 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
   justify-content: flex-start;
-  // padding-top: 8px;
-  min-height: calc(100vh - 160px);
+  text-align: center;
+  min-height: 0;
+}
 
-  h1 {
-    font-size: 2.8rem;
-    margin-bottom: 10px;
-    color: #0a1e3d;
-    text-shadow: none;
+/* ============================================
+   Единая зона действий: баннер-инструкция / таймер.
+   Фиксированная высота, чтобы не было скачков макета.
+   ============================================ */
+.action-area {
+  width: 100%;
+  max-width: 320px;
+  min-height: 64px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  .instruction-banner {
+    width: 100%;
+    background: var(--vk-surface);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 14px;
+    padding: 8px 24px;
+    text-align: center;
+    box-sizing: border-box;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(90, 105, 140, 0.12);
+
+    .instruction-text {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--vk-text-secondary);
+      line-height: 1.5;
+      letter-spacing: 0.2px;
+    }
   }
 
-  .subtitle {
-    font-size: 1.3rem;
-    color: #444;
-    margin-bottom: 20px;
+  .timer-block {
+    width: 100%;
+    min-height: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--vk-surface);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 14px;
+    padding: 8px 32px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 10px rgba(90, 105, 140, 0.12);
+
+    .timer-label {
+      font-size: 0.85rem;
+      color: var(--vk-text-tertiary);
+      margin-bottom: 2px;
+    }
+
+    .timer-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--vk-accent);
+      letter-spacing: 1px;
+      font-variant-numeric: tabular-nums;
+    }
   }
 }
 
+/* ============================================
+   Карта
+   Размер: портрет 2:3, до 300px ширины,
+   ограничение по высоте вьюпорта VK.
+   ============================================ */
 .card-wrapper {
-  width: calc(60vh * 2 / 3);
-  height: 60vh;
-  max-width: 90vw;
+  width: min(300px, 62vw, calc((100dvh - 210px) * 2 / 3));
+  min-width: 176px;
+  aspect-ratio: 2 / 3;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  position: relative;
 
   .card {
     width: 100%;
     height: 100%;
     position: relative;
     border-radius: 20px;
-    // box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 18px 40px rgba(15, 20, 40, 0.45);
 
     .side {
       position: absolute;
@@ -103,12 +135,27 @@
       transition: opacity 0.5s ease;
     }
 
+    /* --- Рубашка (CSS-арт: мистический градиент,
+          золотая рамка и знак луны) --- */
     .back {
-      background: #1a1a1a;
-      background-image: url('/assets/back/back.png');
-      background-size: cover;
-      background-position: center;
+      background: linear-gradient(160deg, #2c2f45 0%, #1a1c2b 55%, #10121c 100%);
       z-index: 2;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: url('/assets/ui/icon-moon.svg') center / 68px 68px no-repeat;
+        opacity: 0.22;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 12px;
+        border: 1.5px solid rgba(188, 156, 85, 0.6);
+        border-radius: 14px;
+      }
 
       &.hidden {
         opacity: 0;
@@ -116,6 +163,7 @@
       }
     }
 
+    /* --- Лицевая сторона --- */
     .face {
       background: transparent;
       padding: 0;
@@ -136,29 +184,25 @@
         background-size: cover;
         background-position: center;
         border-radius: 20px 20px 0 0;
-        margin-bottom: 0;
       }
 
       .card-name-bar {
         width: 100%;
         height: 48px;
-        background: rgba(255, 255, 255, 0.94);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        background: var(--vk-surface-solid);
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 0 0 20px 20px;
 
         .card-name {
-          font-size: 1.2rem;
-          color: #3C3C43;
+          font-family: var(--font-display);
+          font-size: 1.15rem;
+          color: var(--vk-text-primary);
           text-align: center;
-          // margin: 0 0 3px 0;
         }
       }
 
-      // Image layer
       .face-image-layer {
         position: absolute;
         top: 0;
@@ -178,14 +222,18 @@
         }
       }
 
-      // Prediction layer
       .face-prediction-layer {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: var(--prediction-bg, #2A2A2E);
+        background: var(--prediction-bg);
+        background-image: linear-gradient(
+          160deg,
+          rgba(255, 255, 255, 0.05) 0%,
+          rgba(255, 255, 255, 0) 60%
+        );
         display: flex;
         align-items: center;
         justify-content: center;
@@ -205,9 +253,10 @@
         }
 
         p {
-          font-size: 1.2rem;
-          line-height: 1.6;
-          color: #EDECF9;
+          font-family: var(--font-display);
+          font-size: 1.28rem;
+          line-height: 1.55;
+          color: #edecf9;
           text-align: center;
           margin: 0;
         }
@@ -216,268 +265,40 @@
   }
 }
 
-/* Unified action area — fixed height container, no layout shift */
-.action-area {
-  margin-top: 0;
-  margin-bottom: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 320px;
-  min-height: 72px;
-  justify-content: flex-start;
-
-  /* Instruction banner — Apple-style frosted glass, same height as timer block */
-  .instruction-banner {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 14px;
-    padding: 8px 24px;
-    text-align: center;
-    box-sizing: border-box;
-    min-height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .instruction-text {
-      font-size: 1.05rem;
-      font-weight: 400;
-      color: #3a3a4a;
-      line-height: 1.5;
-      letter-spacing: 0.2px;
-    }
-  }
-
-  /* Timer block — centered content */
-  .timer-block {
-    width: 100%;
-    min-height: 56px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 14px;
-    padding: 8px 32px;
-    box-sizing: border-box;
-
-    .timer-label {
-      font-size: 0.9rem;
-      color: #666;
-      margin-bottom: 2px;
-    }
-
-    .timer-value {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: #3A4D8F;
-      letter-spacing: 1px;
-    }
-  }
-
-  .attempts-counter {
-    text-align: center;
-    font-size: 1.1rem;
-    color: #666;
-    margin-top: 12px;
-    font-weight: 400;
-
-    .attempt-count {
-      font-weight: 600;
-      color: #0a1e3d;
-    }
-  }
-}
-
-// Responsive for fixed elements
-@media (max-width: 768px) {
-  .fixed-home-link {
-    top: 10px;
-    left: 10px;
-
-    .home-icon {
-      width: 2rem;
-      height: 2rem;
-    }
-  }
-
-  .premium-btn {
-    top: 8px;
-    right: 8px;
-    padding: 6px 14px;
-
-    .premium-icon {
-      width: 14px;
-      height: 14px;
-    }
-  }
-
-  .premium-status {
-    top: 12px;
-    right: 12px;
-    font-size: 0.85rem;
-
-    .premium-star {
-      width: 14px;
-      height: 14px;
-    }
-  }
-}
-
-// Responsive
-@media (max-width: 768px) {
+/* ============================================
+   Небольшие экраны
+   ============================================ */
+@media (max-width: 380px) {
   .prediction-container {
-    padding: 15px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 55px);
-    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
-  }
-
-  .header {
-    flex-direction: column;
-    gap: 12px;
-    padding: 14px;
-    margin-bottom: 20px;
-
-    h1 {
-      font-size: 2rem;
-      width: 100%;
-      text-align: center;
-    }
-
-    .ad-button {
-      width: 100%;
-      padding: 14px 20px;
-      font-size: 1.1rem;
-    }
-  }
-
-  .main {
-    h1 {
-      font-size: 2.2rem;
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      font-size: 1.2rem;
-      margin-bottom: 16px;
-    }
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
   .card-wrapper {
-    width: calc(60vh * 2 / 3);
-    height: 60vh;
-    max-width: 90vw;
+    width: min(270px, 66vw, calc((100dvh - 200px) * 2 / 3));
 
-    .card-name {
-      font-size: 1.4rem;
-    }
+    .card .face {
+      .face-prediction-layer {
+        padding: 22px;
 
-    .face-prediction-layer p {
-      font-size: 1.2rem;
+        p {
+          font-size: 1.15rem;
+        }
+      }
+
+      .card-name {
+        font-size: 1.05rem;
+      }
     }
   }
 
   .action-area {
-    margin-top: 0;
-    margin-bottom: 30px;
     max-width: 280px;
-    min-height: 64px;
+    min-height: 60px;
 
     .instruction-banner {
-      padding: 6px 20px;
+      padding: 6px 18px;
       min-height: 52px;
-
-      .instruction-text {
-        font-size: 1rem;
-      }
-    }
-
-    .timer-block {
-      min-height: 52px;
-      padding: 6px 28px;
-
-      .timer-label {
-        font-size: 0.85rem;
-      }
-
-      .timer-value {
-        font-size: 1.2rem;
-      }
-    }
-
-    .attempts-counter {
-      font-size: 1.05rem;
-      margin-top: 10px;
-    }
-  }
-}
-
-// Small screens
-@media (max-width: 480px) {
-  .prediction-container {
-    padding: 10px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
-    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 10px);
-  }
-
-  .header {
-    padding: 12px;
-    gap: 10px;
-
-    h1 {
-      font-size: 1.8rem;
-    }
-
-    .ad-button {
-      padding: 12px 18px;
-      font-size: 1rem;
-    }
-  }
-
-  .main {
-    h1 {
-      font-size: 2rem;
-    }
-
-    .subtitle {
-      font-size: 1.1rem;
-      margin-bottom: 14px;
-    }
-  }
-
-  .card-wrapper {
-    width: calc(60vh * 2 / 3);
-    height: 60vh;
-    max-width: 90vw;
-  }
-
-  .card .side {
-    .face .card-name {
-      font-size: 1.3rem;
-    }
-
-    .face-prediction-layer {
-      padding: 20px;
-
-      p {
-        font-size: 1.1rem;
-      }
-    }
-  }
-
-  .action-area {
-    margin-top: 0;
-    margin-bottom: 3ch;
-    max-width: 260px;
-    min-height: 62px;
-
-    .instruction-banner {
-      padding: 6px 16px;
-      min-height: 50px;
 
       .instruction-text {
         font-size: 0.95rem;
@@ -485,155 +306,30 @@
     }
 
     .timer-block {
-      min-height: 50px;
+      min-height: 52px;
       padding: 6px 24px;
-
-      .timer-label {
-        font-size: 0.8rem;
-      }
-
-      .timer-value {
-        font-size: 1.15rem;
-      }
-    }
-
-    .attempts-counter {
-      font-size: 1rem;
-      margin-top: 10px;
     }
   }
 }
 
-// Very small screens
-@media (max-width: 360px) {
+/* ============================================
+   Пейзажная ориентация — компактнее
+   ============================================ */
+@media (max-height: 480px) and (orientation: landscape) {
   .prediction-container {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
-    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 10px);
-  }
-
-  .card-wrapper {
-    width: calc(60vh * 2 / 3);
-    height: 60vh;
-    max-width: 90vw;
-  }
-
-  .card .side {
-    .face .card-name {
-      font-size: 1.1rem;
-    }
-
-    .face-prediction-layer {
-      padding: 15px;
-
-      p {
-        font-size: 1rem;
-      }
-    }
-  }
-
-  .action-area {
-    min-height: 54px;
-
-    .instruction-banner {
-      padding: 4px 14px;
-      min-height: 46px;
-
-      .instruction-text {
-        font-size: 0.9rem;
-      }
-    }
-
-    .timer-block {
-      min-height: 46px;
-      padding: 4px 20px;
-
-      .timer-value {
-        font-size: 1.05rem;
-      }
-    }
-  }
-}
-
-// Landscape orientation for mobile devices
-@media (max-width: 768px) and (orientation: landscape) {
-  .prediction-container {
-    padding: 15px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 50px);
-    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 15px);
-  }
-
-  .header {
     flex-direction: row;
-    gap: 10px;
-    padding: 12px 15px;
-    margin-bottom: 15px;
-
-    h1 {
-      font-size: 1.8rem;
-      width: auto;
-    }
-
-    .ad-button {
-      width: auto;
-    }
-  }
-
-  .main {
-    .subtitle {
-      font-size: 1.1rem;
-      margin-bottom: 14px;
-    }
-  }
-
-  .card-wrapper {
-    width: calc(65vh * 2 / 3);
-    height: 65vh;
-    max-width: 50vw;
+    align-items: center;
+    gap: 20px;
   }
 
   .action-area {
-    margin-top: 0;
-    margin-bottom: 30px;
-    min-height: 72px;
-  }
-}
-
-// Landscape orientation for small screens
-@media (max-width: 480px) and (orientation: landscape) {
-  .header {
-    h1 {
-      font-size: 1.6rem;
-    }
+    max-width: 240px;
+    min-height: 0;
+    margin-bottom: 0;
   }
 
   .card-wrapper {
-    width: calc(65vh * 2 / 3);
-    height: 65vh;
-    max-width: 50vw;
-  }
-
-  .card .side {
-    .face-prediction-layer {
-      padding: 20px;
-
-      p {
-        font-size: 1.1rem;
-      }
-    }
-  }
-}
-
-// Animation for pulse hint (kept for potential future use)
-@keyframes pulse-hint {
-  0% {
-    opacity: 0.4;
-  }
-
-  50% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0.4;
+    width: min(240px, 30vh * 2 / 3, 40vw);
+    aspect-ratio: 2 / 3;
   }
 }

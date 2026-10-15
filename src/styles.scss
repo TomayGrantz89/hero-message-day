@@ -1,9 +1,83 @@
-/* You can add global styles to this file, and also import other style files */
+/* ============================================================
+   Глобальные стили VK Mini App «Твой герой: послание дня»
+   ------------------------------------------------------------
+   ОБОЛОЧКА:
+   - контент ограничен шириной 480px и центрируется;
+   - высоты считаются от 100dvh (динамическая высота вьюпорта);
+   - тема VK управляется CSS-классами body.vk-light / body.vk-dark;
+   - системный скролл скрыт, каждая страница скроллится сама.
+   ============================================================ */
 
-/* Global CSS Variables */
 :root {
-  --button-color: #0D0528;
-  --text-light: #EDECF9;
+  /* Основные цвета (светлая тема по умолчанию) */
+  --vk-accent: #2d81e0;
+  --vk-accent-hover: #1f6bc0;
+  --vk-text-primary: #0a1e3d;
+  --vk-text-secondary: #3a3a4a;
+  --vk-text-tertiary: #66707f;
+  --vk-surface: rgba(255, 255, 255, 0.94);
+  --vk-surface-solid: #ffffff;
+  --vk-surface-hover: rgba(0, 0, 0, 0.04);
+  --vk-separator: rgba(0, 0, 0, 0.08);
+  --vk-danger: #e64646;
+
+  /* Градиент фона страницы (мистический) */
+  --bg-page: linear-gradient(
+    315deg,
+    #edf2fa 0%,
+    #cad4e6 45%,
+    #abb8d2 80%,
+    #94a3c2 100%
+  );
+
+  /* Тень нижней навигации */
+  --bar-shadow: 0 -4px 16px rgba(90, 105, 140, 0.25);
+
+  /* Шрифты */
+  --font-body: 'Roboto', -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+    'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'EB Garamond', Georgia, 'Times New Roman', serif;
+
+  /* Максимальная ширина контента внутри VK */
+  --vk-max-width: 480px;
+
+  /* Прозрачность акцента для активных состояний */
+  --vk-accent-soft: rgba(45, 129, 224, 0.12);
+}
+
+/* ============================================================
+   Тёмная тема VK (класс вешается VkBridgeService на <body>)
+   ============================================================ */
+body.vk-dark {
+  --vk-accent: #71aaeb;
+  --vk-accent-hover: #8fc0f2;
+  --vk-text-primary: #edecf9;
+  --vk-text-secondary: #b3b4c8;
+  --vk-text-tertiary: #82839a;
+  --vk-surface: rgba(28, 30, 42, 0.92);
+  --vk-surface-solid: #1c1e2a;
+  --vk-surface-hover: rgba(255, 255, 255, 0.06);
+  --vk-separator: rgba(255, 255, 255, 0.1);
+  --vk-danger: #ff6b6b;
+
+  --bg-page: linear-gradient(
+    170deg,
+    #262b3d 0%,
+    #1c1f2e 45%,
+    #14161f 80%,
+    #0c0e15 100%
+  );
+
+  --bar-shadow: 0 -4px 16px rgba(0, 0, 0, 0.5);
+
+  --vk-accent-soft: rgba(113, 170, 235, 0.18);
+}
+
+/* ============================================================
+   Базовый сброс
+   ============================================================ */
+* {
+  box-sizing: border-box;
 }
 
 @font-face {
@@ -11,17 +85,15 @@
   src: url('/fonts/Roboto-VariableFont_wdth,wght.ttf') format('truetype');
   font-weight: 100 900;
   font-style: normal;
+  font-display: swap;
 }
 
-.header {
-  /* Переменная safe-area-inset-top автоматически подставит высоту статус-бара конкретного телефона */
-  padding-top: env(safe-area-inset-top, 0px);
-}
-
-
-/* Global responsive base styles */
-* {
-  box-sizing: border-box;
+@font-face {
+  font-family: 'EB Garamond';
+  src: url('/fonts/EBGaramond-VariableFont_wght_0.ttf') format('truetype');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
 }
 
 html,
@@ -29,69 +101,56 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: hidden;
-  /* Prevent horizontal scroll on mobile */
-  height: 100lvh;
-  max-height: 100vh;
+  height: 100%;
   overflow: hidden;
+  overscroll-behavior: none;
 }
 
 body {
-  /* Bottom system navigation/home bar */
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
-
-body {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif !important;
+  font-family: var(--font-body);
+  background: var(--bg-page);
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  //  background: linear-gradient(180deg, #F0F6FE 0%, #BCD7F8 100%);
-
-background: linear-gradient(315deg, #EDF2FA 0%, #CAD4E6 45%, #ABB8D2 80%, #94A3C2 100%);
-
+  color: var(--vk-text-primary);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
 
-
-/* Improve tap targets on mobile */
-button,
-a.btn,
-[role="button"] {
-  min-height: 44px;
-  /* Minimum touch target size */
-  min-width: 44px;
+/* ============================================================
+   VK-оболочка: центрированный контейнер до 480px
+   ============================================================ */
+app-root {
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: var(--vk-max-width);
+  margin: 0 auto;
+  height: 100dvh;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(20, 30, 60, 0.18);
 }
 
-/* Responsive typography */
-@media (max-width: 768px) {
-  body {
-    font-size: 15px;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  h3 {
-    font-size: 1.3rem;
-  }
+/* Страницы — самостоятельные полноэкранные контейнеры со скроллом */
+router-outlet + * {
+  display: block;
+  height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
-@media (max-width: 480px) {
-  body {
-    font-size: 14px;
-  }
-
-  h1 {
-    font-size: 1.6rem;
-  }
+/* ============================================================
+   Типографика
+   ============================================================ */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  margin: 0;
+  line-height: 1.2;
 }
 
-/* Prevent text overflow on small screens */
 p,
 span,
 div {
@@ -99,49 +158,47 @@ div {
   overflow-wrap: break-word;
 }
 
-/* Improve scrolling on mobile */
-@media (max-width: 768px) {
-
-  .modal,
-  .detail-view,
-  .card {
-    -webkit-overflow-scrolling: touch;
-    /* Smooth scrolling on iOS */
-  }
+/* Текстовые блоки (соглашение и т.п.) можно выделять */
+.terms-content,
+.terms-text,
+.disclaimer-card,
+p,
+li {
+  -webkit-user-select: text;
+  user-select: text;
 }
 
-/* Orientation-specific adjustments */
-@media (max-width: 768px) and (orientation: landscape) {
-  body {
-    font-size: 14px;
-  }
-
-  h1 {
-    font-size: 1.6rem;
-  }
-
-  h2 {
-    font-size: 1.4rem;
-  }
-
-  h3 {
-    font-size: 1.2rem;
-  }
+/* ============================================================
+   Кнопки и тач-таргеты
+   ============================================================ */
+button,
+a.btn,
+[role='button'] {
+  min-height: 44px;
+  min-width: 44px;
+  font-family: inherit;
 }
 
-/* Prevent horizontal scrolling on mobile */
-@media (max-width: 768px) {
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
 
-  html,
-  body {
-    overflow-x: hidden;
-    width: 100%;
-    position: relative;
-  }
+/* ============================================================
+   Утилиты VK
+   ============================================================ */
+.vk-surface {
+  background: var(--vk-surface);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
 
-  body {
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    text-size-adjust: 100%;
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

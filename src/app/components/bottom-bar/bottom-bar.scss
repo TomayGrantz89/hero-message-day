@@ -1,23 +1,24 @@
 /* ============================================
-   Bottom Navigation Bar — iOS-style
+   Нижняя навигация VK Mini App
+   - фиксирована у нижней кромки, до 480px по центру
+   - учёт safe-area-inset-bottom
+   - цвета из CSS-переменных темы VK
    ============================================ */
 
 .bottom-bar {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
-  height: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--vk-max-width);
+  height: calc(58px + env(safe-area-inset-bottom, 0px));
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  background: #ffffff;
-  box-shadow: 0 4px 16px rgba(148, 163, 194, 0.35);
-  // box-shadow: 0 -4px 30px rgba(171, 184, 210, 0.15);
-  // box-shadow: 0 -4px 20px rgba(171, 184, 210, 0.25);
-// box-shadow: 0 -4px 30px #94a3c21a;
-
+  background: var(--vk-surface-solid);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-top: 0.5px solid rgba(255, 255, 255, 0.4);
+  border-top: 0.5px solid var(--vk-separator);
+  box-shadow: var(--bar-shadow);
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -30,15 +31,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: 3px;
   text-decoration: none;
   padding: 4px 12px;
   min-width: 56px;
-  min-height: 44px;
+  min-height: 48px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: opacity 0.15s ease;
   box-sizing: border-box;
+  border-radius: 12px;
 
   &:active {
     opacity: 0.6;
@@ -49,30 +51,30 @@
   width: 24px;
   height: 24px;
   display: block;
-  color: #6B7A99;
+  color: var(--vk-text-tertiary);
   transition: color 0.15s ease;
-  /* Apply color via CSS filter since SVG uses currentColor */
 }
 
 .nav-label {
   font-size: 10px;
   font-weight: 500;
-  color: #6B7A99;
+  color: var(--vk-text-tertiary);
   letter-spacing: 0.2px;
   transition: color 0.15s ease;
   white-space: nowrap;
 }
 
-/* Active state */
+/* Активная вкладка */
 .nav-item.active {
-  background: rgba(13, 5, 40, 0.12);
-  border-radius: 12px;
+  background: var(--vk-accent-soft);
 
   .nav-icon {
-    color: #0D0528;
+    color: var(--vk-accent);
   }
+
   .nav-label {
-    color: #0D0528;
+    color: var(--vk-accent);
+    font-weight: 600;
   }
 }
 
@@ -82,10 +84,7 @@
 
 .premium-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
@@ -97,7 +96,7 @@
 }
 
 .premium-modal {
-  background: #fff;
+  background: var(--vk-surface-solid);
   border-radius: 20px;
   padding: 32px 24px 24px;
   max-width: 340px;
@@ -125,7 +124,7 @@
   background: none;
   border: none;
   font-size: 18px;
-  color: #8E8E93;
+  color: var(--vk-text-tertiary);
   cursor: pointer;
   width: 32px;
   height: 32px;
@@ -137,7 +136,7 @@
   min-height: auto;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: var(--vk-surface-hover);
   }
 }
 
@@ -151,13 +150,13 @@
   font-size: 22px;
   font-weight: 700;
   text-align: center;
-  color: #1C1C1E;
+  color: var(--vk-text-primary);
   margin: 0 0 12px;
 }
 
 .premium-modal-text {
   font-size: 14px;
-  color: #636366;
+  color: var(--vk-text-secondary);
   text-align: center;
   margin: 0 0 16px;
   line-height: 1.5;
@@ -165,7 +164,7 @@
 
 .premium-modal-note {
   font-size: 12px;
-  color: #8E8E93;
+  color: var(--vk-text-tertiary);
   text-align: left;
   margin: 0 0 8px;
   line-height: 1.4;
@@ -179,11 +178,11 @@
   li {
     padding: 8px 0;
     font-size: 14px;
-    color: #1C1C1E;
+    color: var(--vk-text-primary);
 
     &::before {
       content: '✓ ';
-      color: #34C759;
+      color: #34c759;
       font-weight: 700;
     }
   }
@@ -193,77 +192,35 @@
   display: block;
   width: 100%;
   padding: 14px;
-  background: #007AFF;
-  color: #fff;
+  background: var(--vk-accent);
+  color: #ffffff;
   border: none;
   border-radius: 12px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s ease;
-  min-width: auto;
-  min-height: auto;
-
-  &:hover {
-    background: #0066D6;
-  }
+  margin-bottom: 10px;
 
   &:active {
-    background: #0055B3;
+    background: var(--vk-accent-hover);
   }
 }
 
-/* ============================================
-   Responsive
-   ============================================ */
+.premium-modal-restore {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: var(--vk-accent);
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  min-height: 44px;
 
-@media (max-width: 374px) {
-  .bottom-bar {
-    height: 60px;
-  }
-
-  .nav-icon {
-    width: 22px;
-    height: 22px;
-  }
-
-  .nav-label {
-    font-size: 9px;
-  }
-
-  .nav-item {
-    min-width: 48px;
-    padding: 2px 4px;
-  }
-}
-
-@media (min-width: 768px) {
-  .bottom-bar {
-    height: 76px;
-  }
-
-  .nav-icon {
-    width: 26px;
-    height: 26px;
-  }
-
-  .nav-label {
-    font-size: 11px;
-  }
-}
-
-/* Landscape orientation on mobile */
-@media (max-height: 480px) and (orientation: landscape) {
-  .bottom-bar {
-    height: 52px;
-  }
-
-  .nav-icon {
-    width: 20px;
-    height: 20px;
-  }
-
-  .nav-label {
-    font-size: 9px;
+  &:active {
+    opacity: 0.7;
   }
 }

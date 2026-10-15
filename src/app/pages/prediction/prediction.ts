@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { CardData, Card, PredictionItem } from '../../services/card-data';
 import { Attempt } from '../../services/attempt';
 import { Premium } from '../../services/premium';
+import { VkBridgeService } from '../../services/vk-bridge.service';
 
 @Component({
   selector: 'app-prediction',
@@ -34,7 +35,8 @@ export class Prediction implements OnInit, OnDestroy {
   constructor(
     private cardData: CardData,
     public attemptService: Attempt,
-    private premium: Premium
+    private premium: Premium,
+    private vk: VkBridgeService
   ) {}
 
   ngOnInit(): void {
@@ -136,6 +138,8 @@ export class Prediction implements OnInit, OnDestroy {
         const used = this.attemptService.useAttempt();
         if (used) {
           this.updateAttempts();
+          // Лёгкая вибрация при перевороте (VK haptics)
+          this.vk.impactOccurred('light');
           // Add card to collection when attempt is used
           this.addCurrentCardToCollection();
           this.showCardFace = true;
